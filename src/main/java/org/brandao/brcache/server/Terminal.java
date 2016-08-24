@@ -22,11 +22,14 @@ import java.io.IOException;
 import java.net.Socket;
 
 import org.brandao.brcache.Cache;
+import org.brandao.brcache.server.command.BeginTransactionCommand;
+import org.brandao.brcache.server.command.CommitTransactionCommand;
 import org.brandao.brcache.server.command.ExitCommand;
 import org.brandao.brcache.server.command.GetCommand;
 import org.brandao.brcache.server.command.GetForUpdateCommand;
 import org.brandao.brcache.server.command.PutCommand;
 import org.brandao.brcache.server.command.RemoveCommand;
+import org.brandao.brcache.server.command.RollbackTransactionCommand;
 import org.brandao.brcache.server.command.StatsCommand;
 import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
@@ -42,6 +45,12 @@ public class Terminal {
 	private static final Command GET    		= new GetCommand();
 
 	private static final Command GET_FOR_UPDATE	= new GetForUpdateCommand();
+	
+	private static final Command BEGIN_TX  		= new BeginTransactionCommand();
+	
+	private static final Command COMMIT_TX		= new CommitTransactionCommand();
+
+	private static final Command ROLLBACK_TX	= new RollbackTransactionCommand();
 	
 	private static final Command REMOVE 		= new RemoveCommand();
 
@@ -142,6 +151,18 @@ public class Terminal {
                	else 
                	if("remove".equals(command[0])){
         			REMOVE.execute(this, cache, reader, writer, command);
+               	}
+               	else
+               	if("begin".equals(command[0])){
+        			BEGIN_TX.execute(this, cache, reader, writer, command);
+               	}
+               	else
+               	if("commit".equals(command[0])){
+        			COMMIT_TX.execute(this, cache, reader, writer, command);
+               	}
+               	else
+               	if("rollback".equals(command[0])){
+        			ROLLBACK_TX.execute(this, cache, reader, writer, command);
                	}
                	else 
                	if("stats".equals(command[0])){
