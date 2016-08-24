@@ -128,7 +128,10 @@ public class Terminal {
         try{
             if(this.socket != null)
                 this.socket.close();
-        }
+		}
+		catch(Throwable e){
+			e.printStackTrace();
+		}
         finally{
             this.run    = false;
             this.cache  = null;
@@ -138,9 +141,8 @@ public class Terminal {
     }
     
 	public void destroy() throws IOException{
-		
 		this.closeTransaction();
-		
+		this.closeConnection();
     }
     
     public void execute() throws Throwable{
