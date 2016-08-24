@@ -25,15 +25,13 @@ public class PutCommand extends AbstractCommand{
 			TerminalWriter writer, String[] parameters)
 			throws Throwable {
 		
-		String name;
         int time;
         int size;
 
-        try{
-            name = parameters[1];
-        }
-        catch(Throwable e){
-            throw new ServerErrorException(ServerErrors.ERROR_1003, "name");
+		String name = parameters[1];
+		
+        if(name == null){
+        	throw new ServerErrorException(ServerErrors.ERROR_1003, "name");        	
         }
         
         try{
