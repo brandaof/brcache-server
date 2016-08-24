@@ -3,6 +3,7 @@ package org.brandao.brcache.server.command;
 import org.brandao.brcache.Cache;
 import org.brandao.brcache.TXCache;
 import org.brandao.brcache.server.Terminal;
+import org.brandao.brcache.server.TerminalConstants;
 import org.brandao.brcache.server.TerminalReader;
 import org.brandao.brcache.server.TerminalWriter;
 import org.brandao.brcache.server.error.ServerErrorException;
@@ -23,6 +24,9 @@ public class RollbackTransactionCommand
 		TXCache txCahe = (TXCache)cache;
 		CacheTransaction tx = txCahe.getTransactionManager().getCurrrent();
 		tx.rollback();
+		
+        writer.sendMessage(TerminalConstants.SUCCESS);
+        writer.flush();
 		
 	}
 
