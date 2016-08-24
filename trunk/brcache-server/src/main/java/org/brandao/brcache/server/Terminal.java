@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import org.brandao.brcache.Cache;
+import org.brandao.brcache.TXCache;
 import org.brandao.brcache.server.command.BeginTransactionCommand;
 import org.brandao.brcache.server.command.CommitTransactionCommand;
 import org.brandao.brcache.server.command.ExitCommand;
@@ -33,6 +34,8 @@ import org.brandao.brcache.server.command.RollbackTransactionCommand;
 import org.brandao.brcache.server.command.StatsCommand;
 import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
+import org.brandao.brcache.tx.CacheTransaction;
+import org.brandao.brcache.tx.CacheTransactionManager;
 
 /**
  *
@@ -105,7 +108,23 @@ public class Terminal {
 		return config;
 	}
 
-	public void destroy() throws IOException{
+    private void closeTransaction(){
+		try{
+			if(this.cache instanceof TXCache){
+				TXCache txCache = (TXCache)this.cache;
+				CacheTransactionManager txManager = txCache.getTransactionManager();
+				CacheTransaction currentTx = txManager.getCurrrent(false);
+				if(currentTx != null){
+					currentTx.rollback();
+				}
+			}
+		}
+		catch(Throwable e){
+			e.printStackTrace();
+		}
+    }
+    
+    private void closeConnection(){
         try{
             if(this.socket != null)
                 this.socket.close();
@@ -118,6 +137,12 @@ public class Terminal {
         }
     }
     
+	public void destroy() throws IOException{
+		
+		this.closeTransaction();
+		
+    }
+    
     public void execute() throws Throwable{
     	int index;
     	int start;
@@ -128,13 +153,16 @@ public class Terminal {
         	
             try{
                 String message = reader.getMessage();
+                
                 index = 0;
                 start = 0;
+                
                 while((end = message.indexOf(' ', start)) != -1){
                 	String part = message.substring(start, end);
                 	command[index++] = part;
                 	start = end + 1;
                 }
+                
                 command[index] = message.substring(start, message.length());
                 
             	if("get".equals(command[0])){
