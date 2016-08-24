@@ -26,6 +26,8 @@ import java.util.concurrent.Executors;
 import org.brandao.brcache.Cache;
 import org.brandao.brcache.SwaperStrategy;
 import org.brandao.brcache.collections.Collections;
+import org.brandao.brcache.tx.CacheTransactionManager;
+import org.brandao.brcache.tx.CacheTransactionManagerImp;
 
 /**
  * Representa o servidor do cache.
@@ -188,6 +190,13 @@ public class BrCacheServer {
         int swapper_thread         = config.getInt("swapper_thread","1");
         String swapper             = config.getString("swapper_type","file");
         boolean compressState      = config.getBoolean("compress_stream","false");
+        boolean transactionSupport = config.getBoolean("transaction_support","false");
+        long txTimeout             = config.getLong("transaction_time_out","300000");
+        
+        CacheTransactionManager txManager = 
+        		(CacheTransactionManager)config.getObject(
+        				"transaction_manager", 
+        				CacheTransactionManagerImp.class.getName());
         
         this.run             = false;
         this.config          = config;
@@ -219,6 +228,10 @@ public class BrCacheServer {
             data_path,
             SwaperStrategy.valueOf(swapper.toUpperCase()),
             swapper_thread);
+        
+        if(transactionSupport){
+        	this.cache = this.cache.getTXCache(txManager, txTimeout);
+        }
         
         this.monitorThread = new MonitorThread(this.cache, this.config);
         this.monitorThread.start();
