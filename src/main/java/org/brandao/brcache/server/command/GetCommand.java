@@ -26,13 +26,10 @@ public class GetCommand extends AbstractCommand{
 			throws Throwable {
 
 
-		String name;
-
-        try{
-            name = parameters[1];
-        }
-        catch(Throwable e){
-            throw new ServerErrorException(ServerErrors.ERROR_1003, "name");
+		String name = parameters[1];
+		
+        if(name == null){
+        	throw new ServerErrorException(ServerErrors.ERROR_1003, "name");        	
         }
 		
         CacheInputStream in = null;

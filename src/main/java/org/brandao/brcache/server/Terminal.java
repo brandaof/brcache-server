@@ -24,6 +24,7 @@ import java.net.Socket;
 import org.brandao.brcache.Cache;
 import org.brandao.brcache.server.command.ExitCommand;
 import org.brandao.brcache.server.command.GetCommand;
+import org.brandao.brcache.server.command.GetForUpdateCommand;
 import org.brandao.brcache.server.command.PutCommand;
 import org.brandao.brcache.server.command.RemoveCommand;
 import org.brandao.brcache.server.command.StatsCommand;
@@ -36,15 +37,17 @@ import org.brandao.brcache.server.error.ServerErrors;
  */
 public class Terminal {
     
-	private static final Command PUT    = new PutCommand();
+	private static final Command PUT    		= new PutCommand();
 
-	private static final Command GET    = new GetCommand();
+	private static final Command GET    		= new GetCommand();
 
-	private static final Command REMOVE = new RemoveCommand();
-
-	private static final Command STATS  = new StatsCommand();
+	private static final Command GET_FOR_UPDATE	= new GetForUpdateCommand();
 	
-	private static final Command EXIT   = new ExitCommand();
+	private static final Command REMOVE 		= new RemoveCommand();
+
+	private static final Command STATS  		= new StatsCommand();
+	
+	private static final Command EXIT   		= new ExitCommand();
 	
     private Cache cache;
     
@@ -125,20 +128,29 @@ public class Terminal {
                 }
                 command[index] = message.substring(start, message.length());
                 
-            	if(command[0].charAt(0) == 'g')
-            		GET.execute(this, cache, reader, writer, command);
+            	if("get".equals(command[0])){
+        			GET.execute(this, cache, reader, writer, command);
+            	}
             	else
-            	if(command[0].charAt(0) == 'p')
+               	if("put".equals(command[0])){
             		PUT.execute(this, cache, reader, writer, command);
-            	else
-            	if(command[0].charAt(0) == 'r')
-            		REMOVE.execute(this, cache, reader, writer, command);
-            	else
-            	if(command[0].charAt(0) == 's')
-            		STATS.execute(this, cache, reader, writer, command);
-            	else
-            	if(command[0].charAt(0) == 'e')
-            		EXIT.execute(this, cache, reader, writer, command);
+               	}
+               	else 
+               	if("get_for_update".equals(command[0])){
+        			GET_FOR_UPDATE.execute(this, cache, reader, writer, command);
+               	}
+               	else 
+               	if("remove".equals(command[0])){
+        			REMOVE.execute(this, cache, reader, writer, command);
+               	}
+               	else 
+               	if("stats".equals(command[0])){
+        			STATS.execute(this, cache, reader, writer, command);
+               	}
+               	else 
+               	if("exit".equals(command[0])){
+        			EXIT.execute(this, cache, reader, writer, command);
+               	}
                 else{
                     this.writer.sendMessage(ServerErrors.ERROR_1001.getString(command[0]));
                     this.writer.flush();
