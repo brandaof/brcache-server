@@ -41,7 +41,7 @@ public class GetForUpdateCommand extends AbstractCommand{
 		
         CacheInputStream in = null;
         try{
-            in = (CacheInputStream) txCahe.get(name, true);
+            in = (CacheInputStream) txCahe.getStream(name, true);
             if(in != null){
                 String responseMessage = 
             		"VALUE " +

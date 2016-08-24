@@ -34,7 +34,7 @@ public class GetCommand extends AbstractCommand{
 		
         CacheInputStream in = null;
         try{
-            in = (CacheInputStream) cache.get(name);
+            in = (CacheInputStream) cache.getStream(name);
             if(in != null){
                 String responseMessage = 
             		"VALUE " +
