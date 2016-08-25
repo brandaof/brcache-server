@@ -31,12 +31,7 @@ public class RemoveCommand extends AbstractCommand{
         	throw new ServerErrorException(ServerErrors.ERROR_1003, "name");        	
         }
 		
-	    try {
-	        result = cache.remove(name);
-	    }
-	    catch (StorageException e) {
-            throw new ServerErrorException(ServerErrors.ERROR_1003, "key");
-	    }
+        result = cache.remove(name);
     	
 	    if(result){
 	    	writer.sendMessage(TerminalConstants.SUCCESS);
