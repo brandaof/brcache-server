@@ -23,6 +23,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.brandao.brcache.BRCacheConfig;
 import org.brandao.brcache.Cache;
 import org.brandao.brcache.Configuration;
 import org.brandao.brcache.SwaperStrategy;
@@ -211,6 +212,10 @@ public class BrCacheServer {
         
         Collections.setPath(data_path);
         
+        BRCacheConfig brcacheConfig = new BRCacheConfig();
+        brcacheConfig.setConfiguration(config);
+        this.cache = new Cache(brcacheConfig);
+        /*
         this.cache = new Cache(
             nodes_buffer_size,
             nodes_page_size,
@@ -229,6 +234,7 @@ public class BrCacheServer {
             data_path,
             SwaperStrategy.valueOf(swapper.toUpperCase()),
             swapper_thread);
+        */
         
         if(transactionSupport){
         	this.cache = this.cache.getTXCache(txManager, txTimeout);
