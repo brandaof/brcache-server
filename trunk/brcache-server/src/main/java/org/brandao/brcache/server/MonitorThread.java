@@ -17,6 +17,7 @@
 
 package org.brandao.brcache.server;
 
+import org.brandao.brcache.Configuration;
 import org.brandao.brcache.StreamCache;
 
 /**

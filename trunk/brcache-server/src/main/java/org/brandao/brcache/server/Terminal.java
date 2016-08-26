@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import org.brandao.brcache.Cache;
+import org.brandao.brcache.Configuration;
 import org.brandao.brcache.TXCache;
 import org.brandao.brcache.server.command.BeginTransactionCommand;
 import org.brandao.brcache.server.command.CommitTransactionCommand;

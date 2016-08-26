@@ -20,6 +20,7 @@ package org.brandao.brcache.server;
 import java.net.Socket;
 
 import org.brandao.brcache.Cache;
+import org.brandao.brcache.Configuration;
 
 /**
  *
