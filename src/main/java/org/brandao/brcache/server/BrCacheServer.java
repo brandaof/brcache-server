@@ -24,6 +24,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.brandao.brcache.Cache;
+import org.brandao.brcache.Configuration;
 import org.brandao.brcache.SwaperStrategy;
 import org.brandao.brcache.collections.Collections;
 import org.brandao.brcache.tx.CacheTransactionManager;
