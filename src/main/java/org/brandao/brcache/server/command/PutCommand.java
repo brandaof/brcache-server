@@ -66,9 +66,10 @@ public class PutCommand extends AbstractCommand{
         }
         
         InputStream stream = null;
+        boolean result;
         try{
         	stream = reader.getStream(size);
-            cache.putStream(
+            result = cache.putStream(
                 key, 
                 timeToLive,
                 timeToIdle,
