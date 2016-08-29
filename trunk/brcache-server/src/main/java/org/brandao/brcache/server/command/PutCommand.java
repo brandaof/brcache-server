@@ -9,11 +9,12 @@ import org.brandao.brcache.server.TerminalReader;
 import org.brandao.brcache.server.TerminalWriter;
 import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
+import org.brandao.brcache.tx.TXCache;
 
 /**
  * Representa o comando PUT.
  * Sua sintaxe é:
- * PUT <name> <time> <size> <reserved>\r\n
+ * PUT <key> <timeToLive> <timeToIdle> <update> <size> <reserved>\r\n
  * <data>\r\n
  * END\r\n 
  * @author Brandao
@@ -25,24 +26,47 @@ public class PutCommand extends AbstractCommand{
 			TerminalWriter writer, String[] parameters)
 			throws Throwable {
 		
-        int time;
+        int timeToLive;
+        int timeToIdle;
+        boolean forUpdate;
         int size;
+		String key;
 
-		String name = parameters[1];
+		try{
+			key = parameters[1];
+			
+			if(key == null){
+		        throw new NullPointerException();
+			}
+	    }
+	    catch(Throwable e){
+	        throw new ServerErrorException(ServerErrors.ERROR_1003, "key");
+	    }
+
 		
-        if(name == null){
-        	throw new ServerErrorException(ServerErrors.ERROR_1003, "name");        	
+        try{
+        	timeToLive = Integer.parseInt(parameters[2]);
+        }
+        catch(Throwable e){
+            throw new ServerErrorException(ServerErrors.ERROR_1003, "timeToLive");
+        }
+
+        try{
+        	timeToIdle = Integer.parseInt(parameters[3]);
+        }
+        catch(Throwable e){
+            throw new ServerErrorException(ServerErrors.ERROR_1003, "timeToIdle");
+        }
+
+        try{
+            forUpdate = !parameters[4].equals("0");
+        }
+        catch(Throwable e){
+            throw new ServerErrorException(ServerErrors.ERROR_1003, "update");
         }
         
         try{
-            time = Integer.parseInt(parameters[3]);
-        }
-        catch(Throwable e){
-            throw new ServerErrorException(ServerErrors.ERROR_1003, "time");
-        }
-
-        try{
-            size = Integer.parseInt(parameters[4]);
+            size = Integer.parseInt(parameters[5]);
         }
         catch(Throwable e){
             throw new ServerErrorException(ServerErrors.ERROR_1003, "size");
@@ -51,9 +75,18 @@ public class PutCommand extends AbstractCommand{
         InputStream stream = null;
         try{
         	stream = reader.getStream(size);
+        	if(forUpdate){
+        		if(!(cache instanceof TXCache)){
+        			throw new ServerErrorException(ServerErrors.ERROR_1009);
+        		}
+        		else{
+        			((TXCache)cache).putStream(key, timeToLive, timeToIdle, inputData)
+        		}
+        	}
             cache.putStream(
-                name, 
-                time, 
+                key, 
+                timeToLive,
+                timeToIdle,
                 stream);
         }
         finally{
