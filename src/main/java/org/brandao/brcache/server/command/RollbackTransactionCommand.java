@@ -10,6 +10,15 @@ import org.brandao.brcache.server.error.ServerErrors;
 import org.brandao.brcache.tx.CacheTransaction;
 import org.brandao.brcache.tx.TXCache;
 
+/**
+ * Representa o comando <code>rollback</code>.
+ * Sua sintaxe é:
+ * <pre>
+ * rollback
+ * </pre> 
+ * @author Brandao
+ *
+ */
 public class RollbackTransactionCommand 
 	extends AbstractCommand{
 

@@ -13,6 +13,15 @@ import org.brandao.brcache.server.TerminalConstants;
 import org.brandao.brcache.server.TerminalReader;
 import org.brandao.brcache.server.TerminalWriter;
 
+/**
+ * Representa o comando <code>stats</code>.
+ * Sua sintaxe é:
+ * <pre>
+ * stats
+ * </pre> 
+ * @author Brandao
+ *
+ */
 public class StatsCommand 
 	extends AbstractCommand{
 

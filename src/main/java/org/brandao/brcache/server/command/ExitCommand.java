@@ -6,6 +6,15 @@ import org.brandao.brcache.server.TerminalConstants;
 import org.brandao.brcache.server.TerminalReader;
 import org.brandao.brcache.server.TerminalWriter;
 
+/**
+ * Representa o comando <code>exit</code>.
+ * Sua sintaxe é:
+ * <pre>
+ * exit
+ * </pre> 
+ * @author Brandao
+ *
+ */
 public class ExitCommand 
 	extends AbstractCommand{
 

@@ -27,7 +27,6 @@ import org.brandao.brcache.server.command.BeginTransactionCommand;
 import org.brandao.brcache.server.command.CommitTransactionCommand;
 import org.brandao.brcache.server.command.ExitCommand;
 import org.brandao.brcache.server.command.GetCommand;
-import org.brandao.brcache.server.command.GetForUpdateCommand;
 import org.brandao.brcache.server.command.PutCommand;
 import org.brandao.brcache.server.command.RemoveCommand;
 import org.brandao.brcache.server.command.RollbackTransactionCommand;
@@ -48,8 +47,6 @@ public class Terminal {
 
 	private static final Command GET    		= new GetCommand();
 
-	private static final Command GET_FOR_UPDATE	= new GetForUpdateCommand();
-	
 	private static final Command BEGIN_TX  		= new BeginTransactionCommand();
 	
 	private static final Command COMMIT_TX		= new CommitTransactionCommand();
@@ -174,10 +171,6 @@ public class Terminal {
             	else
                	if("put".equals(command[0])){
             		PUT.execute(this, cache, reader, writer, command);
-               	}
-               	else 
-               	if("get_for_update".equals(command[0])){
-        			GET_FOR_UPDATE.execute(this, cache, reader, writer, command);
                	}
                	else 
                	if("remove".equals(command[0])){

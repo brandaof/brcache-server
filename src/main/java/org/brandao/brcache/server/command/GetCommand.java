@@ -13,10 +13,11 @@ import org.brandao.brcache.server.error.ServerErrors;
 import org.brandao.brcache.tx.TXCache;
 
 /**
- * Representa o comando GET.
+ * Representa o comando <code>get</code>.
  * Sua sintaxe é:
- * GET <key> <update> <reserved>\r\n
- * 
+ * <pre>
+ * get &lt;key&gt; &lt;update&gt; &lt;reserved&gt;\r\n
+ * </pre> 
  * @author Brandao
  *
  */
@@ -64,7 +65,7 @@ public class GetCommand extends AbstractCommand{
         	
             if(in != null){
                 String responseMessage = 
-            		"VALUE " +
+            		"value " +
             		key +
             		TerminalConstants.SEPARATOR_COMMAND +
             		in.getSize() +
@@ -88,7 +89,7 @@ public class GetCommand extends AbstractCommand{
             }
             else{
                 String responseMessage =
-            		"VALUE " +
+            		"value " +
     				key +
     				" 0 0";
                 writer.sendMessage(responseMessage);
