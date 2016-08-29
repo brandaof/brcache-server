@@ -23,7 +23,6 @@ import java.net.Socket;
 
 import org.brandao.brcache.Cache;
 import org.brandao.brcache.Configuration;
-import org.brandao.brcache.TXCache;
 import org.brandao.brcache.server.command.BeginTransactionCommand;
 import org.brandao.brcache.server.command.CommitTransactionCommand;
 import org.brandao.brcache.server.command.ExitCommand;
@@ -37,6 +36,7 @@ import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
 import org.brandao.brcache.tx.CacheTransaction;
 import org.brandao.brcache.tx.CacheTransactionManager;
+import org.brandao.brcache.tx.TXCache;
 
 /**
  *
