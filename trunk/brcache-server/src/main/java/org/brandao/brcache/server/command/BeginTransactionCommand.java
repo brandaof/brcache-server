@@ -9,6 +9,15 @@ import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
 import org.brandao.brcache.tx.TXCache;
 
+/**
+ * Representa o comando <code>begin</code>.
+ * Sua sintaxe é:
+ * <pre>
+ * begin
+ * </pre> 
+ * @author Brandao
+ *
+ */
 public class BeginTransactionCommand 
 	extends AbstractCommand{
 

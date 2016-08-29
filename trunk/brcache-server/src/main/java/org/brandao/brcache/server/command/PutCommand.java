@@ -11,11 +11,13 @@ import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
 
 /**
- * Representa o comando PUT.
+ * Representa o comando <code>put</code>.
  * Sua sintaxe é:
- * PUT <key> <timeToLive> <timeToIdle> <size> <reserved>\r\n
- * <data>\r\n
- * END\r\n 
+ * <pre>
+ * put &lt;key&gt; &lt;timeToLive&gt; &lt;timeToIdle&gt; &lt;size&gt; &lt;reserved&gt;\r\n
+ * &lt;data&gt;\r\n
+ * end\r\n 
+ * </pre> 
  * @author Brandao
  *
  */

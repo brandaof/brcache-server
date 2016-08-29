@@ -1,7 +1,6 @@
 package org.brandao.brcache.server.command;
 
 import org.brandao.brcache.Cache;
-import org.brandao.brcache.StorageException;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalConstants;
 import org.brandao.brcache.server.TerminalReader;
@@ -10,10 +9,11 @@ import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
 
 /**
- * Representa o comando REMOVE.
+ * Representa o comando <code>remove</code>.
  * Sua sintaxe é:
- * DELETE <name> <reserved>\r\n
- * 
+ * <pre>
+ * delete &lt;name&gt; &lt;reserved&gt;\r\n
+ * </pre> 
  * @author Brandao
  *
  */

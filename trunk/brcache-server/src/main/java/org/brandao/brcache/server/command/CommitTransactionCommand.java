@@ -10,6 +10,15 @@ import org.brandao.brcache.server.error.ServerErrors;
 import org.brandao.brcache.tx.CacheTransaction;
 import org.brandao.brcache.tx.TXCache;
 
+/**
+ * Representa o comando <code>commit</code>.
+ * Sua sintaxe é:
+ * <pre>
+ * commit
+ * </pre> 
+ * @author Brandao
+ *
+ */
 public class CommitTransactionCommand 
 	extends AbstractCommand{
 
