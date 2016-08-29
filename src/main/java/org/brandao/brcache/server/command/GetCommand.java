@@ -10,11 +10,12 @@ import org.brandao.brcache.server.TerminalReader;
 import org.brandao.brcache.server.TerminalWriter;
 import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
+import org.brandao.brcache.tx.TXCache;
 
 /**
  * Representa o comando GET.
  * Sua sintaxe é:
- * GET <nome> <reserved>\r\n
+ * GET <key> <update> <reserved>\r\n
  * 
  * @author Brandao
  *
@@ -25,20 +26,46 @@ public class GetCommand extends AbstractCommand{
 			TerminalWriter writer, String[] parameters)
 			throws Throwable {
 
-
-		String name = parameters[1];
+		String key;
+		boolean forUpdate;
 		
-        if(name == null){
-        	throw new ServerErrorException(ServerErrors.ERROR_1003, "name");        	
+		try{
+			key = parameters[1];
+			
+			if(key == null){
+		        throw new NullPointerException();
+			}
+	    }
+	    catch(Throwable e){
+	        throw new ServerErrorException(ServerErrors.ERROR_1003, "key");
+	    }
+		
+        try{
+            forUpdate = !parameters[2].equals("0");
+        }
+        catch(Throwable e){
+            throw new ServerErrorException(ServerErrors.ERROR_1003, "update");
         }
 		
         CacheInputStream in = null;
         try{
-            in = (CacheInputStream) cache.getStream(name);
+        	if(forUpdate){
+        		if(!(cache instanceof TXCache)){
+        			throw new ServerErrorException(ServerErrors.ERROR_1009);
+        		}
+        		else{
+        			TXCache txCache = (TXCache)cache;
+        			in = (CacheInputStream)txCache.get(key, forUpdate);
+        		}
+        	}
+        	else{
+        		in = (CacheInputStream) cache.getStream(key);
+        	}
+        	
             if(in != null){
                 String responseMessage = 
             		"VALUE " +
-            		name +
+            		key +
             		TerminalConstants.SEPARATOR_COMMAND +
             		in.getSize() +
             		" 0";
@@ -62,7 +89,7 @@ public class GetCommand extends AbstractCommand{
             else{
                 String responseMessage =
             		"VALUE " +
-    				name +
+    				key +
     				" 0 0";
                 writer.sendMessage(responseMessage);
             }

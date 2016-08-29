@@ -9,12 +9,11 @@ import org.brandao.brcache.server.TerminalReader;
 import org.brandao.brcache.server.TerminalWriter;
 import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
-import org.brandao.brcache.tx.TXCache;
 
 /**
  * Representa o comando PUT.
  * Sua sintaxe é:
- * PUT <key> <timeToLive> <timeToIdle> <update> <size> <reserved>\r\n
+ * PUT <key> <timeToLive> <timeToIdle> <size> <reserved>\r\n
  * <data>\r\n
  * END\r\n 
  * @author Brandao
@@ -28,7 +27,6 @@ public class PutCommand extends AbstractCommand{
 		
         int timeToLive;
         int timeToIdle;
-        boolean forUpdate;
         int size;
 		String key;
 
@@ -59,13 +57,6 @@ public class PutCommand extends AbstractCommand{
         }
 
         try{
-            forUpdate = !parameters[4].equals("0");
-        }
-        catch(Throwable e){
-            throw new ServerErrorException(ServerErrors.ERROR_1003, "update");
-        }
-        
-        try{
             size = Integer.parseInt(parameters[5]);
         }
         catch(Throwable e){
@@ -75,14 +66,6 @@ public class PutCommand extends AbstractCommand{
         InputStream stream = null;
         try{
         	stream = reader.getStream(size);
-        	if(forUpdate){
-        		if(!(cache instanceof TXCache)){
-        			throw new ServerErrorException(ServerErrors.ERROR_1009);
-        		}
-        		else{
-        			((TXCache)cache).putStream(key, timeToLive, timeToIdle, inputData)
-        		}
-        	}
             cache.putStream(
                 key, 
                 timeToLive,
