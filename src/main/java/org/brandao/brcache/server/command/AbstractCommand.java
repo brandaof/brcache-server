@@ -26,7 +26,7 @@ public abstract class AbstractCommand
             throw new ServerErrorException(ex, ex.getError(), ex.getParams());
         }
         catch (Throwable ex) {
-            throw new ServerErrorException(ServerErrors.ERROR_1005, ServerErrors.ERROR_1005.getString(), ex);
+            throw new ServerErrorException(ex, ServerErrors.ERROR_1005, ServerErrors.ERROR_1005.getString());
         }
 		
 	}
