@@ -46,6 +46,9 @@ public class PutCommand extends AbstractCommand{
 		
         try{
         	timeToLive = Integer.parseInt(parameters[2]);
+        	if(timeToLive < 0){
+        		throw new IllegalStateException();
+        	}
         }
         catch(Throwable e){
             throw new ServerErrorException(ServerErrors.ERROR_1003, "timeToLive");
@@ -53,13 +56,19 @@ public class PutCommand extends AbstractCommand{
 
         try{
         	timeToIdle = Integer.parseInt(parameters[3]);
+        	if(timeToIdle < 0){
+        		throw new IllegalStateException();
+        	}
         }
         catch(Throwable e){
             throw new ServerErrorException(ServerErrors.ERROR_1003, "timeToIdle");
         }
 
         try{
-            size = Integer.parseInt(parameters[5]);
+            size = Integer.parseInt(parameters[4]);
+        	if(size <= 0){
+        		throw new IllegalStateException();
+        	}
         }
         catch(Throwable e){
             throw new ServerErrorException(ServerErrors.ERROR_1003, "size");
