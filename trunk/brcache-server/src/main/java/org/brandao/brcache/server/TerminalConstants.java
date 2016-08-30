@@ -45,8 +45,10 @@ public class TerminalConstants {
     
     public static final String SUCCESS = "ok";
 
-    public static final String PUT_SUCCESS = "stored";
+    public static final String STORED = "stored";
 
+    public static final String NOT_STORED = "not_stored";
+    
     public static final String REPLACE_SUCCESS = "replaced";
     
     public static final String NOT_FOUND = "not_found";

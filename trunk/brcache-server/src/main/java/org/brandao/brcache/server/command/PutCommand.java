@@ -71,9 +71,9 @@ public class PutCommand extends AbstractCommand{
         	stream = reader.getStream(size);
             result = cache.putStream(
                 key, 
+                stream,
                 timeToLive,
-                timeToIdle,
-                stream);
+                timeToIdle);
         }
         finally{
             if(stream != null)
@@ -86,7 +86,7 @@ public class PutCommand extends AbstractCommand{
             throw new ServerErrorException(ServerErrors.ERROR_1004);
         }
         
-    	writer.sendMessage(result? TerminalConstants.REPLACE_SUCCESS : TerminalConstants.PUT_SUCCESS);
+    	writer.sendMessage(result? TerminalConstants.REPLACE_SUCCESS : TerminalConstants.STORED);
         writer.flush();
         
 	}
