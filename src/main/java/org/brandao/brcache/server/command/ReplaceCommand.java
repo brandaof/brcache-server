@@ -69,12 +69,11 @@ public class ReplaceCommand extends AbstractCommand{
         boolean result;
         try{
         	stream = reader.getStream(size);
-            //Implementar e usar cache.replaceStream(...)
-        	result = cache.putStream(        	
+        	result = cache.replaceStream(        	
                 key, 
+                stream,
                 timeToLive,
-                timeToIdle,
-                stream);
+                timeToIdle);
         }
         finally{
             if(stream != null)
@@ -87,7 +86,7 @@ public class ReplaceCommand extends AbstractCommand{
             throw new ServerErrorException(ServerErrors.ERROR_1004);
         }
         
-    	writer.sendMessage(result? TerminalConstants.REPLACE_SUCCESS : TerminalConstants.PUT_SUCCESS);
+    	writer.sendMessage(result? TerminalConstants.REPLACE_SUCCESS : TerminalConstants.NOT_STORED);
         writer.flush();
         
 	}
