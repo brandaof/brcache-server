@@ -24,9 +24,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.brandao.brcache.BRCacheConfig;
+import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.Cache;
 import org.brandao.brcache.Configuration;
-import org.brandao.brcache.SwaperStrategy;
 import org.brandao.brcache.collections.Collections;
 import org.brandao.brcache.tx.CacheTransactionManager;
 import org.brandao.brcache.tx.CacheTransactionManagerImp;
@@ -50,7 +50,7 @@ public class BrCacheServer {
     
     volatile int countConnections;
     
-    private Cache cache;
+    private BasicCache cache;
     
     private int readBufferSize;
     
@@ -174,23 +174,9 @@ public class BrCacheServer {
         long max_connections       = config.getLong("max_connections","1024");
         long timeout_connection    = config.getLong("timeout_connection","0");
         boolean reuse_address      = config.getBoolean("reuse_address", "false");
-        long nodes_buffer_size     = config.getLong("nodes_buffer_size","16m");
-        long nodes_page_size       = config.getLong("nodes_page_size","16k");
-        double nodes_swap_factor   = config.getDouble("nodes_swap_factor","0.3");
-        long index_buffer_size     = config.getLong("index_buffer_size","2m");
-        long index_page_size       = config.getLong("index_page_size","16k");
-        double index_swap_factor   = config.getDouble("index_swap_factor","0.3");
-        long data_buffer_size      = config.getLong("data_buffer_size","64m");
-        long data_block_size        = config.getLong("data_block_size","512b");
-        long data_page_size        = config.getLong("data_page_size","16k");
-        double data_swap_factor    = config.getDouble("data_swap_factor","0.3");
         String data_path           = config.getString("data_path","/var/brcache");
         long write_buffer_size     = config.getLong("write_buffer_size","16k");
         long read_buffer_size      = config.getLong("read_buffer_size","16k");
-        long max_size_entry        = config.getLong("max_size_entry","1m");
-        long max_size_key          = config.getLong("max_size_key","48");
-        int swapper_thread         = config.getInt("swapper_thread","1");
-        String swapper             = config.getString("swapper_type","file");
         boolean compressState      = config.getBoolean("compress_stream","false");
         boolean transactionSupport = config.getBoolean("transaction_support","false");
         long txTimeout             = config.getLong("transaction_time_out","300000");
@@ -214,27 +200,8 @@ public class BrCacheServer {
         
         BRCacheConfig brcacheConfig = new BRCacheConfig();
         brcacheConfig.setConfiguration(config);
-        this.cache = new Cache(brcacheConfig);
-        /*
-        this.cache = new Cache(
-            nodes_buffer_size,
-            nodes_page_size,
-            nodes_swap_factor,
-            
-            index_buffer_size,
-            index_page_size,
-            index_swap_factor,
-            
-            data_buffer_size,
-            data_page_size,
-            data_block_size,
-            data_swap_factor,
-            (int)max_size_entry,
-            (int)max_size_key,
-            data_path,
-            SwaperStrategy.valueOf(swapper.toUpperCase()),
-            swapper_thread);
-        */
+        this.cache = new BasicCache(brcacheConfig);
+
         
         if(transactionSupport){
         	this.cache = this.cache.getTXCache(txManager, txTimeout);

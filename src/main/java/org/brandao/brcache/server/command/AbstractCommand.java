@@ -1,6 +1,6 @@
 package org.brandao.brcache.server.command;
 
-import org.brandao.brcache.Cache;
+import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.CacheException;
 import org.brandao.brcache.server.Command;
 import org.brandao.brcache.server.Terminal;
@@ -12,7 +12,7 @@ import org.brandao.brcache.server.error.ServerErrors;
 public abstract class AbstractCommand 
 	implements Command{
 
-	public void execute(Terminal terminal, Cache cache, TerminalReader reader,
+	public void execute(Terminal terminal, BasicCache cache, TerminalReader reader,
 			TerminalWriter writer, String[] parameters)
 			throws ServerErrorException {
 
@@ -31,7 +31,7 @@ public abstract class AbstractCommand
 		
 	}
 	
-	protected abstract void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
+	protected abstract void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
 			TerminalWriter writer, String[] parameters)
 			throws Throwable;
 }
