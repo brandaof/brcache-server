@@ -150,7 +150,7 @@ public class BrCacheServer {
     public void stop() throws IOException{
         this.run = false;
         try{
-            executorService.shutdownNow();
+            this.executorService.shutdownNow();
         }
         finally{
             this.serverSocket.close();
