@@ -109,14 +109,6 @@ public class PutCommand extends AbstractCommand{
         }
         
 
-        /*
-        String end = reader.getMessage();
-        
-        if(!TerminalConstants.BOUNDARY_MESSAGE.equals(end)){
-            throw new ServerErrorException(ServerErrors.ERROR_1004);
-        }
-        */
-        
     	writer.sendMessage(result? TerminalConstants.REPLACE_SUCCESS : TerminalConstants.STORED);
         writer.flush();
         
