@@ -79,10 +79,17 @@ public class LimitedTextInputStreamReader
             read += line.length;
         }
         
+        //delimitador da linha de dados.
     	line = buffer.readLineInBytes();
         
         if(line == null || line.length != 0)
         	throw new EOFException("premature end of data");
+
+        //indicador do fim do stream (end)
+    	line = buffer.readLineInBytes();
+        
+        if(line == null || !"end".equals(line))
+        	throw new EOFException("expected end\\r\\n");
         
         return true;
 	}

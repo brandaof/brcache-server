@@ -64,26 +64,40 @@ public class ReplaceCommand extends AbstractCommand{
         catch(Throwable e){
             throw new ServerErrorException(ServerErrors.ERROR_1003, "size");
         }
+
+        InputStream stream = reader.getStream(size);
+        boolean result     = false;
+        Throwable error    = null;
         
-        InputStream stream = null;
-        boolean result;
         try{
-        	stream = reader.getStream(size);
-        	result = cache.replaceStream(        	
+            result = cache.replaceStream(
                 key, 
                 stream,
                 timeToLive,
                 timeToIdle);
         }
-        finally{
-            if(stream != null)
-                stream.close();
+        catch(Throwable e){
+        	//capturado erro no processamento do fluxo de bytes do item
+        	error = e;
         }
-        
-        String end = reader.getMessage();
-        
-        if(!TerminalConstants.BOUNDARY_MESSAGE.equals(end)){
-            throw new ServerErrorException(ServerErrors.ERROR_1004);
+        finally{
+            if(stream != null){
+            	try{
+                	//tenta fechar o fluxo
+            		stream.close();
+            	}
+            	catch(Throwable e){
+            		//se error for null, a falha a ser considerada é do 
+            		//fechamento do fluxo.
+            		if(error == null){
+            			throw new ServerErrorException(e, ServerErrors.ERROR_1004);
+            		}
+            	}
+            }
+            
+            //Lança o erro encontrado no processamento da stream.
+            if(error != null)
+    			throw new ServerErrorException(error, ServerErrors.ERROR_1004);
         }
         
     	writer.sendMessage(result? TerminalConstants.REPLACE_SUCCESS : TerminalConstants.NOT_STORED);

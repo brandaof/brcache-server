@@ -42,7 +42,6 @@ public class PutCommand extends AbstractCommand{
 	    catch(Throwable e){
 	        throw new ServerErrorException(ServerErrors.ERROR_1003, "key");
 	    }
-
 		
         try{
         	timeToLive = Integer.parseInt(parameters[2]);
@@ -74,11 +73,11 @@ public class PutCommand extends AbstractCommand{
             throw new ServerErrorException(ServerErrors.ERROR_1003, "size");
         }
         
-        InputStream stream = null;
-        boolean result     = false;;
+        InputStream stream = reader.getStream(size);
+        boolean result     = false;
         Throwable error    = null;
+        
         try{
-        	stream = reader.getStream(size);
             result = cache.putStream(
                 key, 
                 stream,
@@ -86,23 +85,37 @@ public class PutCommand extends AbstractCommand{
                 timeToIdle);
         }
         catch(Throwable e){
+        	//capturado erro no processamento do fluxo de bytes do item
         	error = e;
         }
         finally{
-            if(stream != null)
-                stream.close();
+            if(stream != null){
+            	try{
+                	//tenta fechar o fluxo
+            		stream.close();
+            	}
+            	catch(Throwable e){
+            		//se error for null, a falha a ser considerada é do 
+            		//fechamento do fluxo.
+            		if(error == null){
+            			throw new ServerErrorException(e, ServerErrors.ERROR_1004);
+            		}
+            	}
+            }
+            
+            //Lança o erro encontrado no processamento da stream.
+            if(error != null)
+    			throw new ServerErrorException(error, ServerErrors.ERROR_1004);
         }
         
 
+        /*
         String end = reader.getMessage();
-        
-        if(error != null){
-        	throw error;
-        }
         
         if(!TerminalConstants.BOUNDARY_MESSAGE.equals(end)){
             throw new ServerErrorException(ServerErrors.ERROR_1004);
         }
+        */
         
     	writer.sendMessage(result? TerminalConstants.REPLACE_SUCCESS : TerminalConstants.STORED);
         writer.flush();
