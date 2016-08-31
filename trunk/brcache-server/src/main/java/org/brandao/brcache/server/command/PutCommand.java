@@ -75,7 +75,8 @@ public class PutCommand extends AbstractCommand{
         }
         
         InputStream stream = null;
-        boolean result;
+        boolean result     = false;;
+        Throwable error    = null;
         try{
         	stream = reader.getStream(size);
             result = cache.putStream(
@@ -84,12 +85,20 @@ public class PutCommand extends AbstractCommand{
                 timeToLive,
                 timeToIdle);
         }
+        catch(Throwable e){
+        	error = e;
+        }
         finally{
             if(stream != null)
                 stream.close();
         }
         
+
         String end = reader.getMessage();
+        
+        if(error != null){
+        	throw error;
+        }
         
         if(!TerminalConstants.BOUNDARY_MESSAGE.equals(end)){
             throw new ServerErrorException(ServerErrors.ERROR_1004);
