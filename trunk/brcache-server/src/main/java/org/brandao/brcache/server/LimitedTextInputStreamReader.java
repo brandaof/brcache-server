@@ -71,7 +71,7 @@ public class LimitedTextInputStreamReader
 
 	@Override
 	protected boolean closeData(TextBufferReader buffer) throws IOException {
-		byte[] line;
+		byte[] line = null;
 		
         if(size != read){
     		int toRead = size - read;
@@ -79,7 +79,7 @@ public class LimitedTextInputStreamReader
             read += line.length;
         }
         
-        line = buffer.readLineInBytes();
+    	line = buffer.readLineInBytes();
         
         if(line == null || line.length != 0)
         	throw new EOFException("premature end of data");

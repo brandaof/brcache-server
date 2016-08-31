@@ -102,7 +102,13 @@ class TextBufferReader {
                 return this.result;
             }
             else
-            if(this.offset > 0 && this.buffer[this.offset-1] == '\r' && this.buffer[this.offset] == '\n'){
+            if(this.offset > 0 && this.buffer[this.offset] == '\n'){
+            	
+            	if(start == this.offset || this.buffer[this.offset-1] != '\r'){
+                    this.offset++;
+                    throw new IOException("expected \\r");
+            	}
+            	
                 this.updateResult(this.buffer, start, this.offset - start - 1);
                 this.hasLineFeed = true;
                 this.offset++;
