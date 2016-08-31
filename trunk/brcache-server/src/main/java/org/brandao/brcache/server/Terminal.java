@@ -21,7 +21,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 
-import org.brandao.brcache.Cache;
+import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.Configuration;
 import org.brandao.brcache.server.command.BeginTransactionCommand;
 import org.brandao.brcache.server.command.CommitTransactionCommand;
@@ -62,7 +62,7 @@ public class Terminal {
 	
 	private static final Command EXIT   		= new ExitCommand();
 	
-    private Cache cache;
+    private BasicCache cache;
     
     private Socket socket;
     
@@ -83,7 +83,7 @@ public class Terminal {
         this.config = config;
     }
 
-    protected void init(Socket socket, Cache cache, 
+    protected void init(Socket socket, BasicCache cache, 
             StreamFactory streamFactory,
             int readBufferSize, int writeBufferSize) throws IOException{
         try{

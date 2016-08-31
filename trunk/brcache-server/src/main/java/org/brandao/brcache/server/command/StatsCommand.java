@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.brandao.brcache.Cache;
+import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalConstants;
 import org.brandao.brcache.server.TerminalReader;
@@ -25,7 +25,7 @@ import org.brandao.brcache.server.TerminalWriter;
 public class StatsCommand 
 	extends AbstractCommand{
 
-	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
+	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
 			TerminalWriter writer, String[] parameters)
 			throws Throwable {
 
