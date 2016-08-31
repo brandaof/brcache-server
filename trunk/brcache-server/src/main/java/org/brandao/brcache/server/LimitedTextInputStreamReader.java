@@ -19,6 +19,7 @@ package org.brandao.brcache.server;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  *
@@ -88,7 +89,7 @@ public class LimitedTextInputStreamReader
         //indicador do fim do stream (end)
     	line = buffer.readLineInBytes();
         
-        if(line == null || !"end".equals(line))
+        if(line == null || !Arrays.equals(TerminalConstants.BOUNDARY, line))
         	throw new EOFException("expected end\\r\\n");
         
         return true;
