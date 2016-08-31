@@ -129,7 +129,13 @@ public abstract class AbstractTextInputStreamReader extends InputStream{
         if(this.closed)
             return;
             
-        this.closed = this.closeData(this.buffer);
+        try{
+        	this.closed = this.closeData(this.buffer);
+        }
+        catch(IOException e){
+        	this.closed = true;
+        	throw e;
+        }
    }
     
     protected abstract boolean closeData(TextBufferReader buffer) throws IOException;
