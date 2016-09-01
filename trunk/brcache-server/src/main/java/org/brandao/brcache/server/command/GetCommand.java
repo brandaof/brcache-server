@@ -56,7 +56,7 @@ public class GetCommand extends AbstractCommand{
         		}
         		else{
         			TXCache txCache = (TXCache)cache;
-        			in = (CacheInputStream)txCache.get(key, forUpdate);
+        			in = (CacheInputStream)txCache.getStream(key, forUpdate);
         		}
         	}
         	else{
