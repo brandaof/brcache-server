@@ -64,7 +64,7 @@ class TerminalTask implements Runnable{
             updateInfo();
             this.terminal.init(this.socket, this.cache, 
                     this.streamFactory,
-                    this.readBufferSize, this.writeBufferSize,this.createLocalTerminalInfo());
+                    this.readBufferSize, this.writeBufferSize, this.createLocalTerminalInfo());
             this.terminal.execute();
         }
         catch(Throwable e){
