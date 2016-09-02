@@ -87,13 +87,13 @@ public class Terminal {
             StreamFactory streamFactory,
             int readBufferSize, int writeBufferSize) throws IOException{
         try{
-            this.socket = socket;
-            this.cache  = cache;
+            this.socket          = socket;
+            this.cache           = cache;
             this.readBufferSize  = readBufferSize;
             this.writeBufferSize = writeBufferSize;
-            this.reader = new TextTerminalReader(this.socket, streamFactory, readBufferSize);
-            this.writer = new TextTerminalWriter(this.socket, streamFactory, writeBufferSize);
-            this.run = true;
+            this.reader          = new TextTerminalReader(this.socket, streamFactory, readBufferSize);
+            this.writer          = new TextTerminalWriter(this.socket, streamFactory, writeBufferSize);
+            this.run             = true;
         }
         catch(Throwable e){
             if(this.socket != null)
