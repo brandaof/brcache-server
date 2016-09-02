@@ -20,7 +20,6 @@ package org.brandao.brcache.server;
 import java.net.Socket;
 
 import org.brandao.brcache.BasicCache;
-import org.brandao.brcache.Configuration;
 
 /**
  *
@@ -32,7 +31,7 @@ class TerminalTask implements Runnable{
     
     private final TerminalFactory factory;
     
-    private final Configuration config;
+    private final TerminalInfo terminalInfo;
     
     private BasicCache cache;
     
@@ -49,14 +48,14 @@ class TerminalTask implements Runnable{
             StreamFactory streamFactory,
             int readBufferSize, int writeBufferSize, 
             TerminalFactory factory,
-            Configuration config){
+            TerminalInfo terminalInfo){
         this.terminal            = terminal;
         this.factory             = factory;
         this.cache               = cache;
         this.socket              = socket;
         this.readBufferSize      = readBufferSize;
         this.writeBufferSize     = writeBufferSize;
-        this.config              = config;
+        this.terminalInfo        = terminalInfo;
         this.streamFactory       = streamFactory;
     }
     
@@ -65,7 +64,7 @@ class TerminalTask implements Runnable{
             updateInfo();
             this.terminal.init(this.socket, this.cache, 
                     this.streamFactory,
-                    this.readBufferSize, this.writeBufferSize);
+                    this.readBufferSize, this.writeBufferSize,this.createLocalTerminalInfo());
             this.terminal.execute();
         }
         catch(Throwable e){
@@ -83,10 +82,16 @@ class TerminalTask implements Runnable{
         }
     }
     
+    private TerminalInfo createLocalTerminalInfo(){
+    	TerminalInfo lti = new TerminalInfo(this.terminalInfo);
+    	
+    	return lti;
+    }
+    
     private void updateInfo(){
         synchronized(TerminalTask.class){
-            this.config.setProperty("curr_connections", String.valueOf(this.factory.getCurrentInstances()));
-            this.config.setProperty("total_connections", String.valueOf(this.factory.getCountInstances()));
+            this.terminalInfo.put("curr_connections",  this.factory.getCurrentInstances());
+            this.terminalInfo.put("total_connections", this.factory.getCountInstances());
         }
     }
 }

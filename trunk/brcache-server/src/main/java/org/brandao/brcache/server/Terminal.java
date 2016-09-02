@@ -72,20 +72,19 @@ public class Terminal {
     
     private TerminalWriter writer;
     
-    private Configuration config;
+    private TerminalInfo terminalInfo;
     
     private int readBufferSize;
     
     private int writeBufferSize;
     
-    public Terminal(Configuration config){
-        this.run = false;
-        this.config = config;
+    public Terminal(){
+        this.run    = false;
     }
 
     protected void init(Socket socket, BasicCache cache, 
             StreamFactory streamFactory,
-            int readBufferSize, int writeBufferSize) throws IOException{
+            int readBufferSize, int writeBufferSize, TerminalInfo terminalInfo) throws IOException{
         try{
             this.socket          = socket;
             this.cache           = cache;
@@ -105,8 +104,8 @@ public class Terminal {
         }
     }
     
-    public Configuration getConfiguration() {
-		return config;
+    public TerminalInfo getConfiguration() {
+		return this.terminalInfo;
 	}
 
     private void closeTransaction(){
