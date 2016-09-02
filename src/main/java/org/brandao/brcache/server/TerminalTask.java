@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.server.terminalinfolisteners.AutoCommitListener;
 
 /**
  *
@@ -87,6 +88,7 @@ class TerminalTask implements Runnable{
     private TerminalInfo createLocalTerminalInfo(){
     	TerminalInfo lti = new TerminalInfo(this.terminalInfo, defaultTerminalInfoValues);
     	
+    	lti.setListener("auto_commit", new AutoCommitListener(this.terminal));
     	return lti;
     }
     
