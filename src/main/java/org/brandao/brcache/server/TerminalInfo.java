@@ -1,7 +1,9 @@
 package org.brandao.brcache.server;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class TerminalInfo 
 	extends HashMap<String, Object>{
@@ -15,13 +17,23 @@ public class TerminalInfo
 	private boolean executeListener;
 	
 	public TerminalInfo(){
-		this(null);
+		this(null, null);
 	}
 
-	public TerminalInfo(TerminalInfo parent){
+	public TerminalInfo(TerminalInfo parent, Map<String, Object> defaultValues){
 		this.parent          = parent;
 		this.listeners       = new HashMap<String, TerminalInfo.TerminalInfoListener>();
 		this.executeListener = true;
+		
+		if(defaultValues != null){
+			try{
+				this.executeListener = false;
+				this.putAll(defaultValues);
+			}
+			finally{
+				this.executeListener = true;
+			}
+		}
 	}
 	
 	public void setListener(String key, TerminalInfoListener value){
@@ -61,6 +73,19 @@ public class TerminalInfo
 	public boolean containsKey(Object key) {
 		boolean k = super.containsKey(key);
 		return !k && this.parent != null? this.parent.containsKey(key) : k;
+	}
+
+	@Override
+	public Set<String> keySet() {
+		Set<String> set = new HashSet<String>();
+		
+		if(this.parent != null){
+			set.addAll(this.parent.keySet());
+		}
+		
+		set.addAll(super.keySet());
+		
+		return set;
 	}
 
 	@Override
