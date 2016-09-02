@@ -26,11 +26,13 @@ import org.brandao.brcache.server.command.BeginTransactionCommand;
 import org.brandao.brcache.server.command.CommitTransactionCommand;
 import org.brandao.brcache.server.command.ExitCommand;
 import org.brandao.brcache.server.command.GetCommand;
+import org.brandao.brcache.server.command.GetVarCommand;
 import org.brandao.brcache.server.command.PutCommand;
 import org.brandao.brcache.server.command.RemoveCommand;
 import org.brandao.brcache.server.command.ReplaceCommand;
 import org.brandao.brcache.server.command.RollbackTransactionCommand;
-import org.brandao.brcache.server.command.StatsCommand;
+import org.brandao.brcache.server.command.SetVarCommand;
+import org.brandao.brcache.server.command.ShowVarsCommand;
 import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
 import org.brandao.brcache.tx.CacheTransaction;
@@ -57,7 +59,11 @@ public class Terminal {
 	
 	public static final Command REMOVE 		= new RemoveCommand();
 
-	public static final Command STATS  		= new StatsCommand();
+	public static final Command GET_VARS	= new ShowVarsCommand();
+
+	public static final Command SET_VAR		= new SetVarCommand();
+
+	public static final Command GET_VAR		= new GetVarCommand();
 	
 	public static final Command EXIT   		= new ExitCommand();
 	
