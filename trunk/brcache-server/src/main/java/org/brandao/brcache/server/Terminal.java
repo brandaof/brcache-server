@@ -92,6 +92,7 @@ public class Terminal {
             this.reader          = new TextTerminalReader(this.socket, streamFactory, readBufferSize);
             this.writer          = new TextTerminalWriter(this.socket, streamFactory, writeBufferSize);
             this.run             = true;
+            this.terminalInfo    = terminalInfo;
         }
         catch(Throwable e){
             if(this.socket != null)
