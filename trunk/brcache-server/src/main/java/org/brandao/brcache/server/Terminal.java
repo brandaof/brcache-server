@@ -26,7 +26,7 @@ import org.brandao.brcache.server.command.BeginTransactionCommand;
 import org.brandao.brcache.server.command.CommitTransactionCommand;
 import org.brandao.brcache.server.command.ExitCommand;
 import org.brandao.brcache.server.command.GetCommand;
-import org.brandao.brcache.server.command.GetVarCommand;
+import org.brandao.brcache.server.command.ShowVarCommand;
 import org.brandao.brcache.server.command.PutCommand;
 import org.brandao.brcache.server.command.RemoveCommand;
 import org.brandao.brcache.server.command.ReplaceCommand;
@@ -59,11 +59,11 @@ public class Terminal {
 	
 	public static final Command REMOVE 		= new RemoveCommand();
 
-	public static final Command GET_VARS	= new ShowVarsCommand();
+	public static final Command SHOW_VARS	= new ShowVarsCommand();
 
 	public static final Command SET_VAR		= new SetVarCommand();
 
-	public static final Command GET_VAR		= new GetVarCommand();
+	public static final Command SHOW_VAR	= new ShowVarCommand();
 	
 	public static final Command EXIT   		= new ExitCommand();
 	
@@ -201,8 +201,12 @@ public class Terminal {
         			ROLLBACK_TX.execute(this, cache, reader, writer, command);
                	}
                	else 
-               	if("stats".equals(command[0])){
-        			STATS.execute(this, cache, reader, writer, command);
+               	if("show_var".equals(command[0])){
+        			SHOW_VAR.execute(this, cache, reader, writer, command);
+               	}
+               	else 
+               	if("show_vars".equals(command[0])){
+        			SHOW_VARS.execute(this, cache, reader, writer, command);
                	}
                	else 
                	if("exit".equals(command[0])){

@@ -8,15 +8,15 @@ import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
 
 /**
- * Representa o comando <code>begin</code>.
+ * Representa o comando <code>show_var</code>.
  * Sua sintaxe é:
  * <pre>
- * begin
+ * show_var
  * </pre> 
  * @author Brandao
  *
  */
-public class GetVarCommand 
+public class ShowVarCommand 
 	extends AbstractCommand{
 
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
