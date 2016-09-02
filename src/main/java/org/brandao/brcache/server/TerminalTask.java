@@ -102,7 +102,7 @@ class TerminalTask implements Runnable{
 	private static final Map<String, Object> defaultTerminalInfoValues = new HashMap<String, Object>();
 
 	static{
-		defaultTerminalInfoValues.put("auto_commit", false);
+		defaultTerminalInfoValues.put("auto_commit", true);
 	}
     
 }
