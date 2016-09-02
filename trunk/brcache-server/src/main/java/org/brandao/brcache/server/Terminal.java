@@ -43,23 +43,23 @@ import org.brandao.brcache.tx.TXCache;
  */
 public class Terminal {
     
-	private static final Command PUT    		= new PutCommand();
+	public static final Command PUT    		= new PutCommand();
 
-	private static final Command REPLACE   		= new ReplaceCommand();
+	public static final Command REPLACE   	= new ReplaceCommand();
 	
-	private static final Command GET    		= new GetCommand();
+	public static final Command GET    		= new GetCommand();
 
-	private static final Command BEGIN_TX  		= new BeginTransactionCommand();
+	public static final Command BEGIN_TX  	= new BeginTransactionCommand();
 	
-	private static final Command COMMIT_TX		= new CommitTransactionCommand();
+	public static final Command COMMIT_TX	= new CommitTransactionCommand();
 
-	private static final Command ROLLBACK_TX	= new RollbackTransactionCommand();
+	public static final Command ROLLBACK_TX	= new RollbackTransactionCommand();
 	
-	private static final Command REMOVE 		= new RemoveCommand();
+	public static final Command REMOVE 		= new RemoveCommand();
 
-	private static final Command STATS  		= new StatsCommand();
+	public static final Command STATS  		= new StatsCommand();
 	
-	private static final Command EXIT   		= new ExitCommand();
+	public static final Command EXIT   		= new ExitCommand();
 	
     private BasicCache cache;
     
@@ -226,5 +226,17 @@ public class Terminal {
             }
         }
     }
+
+	public TerminalReader getReader() {
+		return reader;
+	}
+
+	public TerminalWriter getWriter() {
+		return writer;
+	}
+
+	public BasicCache getCache() {
+		return cache;
+	}
 
 }
