@@ -1,8 +1,13 @@
 package org.brandao.brcache.server.terminalinfolisteners;
 
+import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalInfo;
 import org.brandao.brcache.server.TerminalInfo.TerminalInfoListener;
+import org.brandao.brcache.server.error.ServerErrorException;
+import org.brandao.brcache.server.error.ServerErrors;
+import org.brandao.brcache.tx.CacheTransaction;
+import org.brandao.brcache.tx.TXCache;
 
 public class AutoCommitListener implements TerminalInfoListener{
 
@@ -20,11 +25,25 @@ public class AutoCommitListener implements TerminalInfoListener{
 		boolean value = (Boolean)newValue;
 		
 		try{
+			BasicCache cache = terminal.getCache();
 			if(value){
-				Terminal.COMMIT_TX.execute(terminal, terminal.getCache(), terminal.getReader(), terminal.getWriter(), emptyParams);
+				if(!(cache instanceof TXCache)){
+					throw new ServerErrorException(ServerErrors.ERROR_1009);
+				}
+				
+				TXCache txCahe = (TXCache)cache;
+				CacheTransaction tx = txCahe.getTransactionManager().getCurrrent();
+				tx.commit();
 			}
 			else{
-				Terminal.BEGIN_TX.execute(terminal, terminal.getCache(), terminal.getReader(), terminal.getWriter(), emptyParams);
+				
+				if(!(cache instanceof TXCache)){
+					throw new ServerErrorException(ServerErrors.ERROR_1009);
+				}
+				
+				TXCache txCahe = (TXCache)cache;
+				
+				txCahe.beginTransaction();
 			}
 		}
 		catch(RuntimeException e){

@@ -11,6 +11,6 @@ public class ClassUtil {
 	public static Object toObject(Class<?> type, String value) 
 			throws IllegalAccessException, IllegalArgumentException, 
 			InvocationTargetException, NoSuchMethodException, SecurityException{
-		return type.getMethod("valueOf", Object.class).invoke(type, value);
+		return type.getMethod("valueOf", String.class).invoke(type, value);
 	}
 }

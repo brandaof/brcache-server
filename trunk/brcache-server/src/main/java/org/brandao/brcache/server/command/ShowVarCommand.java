@@ -37,7 +37,7 @@ public class ShowVarCommand
 	    }
 		
 		Object obj = terminal.getTerminalInfo().get(key);
-        writer.sendMessage(key + "=" + (obj == null? "empty" : String.valueOf(obj)) );
+        writer.sendMessage(key + ": " + (obj == null? "empty" : String.valueOf(obj)) );
         writer.flush();
 		
 	}

@@ -205,6 +205,10 @@ public class Terminal {
         			SHOW_VAR.execute(this, cache, reader, writer, command);
                	}
                	else 
+               	if("set_var".equals(command[0])){
+        			SET_VAR.execute(this, cache, reader, writer, command);
+               	}
+               	else 
                	if("show_vars".equals(command[0])){
         			SHOW_VARS.execute(this, cache, reader, writer, command);
                	}
