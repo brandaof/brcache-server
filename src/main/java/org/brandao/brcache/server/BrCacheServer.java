@@ -70,6 +70,9 @@ public class BrCacheServer {
     
     private StreamFactory streamFactory;
     
+    private TerminalInfo globalTerminalInfo;
+    
+    private String dataPath;
     /**
      * Cria uma nova instância do cache.
      * 
@@ -169,7 +172,13 @@ public class BrCacheServer {
     }
     
     private void loadConfiguration(Configuration config){
+    	this.initProperties(config);
+    	this.initCache(config);
+    	this.initMonitorThread();
+    	this.initGlobalTerminalInfo();
+    }
 
+    private void initProperties(Configuration config){
         long portNumber            = config.getLong("port","8084");
         long max_connections       = config.getLong("max_connections","1024");
         long timeout_connection    = config.getLong("timeout_connection","0");
@@ -178,13 +187,6 @@ public class BrCacheServer {
         long write_buffer_size     = config.getLong("write_buffer_size","16k");
         long read_buffer_size      = config.getLong("read_buffer_size","16k");
         boolean compressState      = config.getBoolean("compress_stream","false");
-        boolean transactionSupport = config.getBoolean("transaction_support","false");
-        long txTimeout             = config.getLong("transaction_time_out","300000");
-        
-        CacheTransactionManager txManager = 
-        		(CacheTransactionManager)config.getObject(
-        				"transaction_manager", 
-        				CacheTransactionManagerImp.class.getName());
         
         this.run             = false;
         this.config          = config;
@@ -195,22 +197,49 @@ public class BrCacheServer {
         this.readBufferSize  = (int)read_buffer_size;
         this.writeBufferSize = (int)write_buffer_size;
         this.compress        = compressState;
+        this.dataPath        = data_path;
         
         Collections.setPath(data_path);
         
+    }
+    
+    private void initCache(Configuration config){
+        boolean transactionSupport = config.getBoolean("transaction_support","false");
+        long txTimeout             = config.getLong("transaction_time_out","300000");
+        
+        CacheTransactionManager txManager = 
+        		(CacheTransactionManager)config.getObject(
+        				"transaction_manager", 
+        				CacheTransactionManagerImp.class.getName());
+
         BRCacheConfig brcacheConfig = new BRCacheConfig();
         brcacheConfig.setConfiguration(config);
         this.cache = new BasicCache(brcacheConfig);
-
         
         if(transactionSupport){
         	this.cache = this.cache.getTXCache(txManager, txTimeout);
         }
-        
+    }
+    
+    private void initMonitorThread(){
         this.monitorThread = new MonitorThread(this.cache, this.config);
         this.monitorThread.start();
     }
-
+    
+    private void initGlobalTerminalInfo(){
+    	this.globalTerminalInfo = new TerminalInfo();
+    	
+        this.globalTerminalInfo.put("port", 				this.port);
+        this.globalTerminalInfo.put("max_connections", 		this.maxConnections);
+        this.globalTerminalInfo.put("timeout_connection",	this.timeout);
+        this.globalTerminalInfo.put("reuse_address", 		this.reuseAddress);
+        this.globalTerminalInfo.put("data_path",			this.dataPath);
+        this.globalTerminalInfo.put("write_buffer_size",	this.writeBufferSize);
+        this.globalTerminalInfo.put("read_buffer_size",		this.readBufferSize);
+        this.globalTerminalInfo.put("compress_stream",		this.compress);
+    	
+    }
+    
     public StreamFactory getStreamFactory() {
         return streamFactory;
     }
