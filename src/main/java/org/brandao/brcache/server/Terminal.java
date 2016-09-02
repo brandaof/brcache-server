@@ -239,4 +239,8 @@ public class Terminal {
 		return cache;
 	}
 
+	public TerminalInfo getTerminalInfo() {
+		return terminalInfo;
+	}
+
 }
