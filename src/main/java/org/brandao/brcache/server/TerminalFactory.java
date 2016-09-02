@@ -21,8 +21,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import org.brandao.brcache.Configuration;
-
 /**
  *
  * @author Brandao
@@ -35,15 +33,13 @@ class TerminalFactory {
     
     private final int maxInstances;
     
-    private final Configuration config;
-    
     private final BlockingQueue<Terminal> instances;
 
     private int countInstances;
     
     private int currentInstances;
     
-    public TerminalFactory(Configuration config, int minInstances, int maxInstances){
+    public TerminalFactory(int minInstances, int maxInstances){
 
         if(minInstances < 0)
             throw new IllegalArgumentException("minInstances");
@@ -54,14 +50,13 @@ class TerminalFactory {
         if(minInstances > maxInstances)
             throw new IllegalArgumentException("minInstances");
 
-        this.config           = config;
         this.minInstances     = minInstances;
         this.maxInstances     = maxInstances;
         this.instances        = new ArrayBlockingQueue<Terminal>(this.maxInstances);
         this.createdInstances = 0;
         
         for(int i=0;i<this.minInstances;i++)
-            this.instances.add(new Terminal(config));
+            this.instances.add(new Terminal());
         
     }
     
@@ -71,7 +66,7 @@ class TerminalFactory {
         
         if(terminal == null){
             if(this.createdInstances < this.maxInstances){
-                terminal = new Terminal(config);
+                terminal = new Terminal();
                 this.createdInstances++;
             }
             else
@@ -89,7 +84,7 @@ class TerminalFactory {
         
         if(terminal == null){
             if(this.createdInstances < this.maxInstances){
-                terminal = new Terminal(this.config);
+                terminal = new Terminal();
                 this.createdInstances++;
             }
             else
