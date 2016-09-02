@@ -14,21 +14,21 @@ import org.brandao.brcache.server.TerminalReader;
 import org.brandao.brcache.server.TerminalWriter;
 
 /**
- * Representa o comando <code>stats</code>.
+ * Representa o comando <code>show_vars</code>.
  * Sua sintaxe é:
  * <pre>
- * stats
+ * show_vars
  * </pre> 
  * @author Brandao
  *
  */
-public class StatsCommand 
+public class ShowVarsCommand 
 	extends AbstractCommand{
 
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
 			TerminalWriter writer, String[] parameters)
 			throws Throwable {
-
+		
 		Map<String,Object> map = new HashMap<String, Object>();
 		
 		TerminalInfo config = terminal.getConfiguration();
