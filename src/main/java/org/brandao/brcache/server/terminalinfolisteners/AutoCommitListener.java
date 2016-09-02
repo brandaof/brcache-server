@@ -29,6 +29,7 @@ public class AutoCommitListener implements TerminalInfoListener{
 		}
 		catch(RuntimeException e){
 			terminalInfo.put(key, oldValue);
+			throw e;
 		}
 	}
 

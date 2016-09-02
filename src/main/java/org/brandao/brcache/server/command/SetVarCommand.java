@@ -1,11 +1,16 @@
 package org.brandao.brcache.server.command;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.server.Terminal;
+import org.brandao.brcache.server.TerminalConstants;
 import org.brandao.brcache.server.TerminalReader;
 import org.brandao.brcache.server.TerminalWriter;
 import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
+import org.brandao.brcache.server.util.ClassUtil;
 
 /**
  * Representa o comando <code>begin</code>.
@@ -19,12 +24,17 @@ import org.brandao.brcache.server.error.ServerErrors;
 public class SetVarCommand 
 	extends AbstractCommand{
 
+	@SuppressWarnings("serial")
+	private Map<String, Class<?>> types = new HashMap<String, Class<?>>(){{
+		put("auto_commit", Boolean.class);
+	}};
+	
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
 			TerminalWriter writer, String[] parameters)
 			throws Throwable {
 
 		String key;
-		String value;
+		Object value;
 		
 		try{
 			key = parameters[1];
@@ -44,13 +54,20 @@ public class SetVarCommand
 			if(value == null){
 		        throw new NullPointerException();
 			}
+
+			Class<?> type = this.types.get(key);
+			if(type != null){
+				value = ClassUtil.toObject(type, (String)value);
+			}
+			
 	    }
 	    catch(Throwable e){
 	        throw new ServerErrorException(ServerErrors.ERROR_1003, "new_value");
 	    }
 		
-		Object obj = terminal.getTerminalInfo().get(key);
-        writer.sendMessage(key + "=" + (obj == null? "empty" : String.valueOf(obj)) );
+		
+		terminal.getTerminalInfo().put(key, value);
+        writer.sendMessage(TerminalConstants.SUCCESS);
         writer.flush();
 		
 	}
