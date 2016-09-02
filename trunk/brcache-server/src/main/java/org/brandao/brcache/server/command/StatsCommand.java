@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalConstants;
+import org.brandao.brcache.server.TerminalInfo;
 import org.brandao.brcache.server.TerminalReader;
 import org.brandao.brcache.server.TerminalWriter;
 
@@ -31,10 +31,10 @@ public class StatsCommand
 
 		Map<String,Object> map = new HashMap<String, Object>();
 		
-		Properties config = terminal.getConfiguration();
+		TerminalInfo config = terminal.getConfiguration();
 
-        for(String prop: config.stringPropertyNames()){
-        	map.put(prop,config.getProperty(prop));
+        for(String prop: config.keySet()){
+        	map.put(prop,config.get(prop));
         }
 
         map.put("read_entry",   cache.getCountRead());
