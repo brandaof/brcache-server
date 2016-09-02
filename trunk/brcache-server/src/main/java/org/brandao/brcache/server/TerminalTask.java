@@ -18,6 +18,8 @@
 package org.brandao.brcache.server;
 
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.brandao.brcache.BasicCache;
 
@@ -83,7 +85,7 @@ class TerminalTask implements Runnable{
     }
     
     private TerminalInfo createLocalTerminalInfo(){
-    	TerminalInfo lti = new TerminalInfo(this.terminalInfo);
+    	TerminalInfo lti = new TerminalInfo(this.terminalInfo, defaultTerminalInfoValues);
     	
     	return lti;
     }
@@ -94,4 +96,11 @@ class TerminalTask implements Runnable{
             this.terminalInfo.put("total_connections", this.factory.getCountInstances());
         }
     }
+    
+	private static final Map<String, Object> defaultTerminalInfoValues = new HashMap<String, Object>();
+
+	static{
+		defaultTerminalInfoValues.put("auto_commit", false);
+	}
+    
 }
