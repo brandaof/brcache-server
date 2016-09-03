@@ -2,8 +2,8 @@ package org.brandao.brcache.server.terminalinfolisteners;
 
 import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.server.Terminal;
-import org.brandao.brcache.server.TerminalSession;
-import org.brandao.brcache.server.TerminalSession.TerminalInfoListener;
+import org.brandao.brcache.server.TerminalVars;
+import org.brandao.brcache.server.TerminalVars.TerminalInfoListener;
 import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
 import org.brandao.brcache.tx.CacheTransaction;
@@ -20,7 +20,7 @@ public class AutoCommitListener implements TerminalInfoListener{
 	}
 
 	public void actionPerformed(String key, Object oldValue, Object newValue,
-			TerminalSession terminalInfo) {
+			TerminalVars terminalSession) {
 
 		boolean value = (Boolean)newValue;
 		
@@ -47,7 +47,7 @@ public class AutoCommitListener implements TerminalInfoListener{
 			}
 		}
 		catch(RuntimeException e){
-			terminalInfo.put(key, oldValue);
+			terminalSession.set(key, oldValue);
 			throw e;
 		}
 	}
