@@ -26,6 +26,7 @@ import java.util.concurrent.Executors;
 import org.brandao.brcache.BRCacheConfig;
 import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.Cache;
+import org.brandao.brcache.CacheConstants;
 import org.brandao.brcache.Configuration;
 import org.brandao.brcache.collections.Collections;
 import org.brandao.brcache.tx.CacheTransactionManager;
