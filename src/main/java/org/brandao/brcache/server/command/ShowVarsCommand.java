@@ -9,7 +9,7 @@ import java.util.Map;
 import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalConstants;
-import org.brandao.brcache.server.TerminalInfo;
+import org.brandao.brcache.server.TerminalSession;
 import org.brandao.brcache.server.TerminalReader;
 import org.brandao.brcache.server.TerminalWriter;
 
@@ -31,7 +31,7 @@ public class ShowVarsCommand
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		
-		TerminalInfo config = terminal.getConfiguration();
+		TerminalSession config = terminal.getConfiguration();
 
         for(String prop: config.keySet()){
         	map.put(prop,config.get(prop));

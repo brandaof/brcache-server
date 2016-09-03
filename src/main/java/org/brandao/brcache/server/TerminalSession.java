@@ -5,24 +5,24 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class TerminalInfo 
+public class TerminalSession 
 	extends HashMap<String, Object>{
 
 	private static final long serialVersionUID = 3659583990707468630L;
 	
-	private TerminalInfo parent;
+	private TerminalSession parent;
 	
 	private Map<String, TerminalInfoListener> listeners;
 	
 	private boolean executeListener;
 	
-	public TerminalInfo(){
+	public TerminalSession(){
 		this(null, null);
 	}
 
-	public TerminalInfo(TerminalInfo parent, Map<String, Object> defaultValues){
+	public TerminalSession(TerminalSession parent, Map<String, Object> defaultValues){
 		this.parent          = parent;
-		this.listeners       = new HashMap<String, TerminalInfo.TerminalInfoListener>();
+		this.listeners       = new HashMap<String, TerminalSession.TerminalInfoListener>();
 		this.executeListener = true;
 		
 		if(defaultValues != null){
@@ -100,7 +100,7 @@ public class TerminalInfo
 
 	public static interface TerminalInfoListener{
 		
-		void actionPerformed(String key, Object oldValue, Object newValue, TerminalInfo terminalInfo);
+		void actionPerformed(String key, Object oldValue, Object newValue, TerminalSession terminalInfo);
 		
 	}
 }
