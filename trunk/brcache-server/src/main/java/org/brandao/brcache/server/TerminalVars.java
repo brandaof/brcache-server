@@ -19,10 +19,12 @@ public class TerminalVars
 	}
 
 	public TerminalVars(TerminalVars parent, Map<String, Object> defaultValues){
-		super(defaultValues);
 		this.parent    = parent;
 		this.listeners = new HashMap<String, TerminalVars.TerminalInfoListener>();
-		
+
+		if(defaultValues != null){
+			this.putAll(defaultValues);
+		}
 	}
 	
 	public void setListener(String key, TerminalInfoListener value){
