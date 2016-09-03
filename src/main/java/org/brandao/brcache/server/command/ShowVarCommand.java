@@ -36,7 +36,7 @@ public class ShowVarCommand
 	        throw new ServerErrorException(ServerErrors.ERROR_1003, "var_name");
 	    }
 		
-		Object obj = terminal.getTerminalInfo().get(key);
+		Object obj = terminal.getTerminalVars().get(key);
         writer.sendMessage(key + ": " + (obj == null? "empty" : String.valueOf(obj)) );
         writer.flush();
 		

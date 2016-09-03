@@ -33,7 +33,7 @@ public class BeginTransactionCommand
 		
 		txCahe.beginTransaction();
 		
-		terminal.getTerminalInfo().put("auto_commit", false);
+		terminal.getTerminalVars().set("auto_commit", false);
 		
         writer.sendMessage(TerminalConstants.SUCCESS);
         writer.flush();
