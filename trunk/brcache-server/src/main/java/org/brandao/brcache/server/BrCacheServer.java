@@ -179,14 +179,14 @@ public class BrCacheServer {
     }
 
     private void initProperties(Configuration config){
-        long portNumber            = config.getLong("port","8084");
-        long max_connections       = config.getLong("max_connections","1024");
-        long timeout_connection    = config.getLong("timeout_connection","0");
-        boolean reuse_address      = config.getBoolean("reuse_address", "false");
-        String data_path           = config.getString("data_path","/var/brcache");
-        long write_buffer_size     = config.getLong("write_buffer_size","16k");
-        long read_buffer_size      = config.getLong("read_buffer_size","16k");
-        boolean compressState      = config.getBoolean("compress_stream","false");
+        long portNumber            = config.getLong(ServerConstants.PORT,"8084");
+        long max_connections       = config.getLong(ServerConstants.MAX_CONNECTIONS,"1024");
+        long timeout_connection    = config.getLong(ServerConstants.TIMEOUT_CONNECTION,"0");
+        boolean reuse_address      = config.getBoolean(ServerConstants.REUSE_ADDRESS, "false");
+        String data_path           = config.getString(CacheConstants.DATA_PATH,"/var/brcache");
+        long write_buffer_size     = config.getLong(ServerConstants.WRITE_BUFFER_SIZE,"16k");
+        long read_buffer_size      = config.getLong(ServerConstants.READ_BUFFER_SIZE,"16k");
+        boolean compressState      = config.getBoolean(ServerConstants.COMPRESS_STREAM,"false");
         
         this.run             = false;
         this.config          = config;
