@@ -88,7 +88,7 @@ class TerminalTask implements Runnable{
     private TerminalVars createTerminalVars(){
     	TerminalVars lti = new TerminalVars(this.terminalVars, defaultTerminalInfoValues);
     	
-    	lti.setListener("auto_commit", new AutoCommitListener(this.terminal));
+    	lti.setListener(ServerConstants.AUTO_COMMIT, new AutoCommitListener(this.terminal));
     	return lti;
     }
     
@@ -102,7 +102,7 @@ class TerminalTask implements Runnable{
 	private static final Map<String, Object> defaultTerminalInfoValues = new HashMap<String, Object>();
 
 	static{
-		defaultTerminalInfoValues.put("auto_commit", true);
+		defaultTerminalInfoValues.put(ServerConstants.AUTO_COMMIT, true);
 	}
     
 }
