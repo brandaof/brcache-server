@@ -25,6 +25,12 @@ import org.brandao.brcache.server.TerminalWriter;
 public class ShowVarsCommand 
 	extends AbstractCommand{
 
+    private Runtime runtime;
+
+    public ShowVarsCommand(){
+    	this.runtime = Runtime.getRuntime();
+    }
+    
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
 			TerminalWriter writer, String[] parameters)
 			throws Throwable {
@@ -41,6 +47,9 @@ public class ShowVarsCommand
         map.put("read_data",    cache.getCountReadData());
         map.put("write_entry",  cache.getCountWrite());
         map.put("removed_data", cache.getCountRemoved());
+        map.put("total_memory", runtime.totalMemory());
+        map.put("free_memory",  runtime.freeMemory());
+        map.put("used_memory",  runtime.totalMemory() - runtime.freeMemory());
         
 		StringBuilder result = new StringBuilder();
         
