@@ -14,26 +14,15 @@ public class TerminalVars
 	
 	private Map<String, TerminalInfoListener> listeners;
 	
-	private boolean executeListener;
-	
 	public TerminalVars(){
 		this(null, null);
 	}
 
 	public TerminalVars(TerminalVars parent, Map<String, Object> defaultValues){
-		this.parent          = parent;
-		this.listeners       = new HashMap<String, TerminalVars.TerminalInfoListener>();
-		this.executeListener = true;
+		super(defaultValues);
+		this.parent    = parent;
+		this.listeners = new HashMap<String, TerminalVars.TerminalInfoListener>();
 		
-		if(defaultValues != null){
-			try{
-				this.executeListener = false;
-				this.putAll(defaultValues);
-			}
-			finally{
-				this.executeListener = true;
-			}
-		}
 	}
 	
 	public void setListener(String key, TerminalInfoListener value){
@@ -50,14 +39,8 @@ public class TerminalVars
 		Object old = super.put(key, value);
 		TerminalInfoListener listener = this.listeners.get(key);
 		
-		if(listener != null && this.executeListener){
-			try{
-				this.executeListener = false;
-				listener.actionPerformed(key, old, value, this);
-			}
-			finally{
-				this.executeListener = true;
-			}
+		if(listener != null){
+			listener.actionPerformed(key, old, value, this);
 		}
 		
 		return old;
