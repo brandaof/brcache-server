@@ -70,7 +70,7 @@ public class BrCacheServer {
     
     private StreamFactory streamFactory;
     
-    private TerminalVars globalTerminalInfo;
+    private TerminalVars globalVars;
     
     private String dataPath;
     /**
@@ -134,7 +134,7 @@ public class BrCacheServer {
                             this.readBufferSize,
                             this.writeBufferSize,
                             this.terminalFactory,
-                            this.globalTerminalInfo);
+                            this.globalVars);
                 
                 this.executorService.execute(task);
             }
@@ -227,33 +227,33 @@ public class BrCacheServer {
     }
     
     private void initGlobalTerminalInfo(){
-    	this.globalTerminalInfo     = new TerminalVars();
+    	this.globalVars     = new TerminalVars();
         BRCacheConfig brcacheConfig = this.cache.getConfig();
     	
-        this.globalTerminalInfo.put("port", 				this.port);
-        this.globalTerminalInfo.put("max_connections", 		this.maxConnections);
-        this.globalTerminalInfo.put("timeout_connection",	this.timeout);
-        this.globalTerminalInfo.put("reuse_address", 		this.reuseAddress);
-        this.globalTerminalInfo.put("data_path",			this.dataPath);
-        this.globalTerminalInfo.put("write_buffer_size",	this.writeBufferSize);
-        this.globalTerminalInfo.put("read_buffer_size",		this.readBufferSize);
-        this.globalTerminalInfo.put("compress_stream",		this.compress);
+        this.globalVars.put("port", 				this.port);
+        this.globalVars.put("max_connections", 		this.maxConnections);
+        this.globalVars.put("timeout_connection",	this.timeout);
+        this.globalVars.put("reuse_address", 		this.reuseAddress);
+        this.globalVars.put("data_path",			this.dataPath);
+        this.globalVars.put("write_buffer_size",	this.writeBufferSize);
+        this.globalVars.put("read_buffer_size",		this.readBufferSize);
+        this.globalVars.put("compress_stream",		this.compress);
         
-        this.globalTerminalInfo.put("nodes_buffer_size",	brcacheConfig.getNodesBufferSize());
-        this.globalTerminalInfo.put("nodes_page_size",		brcacheConfig.getNodesPageSize());
-        this.globalTerminalInfo.put("nodes_swap_factor",	brcacheConfig.getNodesSwapFactor());
-        this.globalTerminalInfo.put("index_buffer_size",	brcacheConfig.getIndexBufferSize());
-        this.globalTerminalInfo.put("index_page_size",		brcacheConfig.getIndexPageSize());
-        this.globalTerminalInfo.put("index_swap_factor",	brcacheConfig.getIndexSwapFactor());
-        this.globalTerminalInfo.put("data_buffer_size",		brcacheConfig.getDataBufferSize());
-        this.globalTerminalInfo.put("data_block_size",		brcacheConfig.getDataBlockSize());
-        this.globalTerminalInfo.put("data_page_size",		brcacheConfig.getDataPageSize());
-        this.globalTerminalInfo.put("data_swap_factor",		brcacheConfig.getDataSwapFactor());
-        this.globalTerminalInfo.put("max_size_entry",		brcacheConfig.getMaxSizeEntry());
-        this.globalTerminalInfo.put("max_size_key",			brcacheConfig.getMaxSizeKey());
-        this.globalTerminalInfo.put("swapper_thread",		brcacheConfig.getSwapperThread());
-        this.globalTerminalInfo.put("data_path",			brcacheConfig.getDataPath());
-        this.globalTerminalInfo.put("swapper_type",			brcacheConfig.getSwapper());
+        this.globalVars.put("nodes_buffer_size",	brcacheConfig.getNodesBufferSize());
+        this.globalVars.put("nodes_page_size",		brcacheConfig.getNodesPageSize());
+        this.globalVars.put("nodes_swap_factor",	brcacheConfig.getNodesSwapFactor());
+        this.globalVars.put("index_buffer_size",	brcacheConfig.getIndexBufferSize());
+        this.globalVars.put("index_page_size",		brcacheConfig.getIndexPageSize());
+        this.globalVars.put("index_swap_factor",	brcacheConfig.getIndexSwapFactor());
+        this.globalVars.put("data_buffer_size",		brcacheConfig.getDataBufferSize());
+        this.globalVars.put("data_block_size",		brcacheConfig.getDataBlockSize());
+        this.globalVars.put("data_page_size",		brcacheConfig.getDataPageSize());
+        this.globalVars.put("data_swap_factor",		brcacheConfig.getDataSwapFactor());
+        this.globalVars.put("max_size_entry",		brcacheConfig.getMaxSizeEntry());
+        this.globalVars.put("max_size_key",			brcacheConfig.getMaxSizeKey());
+        this.globalVars.put("swapper_thread",		brcacheConfig.getSwapperThread());
+        this.globalVars.put("data_path",			brcacheConfig.getDataPath());
+        this.globalVars.put("swapper_type",			brcacheConfig.getSwapper());
         
     }
     
