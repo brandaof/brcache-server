@@ -66,7 +66,7 @@ public class SetVarCommand
 	    }
 		
 		
-		terminal.getTerminalInfo().put(key, value);
+		terminal.getTerminalVars().put(key, value);
         writer.sendMessage(TerminalConstants.SUCCESS);
         writer.flush();
 		
