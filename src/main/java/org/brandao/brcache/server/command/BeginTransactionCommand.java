@@ -3,6 +3,7 @@ package org.brandao.brcache.server.command;
 import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalConstants;
+import org.brandao.brcache.server.TerminalInfo;
 import org.brandao.brcache.server.TerminalReader;
 import org.brandao.brcache.server.TerminalWriter;
 import org.brandao.brcache.server.error.ServerErrorException;
@@ -32,6 +33,8 @@ public class BeginTransactionCommand
 		TXCache txCahe = (TXCache)cache;
 		
 		txCahe.beginTransaction();
+		
+		terminal.getTerminalInfo().put("auto_commit", false);
 		
         writer.sendMessage(TerminalConstants.SUCCESS);
         writer.flush();

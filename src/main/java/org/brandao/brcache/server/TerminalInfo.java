@@ -63,6 +63,10 @@ public class TerminalInfo
 		return old;
 	}
 
+	public Object set(String key, Object value) {
+		return super.put(key, value);
+	}
+	
 	@Override
 	public Object get(Object key) {
 		Object v = super.get(key);
