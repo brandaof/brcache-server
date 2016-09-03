@@ -34,7 +34,7 @@ class TerminalTask implements Runnable{
     
     private final TerminalFactory factory;
     
-    private final TerminalVars terminalInfo;
+    private final TerminalVars terminalVars;
     
     private BasicCache cache;
     
@@ -51,14 +51,14 @@ class TerminalTask implements Runnable{
             StreamFactory streamFactory,
             int readBufferSize, int writeBufferSize, 
             TerminalFactory factory,
-            TerminalVars terminalInfo){
+            TerminalVars terminalVars){
         this.terminal            = terminal;
         this.factory             = factory;
         this.cache               = cache;
         this.socket              = socket;
         this.readBufferSize      = readBufferSize;
         this.writeBufferSize     = writeBufferSize;
-        this.terminalInfo        = terminalInfo;
+        this.terminalVars        = terminalVars;
         this.streamFactory       = streamFactory;
     }
     
@@ -67,7 +67,7 @@ class TerminalTask implements Runnable{
             updateInfo();
             this.terminal.init(this.socket, this.cache, 
                     this.streamFactory,
-                    this.readBufferSize, this.writeBufferSize, this.createLocalTerminalInfo());
+                    this.readBufferSize, this.writeBufferSize, this.createTerminalVars());
             this.terminal.execute();
         }
         catch(Throwable e){
@@ -85,8 +85,8 @@ class TerminalTask implements Runnable{
         }
     }
     
-    private TerminalVars createLocalTerminalInfo(){
-    	TerminalVars lti = new TerminalVars(this.terminalInfo, defaultTerminalInfoValues);
+    private TerminalVars createTerminalVars(){
+    	TerminalVars lti = new TerminalVars(this.terminalVars, defaultTerminalInfoValues);
     	
     	lti.setListener("auto_commit", new AutoCommitListener(this.terminal));
     	return lti;
@@ -94,8 +94,8 @@ class TerminalTask implements Runnable{
     
     private void updateInfo(){
         synchronized(TerminalTask.class){
-            this.terminalInfo.put("curr_connections",  this.factory.getCurrentInstances());
-            this.terminalInfo.put("total_connections", this.factory.getCountInstances());
+            this.terminalVars.put("curr_connections",  this.factory.getCurrentInstances());
+            this.terminalVars.put("total_connections", this.factory.getCountInstances());
         }
     }
     
