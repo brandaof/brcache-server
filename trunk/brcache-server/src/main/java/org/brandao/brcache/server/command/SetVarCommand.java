@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.server.ServerConstants;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalConstants;
 import org.brandao.brcache.server.TerminalReader;
@@ -26,7 +27,7 @@ public class SetVarCommand
 
 	@SuppressWarnings("serial")
 	private Map<String, Class<?>> types = new HashMap<String, Class<?>>(){{
-		put("auto_commit", Boolean.class);
+		put(ServerConstants.AUTO_COMMIT, Boolean.class);
 	}};
 	
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
