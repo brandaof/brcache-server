@@ -70,7 +70,7 @@ public class BrCacheServer {
     
     private StreamFactory streamFactory;
     
-    private TerminalSession globalTerminalInfo;
+    private TerminalVars globalTerminalInfo;
     
     private String dataPath;
     /**
@@ -227,7 +227,7 @@ public class BrCacheServer {
     }
     
     private void initGlobalTerminalInfo(){
-    	this.globalTerminalInfo     = new TerminalSession();
+    	this.globalTerminalInfo     = new TerminalVars();
         BRCacheConfig brcacheConfig = this.cache.getConfig();
     	
         this.globalTerminalInfo.put("port", 				this.port);
