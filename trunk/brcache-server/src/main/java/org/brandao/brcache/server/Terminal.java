@@ -77,7 +77,7 @@ public class Terminal {
     
     private TerminalWriter writer;
     
-    private TerminalInfo terminalInfo;
+    private TerminalSession terminalInfo;
     
     private int readBufferSize;
     
@@ -89,7 +89,7 @@ public class Terminal {
 
     protected void init(Socket socket, BasicCache cache, 
             StreamFactory streamFactory,
-            int readBufferSize, int writeBufferSize, TerminalInfo terminalInfo) throws IOException{
+            int readBufferSize, int writeBufferSize, TerminalSession terminalInfo) throws IOException{
         try{
             this.socket          = socket;
             this.cache           = cache;
@@ -110,7 +110,7 @@ public class Terminal {
         }
     }
     
-    public TerminalInfo getConfiguration() {
+    public TerminalSession getConfiguration() {
 		return this.terminalInfo;
 	}
 
@@ -253,7 +253,7 @@ public class Terminal {
 		return cache;
 	}
 
-	public TerminalInfo getTerminalInfo() {
+	public TerminalSession getTerminalInfo() {
 		return terminalInfo;
 	}
 

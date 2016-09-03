@@ -34,7 +34,7 @@ class TerminalTask implements Runnable{
     
     private final TerminalFactory factory;
     
-    private final TerminalInfo terminalInfo;
+    private final TerminalSession terminalInfo;
     
     private BasicCache cache;
     
@@ -51,7 +51,7 @@ class TerminalTask implements Runnable{
             StreamFactory streamFactory,
             int readBufferSize, int writeBufferSize, 
             TerminalFactory factory,
-            TerminalInfo terminalInfo){
+            TerminalSession terminalInfo){
         this.terminal            = terminal;
         this.factory             = factory;
         this.cache               = cache;
@@ -85,8 +85,8 @@ class TerminalTask implements Runnable{
         }
     }
     
-    private TerminalInfo createLocalTerminalInfo(){
-    	TerminalInfo lti = new TerminalInfo(this.terminalInfo, defaultTerminalInfoValues);
+    private TerminalSession createLocalTerminalInfo(){
+    	TerminalSession lti = new TerminalSession(this.terminalInfo, defaultTerminalInfoValues);
     	
     	lti.setListener("auto_commit", new AutoCommitListener(this.terminal));
     	return lti;
