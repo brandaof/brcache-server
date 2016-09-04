@@ -26,6 +26,7 @@ import org.brandao.brcache.server.command.BeginTransactionCommand;
 import org.brandao.brcache.server.command.CommitTransactionCommand;
 import org.brandao.brcache.server.command.ExitCommand;
 import org.brandao.brcache.server.command.GetCommand;
+import org.brandao.brcache.server.command.SetCommand;
 import org.brandao.brcache.server.command.ShowVarCommand;
 import org.brandao.brcache.server.command.PutCommand;
 import org.brandao.brcache.server.command.RemoveCommand;
@@ -47,6 +48,8 @@ public class Terminal {
     
 	public static final Command PUT    		= new PutCommand();
 
+	public static final Command SET    		= new SetCommand();
+	
 	public static final Command REPLACE   	= new ReplaceCommand();
 	
 	public static final Command GET    		= new GetCommand();

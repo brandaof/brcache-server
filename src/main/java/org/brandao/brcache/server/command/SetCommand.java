@@ -1,10 +1,12 @@
 package org.brandao.brcache.server.command;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.CacheErrors;
 import org.brandao.brcache.CacheException;
+import org.brandao.brcache.CacheInputStream;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalConstants;
 import org.brandao.brcache.server.TerminalReader;
@@ -76,11 +78,11 @@ public class SetCommand extends AbstractCommand{
         }
         
         InputStream stream = reader.getStream(size);
-        InputStream result = null;
+        CacheInputStream result = null;
         Throwable error    = null;
         
         try{
-            result = cache.putIfAbsentStream(
+            result = (CacheInputStream)cache.putIfAbsentStream(
                 key, 
                 stream,
                 timeToLive,
@@ -108,17 +110,57 @@ public class SetCommand extends AbstractCommand{
             //Lança o erro encontrado no processamento da stream.
             if(error != null){
             	//Se for lançada a exceção CacheException com o erro ERROR_1030, significa que
-            	//o replace foi concluido, mas não foi possível obter o stream anterior porque ele
-            	//expirou no momento em que se tentou obtê-lo.
-            	if(!(error instanceof CacheException) || ((CacheException)error).getError() != CacheErrors.ERROR_1030){
+            	//já existe um item e o mesmo expirou na execução do método.
+            	if(error instanceof CacheException && ((CacheException)error).getError() != CacheErrors.ERROR_1030){
+            		throw new ServerErrorException(error, ServerErrors.ERROR_1030);
+            	}
+            	else{
             		throw new ServerErrorException(error, ServerErrors.ERROR_1004);
             	}
             }
         }
         
-    	writer.sendMessage(result != null || error != null? TerminalConstants.REPLACE_SUCCESS : TerminalConstants.NOT_STORED);
-        writer.flush();
-        
+
+        try{
+            if(result != null){
+                String responseMessage = 
+            		"value " +
+            		key +
+            		TerminalConstants.SEPARATOR_COMMAND +
+            		result.getSize() +
+            		" 0";
+                writer.sendMessage(responseMessage);
+                OutputStream out = null;
+                try{
+                    out = writer.getStream();
+                    result.writeTo(out);
+                }
+                finally{
+                    if(out != null){
+                        try{
+                            out.close();
+                        }
+                        catch(Throwable e){
+                        }
+                    }
+                    writer.sendCRLF();
+                }
+            }
+            else{
+                String responseMessage =
+            		"value " +
+    				key +
+    				" 0 0";
+                writer.sendMessage(responseMessage);
+            }
+        }
+        finally{
+            if(result != null)
+            	result.close();
+        }
+
+        writer.sendMessage(TerminalConstants.BOUNDARY_MESSAGE);
+        writer.flush();        
 	}
 
 }
