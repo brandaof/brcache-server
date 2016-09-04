@@ -188,6 +188,10 @@ public class Terminal {
         			REPLACE.execute(this, cache, reader, writer, command);
                	}
                	else
+               	if("set".equals(command[0])){
+        			SET.execute(this, cache, reader, writer, command);
+               	}
+               	else
                	if("remove".equals(command[0])){
         			REMOVE.execute(this, cache, reader, writer, command);
                	}
