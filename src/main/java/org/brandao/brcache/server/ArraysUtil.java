@@ -1,7 +1,6 @@
 package org.brandao.brcache.server;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * Provê métodos auxiliares de manipulação de arranjo de bytes.
@@ -56,7 +55,9 @@ public class ArraysUtil {
 	public static byte[][] split(byte[] array, int index, byte value){
 		int start = index;
 		int end   = 0;
-		List<byte[]> result = new ArrayList<byte[]>();
+		byte[][] result = new byte[10][];
+		int resultIndex = 0;
+		
 		int limit = array.length -1;
 		
 		for(int i=index;i<array.length;i++){
@@ -64,7 +65,12 @@ public class ArraysUtil {
 			if(array[i] == value){
 				end = i;
 				byte[] item = copy(array, start, end);
-				result.add(item);
+				
+				if(resultIndex >= result.length){
+					result = Arrays.copyOf(result, result.length + 10);
+				}
+				result[resultIndex++] = item;
+				
 				start = end + 1;
 				end = start;
 			}
@@ -73,10 +79,14 @@ public class ArraysUtil {
 		
 		if(start != limit || (start == limit && array[limit] != 32) ){
 			byte[] item = copy(array, start, limit + 1);
-			result.add(item);
+			
+			if(resultIndex >= result.length){
+				result = Arrays.copyOf(result, result.length + 10);
+			}
+			result[resultIndex++] = item;
 		}
 		
-		return result.toArray(new byte[0][]);
+		return Arrays.copyOf(result, resultIndex);
 	}
 	
 	/**
