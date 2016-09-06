@@ -13,7 +13,7 @@ public abstract class AbstractCommand
 	implements Command{
 
 	public void execute(Terminal terminal, BasicCache cache, TerminalReader reader,
-			TerminalWriter writer, String[] parameters)
+			TerminalWriter writer, byte[][] parameters)
 			throws ServerErrorException {
 
 		try{
@@ -32,6 +32,6 @@ public abstract class AbstractCommand
 	}
 	
 	protected abstract void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
-			TerminalWriter writer, String[] parameters)
+			TerminalWriter writer, byte[][] parameters)
 			throws Throwable;
 }

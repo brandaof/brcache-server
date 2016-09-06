@@ -27,6 +27,8 @@ import java.io.InputStream;
 public interface TerminalReader {
     
     String getMessage() throws ReadDataException;
+
+    byte[] getMessageBytes() throws ReadDataException;
     
     InputStream getStream() throws IOException;
 

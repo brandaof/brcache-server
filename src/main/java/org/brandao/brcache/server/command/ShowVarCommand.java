@@ -1,6 +1,7 @@
 package org.brandao.brcache.server.command;
 
 import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.server.ArraysUtil;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalReader;
 import org.brandao.brcache.server.TerminalWriter;
@@ -20,13 +21,13 @@ public class ShowVarCommand
 	extends AbstractCommand{
 
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
-			TerminalWriter writer, String[] parameters)
+			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
 
 		String key;
 		
 		try{
-			key = parameters[1];
+			key = ArraysUtil.toString(parameters[1]);
 			
 			if(key == null){
 		        throw new NullPointerException();

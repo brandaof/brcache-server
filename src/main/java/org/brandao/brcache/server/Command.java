@@ -27,7 +27,7 @@ import org.brandao.brcache.server.error.ServerErrorException;
 public interface Command {
     
     void execute(Terminal terminal, BasicCache cache, TerminalReader reader, 
-    		TerminalWriter writer, String[] parameters) 
+    		TerminalWriter writer, byte[][] parameters) 
             throws ServerErrorException;
     
 }

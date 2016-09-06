@@ -23,6 +23,32 @@ package org.brandao.brcache.server;
  */
 public class TerminalConstants {
 
+   	public static final byte[] PUT_CMD_DTA = "put".getBytes();
+   	
+	public static final byte[] GET_CMD_DTA = "get".getBytes();
+	
+	public static final byte[] REPLACE_CMD_DTA = "replace".getBytes();
+	
+	public static final byte[] SET_CMD_DTA = "set".getBytes();
+	
+	public static final byte[] REMOVE_CMD_DTA = "remove".getBytes();
+	
+	public static final byte[] BEGIN_CMD_DTA = "begin".getBytes();
+	
+	public static final byte[] COMMIT_CMD_DTA = "commit".getBytes();
+	
+	public static final byte[] ROLLBACK_CMD_DTA = "rollback".getBytes();
+	
+	public static final byte[] SHOW_VAR_CMD_DTA = "show_var".getBytes();
+	
+	public static final byte[] SET_VAR_CMD_DTA = "set_var".getBytes();
+	
+	public static final byte[] SHOW_VARS_CMD_DTA = "show_vars".getBytes();
+	
+	public static final byte[] EXIT_CMD_DTA = "exit".getBytes();
+	
+	public static final byte SEPARATOR_COMMAND_DTA = ' ';
+	
 	public static final String SEPARATOR_COMMAND = " ";
 	
 	public static final String[] EMPTY_STR_ARRAY = new String[]{};

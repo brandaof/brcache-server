@@ -32,7 +32,7 @@ public class ShowVarsCommand
     }
     
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
-			TerminalWriter writer, String[] parameters)
+			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
 		
 		Map<String,Object> map = new HashMap<String, Object>();

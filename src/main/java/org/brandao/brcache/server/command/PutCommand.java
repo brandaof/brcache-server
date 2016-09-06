@@ -3,6 +3,7 @@ package org.brandao.brcache.server.command;
 import java.io.InputStream;
 
 import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.server.ArraysUtil;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalConstants;
 import org.brandao.brcache.server.TerminalReader;
@@ -24,7 +25,7 @@ import org.brandao.brcache.server.error.ServerErrors;
 public class PutCommand extends AbstractCommand{
 
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
-			TerminalWriter writer, String[] parameters)
+			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
 		
         int timeToLive;
@@ -33,7 +34,7 @@ public class PutCommand extends AbstractCommand{
 		String key;
 
 		try{
-			key = parameters[1];
+			key = ArraysUtil.toString(parameters[1]);
 			
 			if(key == null){
 		        throw new NullPointerException();
@@ -44,7 +45,7 @@ public class PutCommand extends AbstractCommand{
 	    }
 		
         try{
-        	timeToLive = Integer.parseInt(parameters[2]);
+        	timeToLive = Integer.parseInt(ArraysUtil.toString(parameters[2]));
         	if(timeToLive < 0){
         		throw new IllegalStateException();
         	}
@@ -54,7 +55,7 @@ public class PutCommand extends AbstractCommand{
         }
 
         try{
-        	timeToIdle = Integer.parseInt(parameters[3]);
+        	timeToIdle = Integer.parseInt(ArraysUtil.toString(parameters[3]));
         	if(timeToIdle < 0){
         		throw new IllegalStateException();
         	}
@@ -64,7 +65,7 @@ public class PutCommand extends AbstractCommand{
         }
 
         try{
-            size = Integer.parseInt(parameters[4]);
+            size = Integer.parseInt(ArraysUtil.toString(parameters[4]));
         	if(size <= 0){
         		throw new IllegalStateException();
         	}

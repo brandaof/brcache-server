@@ -23,7 +23,7 @@ public class CommitTransactionCommand
 	extends AbstractCommand{
 
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
-			TerminalWriter writer, String[] parameters)
+			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
 
 		if(!(cache instanceof TXCache)){

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.server.ArraysUtil;
 import org.brandao.brcache.server.ServerConstants;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalConstants;
@@ -31,14 +32,14 @@ public class SetVarCommand
 	}};
 	
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
-			TerminalWriter writer, String[] parameters)
+			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
 
 		String key;
 		Object value;
 		
 		try{
-			key = parameters[1];
+			key = ArraysUtil.toString(parameters[1]);
 			
 			if(key == null){
 		        throw new NullPointerException();
@@ -50,7 +51,7 @@ public class SetVarCommand
 
 		
 		try{
-			value = parameters[2];
+			value = ArraysUtil.toString(parameters[2]);
 			
 			if(value == null){
 		        throw new NullPointerException();
