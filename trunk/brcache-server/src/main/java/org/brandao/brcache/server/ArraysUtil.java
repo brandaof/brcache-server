@@ -10,17 +10,19 @@ import java.util.List;
  */
 public class ArraysUtil {
 
-	private static final int NEGATIVE_INT = -1;
+	private static final int NEGATIVE_INT   = 0xffffffff;
 	
-	private static final byte ZERO = '0';
+	private static final long NEGATIVE_LONG = 0xffffffffffffffffL;
+	
+	private static final byte ZERO          = '0';
 
-	private static final byte NEGATIVE = '-';
+	private static final byte NEGATIVE      = '-';
 
-	private static final byte POSITIVE = '+';
+	private static final byte POSITIVE      = '+';
 
-	private static final byte TRUE = 1;
+	private static final byte TRUE          = 1;
 
-	private static final byte FALSE = 0;
+	private static final byte FALSE         = 0;
 	
 	/**
 	 * Verifica se um arranjo de bytes inicia com os mesmos bytes de outro arranjo de bytes.
@@ -77,8 +79,12 @@ public class ArraysUtil {
 		return result.toArray(new byte[0][]);
 	}
 	
+	/**
+	 * Converte um texto representado por um arranjo de bytes em um inteiro.
+	 * @param value arranjo.
+	 * @return inteiro.
+	 */
 	public static int toInt(byte[] value){
-		//byte[] chars   = new byte[value.length];
 		int limit      = value.length - 1;
 		byte signal    = value[0] == NEGATIVE? FALSE : TRUE;
 		byte hasSignal = value[0] == NEGATIVE || value[0] == POSITIVE? TRUE : FALSE;
@@ -94,17 +100,44 @@ public class ArraysUtil {
 		}
 		
 		if(signal == FALSE){
-			result = result | NEGATIVE_INT;
+			result = (result ^ NEGATIVE_INT) + 1;
+		}
+		
+		return result;
+	}
+
+	/**
+	 * Converte um texto representado por um arranjo de bytes em um inteiro.
+	 * @param value arranjo.
+	 * @return inteiro.
+	 */
+	public static long toLong(byte[] value){
+		int limit      = value.length - 1;
+		byte signal    = value[0] == NEGATIVE? FALSE : TRUE;
+		byte hasSignal = value[0] == NEGATIVE || value[0] == POSITIVE? TRUE : FALSE;
+		
+		int start   = hasSignal == TRUE? 1 : 0;
+		long result = 0;
+		int mult    = 1;
+		
+		for(int i=limit;i>=start;i--){
+			int tmp = value[i] - ZERO;
+			result += tmp*mult;
+			mult   *= 10;
+		}
+		
+		if(signal == FALSE){
+			result = (result ^ NEGATIVE_LONG) + 1;
 		}
 		
 		return result;
 	}
 	
-	public static void main(String[] a){
-		byte[] data = "-100".getBytes();
-		int r = toInt(data);
-	}
-	
+	/**
+	 * Converte um um arranjo de bytes em texto.
+	 * @param value arranjo
+	 * @return texto.
+	 */
 	public static String toString(byte[] value){
 		char[] chars = new char[value.length];
 		int len = value.length;
