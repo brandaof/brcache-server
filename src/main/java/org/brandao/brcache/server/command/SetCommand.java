@@ -1,7 +1,6 @@
 package org.brandao.brcache.server.command;
 
 import java.io.InputStream;
-import java.io.OutputStream;
 
 import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.CacheErrors;
@@ -111,55 +110,17 @@ public class SetCommand extends AbstractCommand{
             if(error != null){
             	//Se for lançada a exceção CacheException com o erro ERROR_1030, significa que
             	//já existe um item e o mesmo expirou na execução do método.
-            	if(error instanceof CacheException && ((CacheException)error).getError() != CacheErrors.ERROR_1030){
-            		throw new ServerErrorException(error, ServerErrors.ERROR_1030);
-            	}
-            	else{
+            	if(!(error instanceof CacheException) || ((CacheException)error).getError() != CacheErrors.ERROR_1030){
+            	//	throw new ServerErrorException(error, ServerErrors.ERROR_1030);
+            	//}
+            	//else{
             		throw new ServerErrorException(error, ServerErrors.ERROR_1004);
             	}
             }
         }
         
 
-        try{
-            if(result != null){
-                String responseMessage = 
-            		"value " +
-            		key +
-            		TerminalConstants.SEPARATOR_COMMAND +
-            		result.getSize() +
-            		" 0";
-                writer.sendMessage(responseMessage);
-                OutputStream out = null;
-                try{
-                    out = writer.getStream();
-                    result.writeTo(out);
-                }
-                finally{
-                    if(out != null){
-                        try{
-                            out.close();
-                        }
-                        catch(Throwable e){
-                        }
-                    }
-                    writer.sendCRLF();
-                }
-            }
-            else{
-                String responseMessage =
-            		"value " +
-    				key +
-    				" 0 0";
-                writer.sendMessage(responseMessage);
-            }
-        }
-        finally{
-            if(result != null)
-            	result.close();
-        }
-
-        writer.sendMessage(TerminalConstants.BOUNDARY_MESSAGE);
+        writer.sendMessage(result != null || error != null? TerminalConstants.NOT_STORED : TerminalConstants.STORED);
         writer.flush();        
 	}
 
