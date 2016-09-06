@@ -20,6 +20,7 @@ package org.brandao.brcache.server;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
 
 import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.server.command.BeginTransactionCommand;
@@ -155,76 +156,62 @@ public class Terminal {
     }
     
     public void execute() throws Throwable{
-    	int index;
-    	int start;
-    	int end;
-        String[] command = new String[6];
-        
+    	
         while(this.run){
         	
             try{
-                String message = reader.getMessage();
+                byte[] message   = reader.getMessageBytes();
+                byte[][] params  = ArraysUtil.split(message, 0, TerminalConstants.SEPARATOR_COMMAND_DTA);
                 
-                index = 0;
-                start = 0;
-                
-                while((end = message.indexOf(' ', start)) != -1){
-                	String part = message.substring(start, end);
-                	command[index++] = part;
-                	start = end + 1;
-                }
-                
-                command[index] = message.substring(start, message.length());
-                
-            	if("get".equals(command[0])){
-        			GET.execute(this, cache, reader, writer, command);
+               	if(Arrays.equals(TerminalConstants.PUT_CMD_DTA, params[0])){
+            		PUT.execute(this, cache, reader, writer, params);
+               	}
+               	else 
+               	if(Arrays.equals(TerminalConstants.GET_CMD_DTA, params[0])){
+        			GET.execute(this, cache, reader, writer, params);
             	}
             	else
-               	if("put".equals(command[0])){
-            		PUT.execute(this, cache, reader, writer, command);
-               	}
-               	else 
-               	if("replace".equals(command[0])){
-        			REPLACE.execute(this, cache, reader, writer, command);
+               	if(Arrays.equals(TerminalConstants.REPLACE_CMD_DTA, params[0])){
+        			REPLACE.execute(this, cache, reader, writer, params);
                	}
                	else
-               	if("set".equals(command[0])){
-        			SET.execute(this, cache, reader, writer, command);
+               	if(Arrays.equals(TerminalConstants.SET_CMD_DTA, params[0])){
+        			SET.execute(this, cache, reader, writer, params);
                	}
                	else
-               	if("remove".equals(command[0])){
-        			REMOVE.execute(this, cache, reader, writer, command);
+               	if(Arrays.equals(TerminalConstants.REMOVE_CMD_DTA, params[0])){
+        			REMOVE.execute(this, cache, reader, writer, params);
                	}
                	else
-               	if("begin".equals(command[0])){
-        			BEGIN_TX.execute(this, cache, reader, writer, command);
+               	if(Arrays.equals(TerminalConstants.BEGIN_CMD_DTA, params[0])){
+        			BEGIN_TX.execute(this, cache, reader, writer, params);
                	}
                	else
-               	if("commit".equals(command[0])){
-        			COMMIT_TX.execute(this, cache, reader, writer, command);
+               	if(Arrays.equals(TerminalConstants.COMMIT_CMD_DTA, params[0])){
+        			COMMIT_TX.execute(this, cache, reader, writer, params);
                	}
                	else
-               	if("rollback".equals(command[0])){
-        			ROLLBACK_TX.execute(this, cache, reader, writer, command);
+               	if(Arrays.equals(TerminalConstants.ROLLBACK_CMD_DTA, params[0])){
+        			ROLLBACK_TX.execute(this, cache, reader, writer, params);
                	}
                	else 
-               	if("show_var".equals(command[0])){
-        			SHOW_VAR.execute(this, cache, reader, writer, command);
+               	if(Arrays.equals(TerminalConstants.SHOW_VAR_CMD_DTA, params[0])){
+        			SHOW_VAR.execute(this, cache, reader, writer, params);
                	}
                	else 
-               	if("set_var".equals(command[0])){
-        			SET_VAR.execute(this, cache, reader, writer, command);
+               	if(Arrays.equals(TerminalConstants.SET_VAR_CMD_DTA, params[0])){
+        			SET_VAR.execute(this, cache, reader, writer, params);
                	}
                	else 
-               	if("show_vars".equals(command[0])){
-        			SHOW_VARS.execute(this, cache, reader, writer, command);
+               	if(Arrays.equals(TerminalConstants.SHOW_VARS_CMD_DTA, params[0])){
+        			SHOW_VARS.execute(this, cache, reader, writer, params);
                	}
                	else 
-               	if("exit".equals(command[0])){
-        			EXIT.execute(this, cache, reader, writer, command);
+               	if(Arrays.equals(TerminalConstants.EXIT_CMD_DTA, params[0])){
+        			EXIT.execute(this, cache, reader, writer, params);
                	}
                 else{
-                    this.writer.sendMessage(ServerErrors.ERROR_1001.getString(command[0]));
+                    this.writer.sendMessage(ServerErrors.ERROR_1001.getString(ArraysUtil.toString(params[0])));
                     this.writer.flush();
                 }
             }

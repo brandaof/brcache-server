@@ -19,7 +19,7 @@ public class ExitCommand
 	extends AbstractCommand{
 
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
-			TerminalWriter writer, String[] parameters)
+			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
 		 
         writer.sendMessage(TerminalConstants.DISCONNECT);

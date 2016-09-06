@@ -1,6 +1,7 @@
 package org.brandao.brcache.server.command;
 
 import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.server.ArraysUtil;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalConstants;
 import org.brandao.brcache.server.TerminalReader;
@@ -20,12 +21,12 @@ import org.brandao.brcache.server.error.ServerErrors;
 public class RemoveCommand extends AbstractCommand{
 
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
-			TerminalWriter writer, String[] parameters)
+			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
 
 		boolean result;
 		
-		String name = parameters[1];
+		String name = ArraysUtil.toString(parameters[1]);
 		
         if(name == null){
         	throw new ServerErrorException(ServerErrors.ERROR_1003, "name");        	

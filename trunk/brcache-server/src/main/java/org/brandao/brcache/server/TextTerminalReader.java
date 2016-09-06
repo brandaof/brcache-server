@@ -62,5 +62,14 @@ public class TextTerminalReader implements TerminalReader{
 			throw new ReadDataException(e);
 		}
 	}
-    
+
+	public byte[] getMessageBytes() throws ReadDataException {
+		try{
+			return this.buffer.readLineInBytes();
+		}
+		catch(IOException e){
+			throw new ReadDataException(e);
+		}
+	}
+	
 }
