@@ -158,12 +158,13 @@ public class Terminal {
     }
     
     public void execute() throws Throwable{
+    	byte[] message = new byte[cache.getConfig().getMaxSizeKey() + 30];
     	
         while(this.run){
         	
             try{
-                byte[] message   = reader.getMessageBytes();
-                byte[][] params  = ArraysUtil.split(message, 0, TerminalConstants.SEPARATOR_COMMAND_DTA);
+                int readMessage = reader.readMessage(message, 0, message.length);
+                byte[][] params  = ArraysUtil.split(message, 0, readMessage, TerminalConstants.SEPARATOR_COMMAND_DTA);
                 
                	if(Arrays.equals(TerminalConstants.PUT_CMD_DTA, params[0])){
             		PUT.execute(this, cache, reader, writer, params);

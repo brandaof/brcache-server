@@ -60,6 +60,15 @@ public class TextTerminalReader implements TerminalReader{
         return offset;
     }
 
+    public int readMessage(byte[] b, int off, int len) throws ReadDataException{
+    	try{
+    		return this.buffer.readLineInBytes(b, off, len);
+		}
+		catch(IOException e){
+			throw new ReadDataException(e);
+		}
+    }
+    
 	public String getMessage() throws ReadDataException {
 		try{
 			return this.buffer.readLine();

@@ -48,19 +48,21 @@ public class ArraysUtil {
 	/**
 	 * Fragmento um arranjo usando um byte como delimitador.
 	 * @param array arranjo
+	 * @param len tamanho do arranjo.
 	 * @param value delimitador.
 	 * @param index índice inicial.
 	 * @return fragmentos.
 	 */
-	public static byte[][] split(byte[] array, int index, byte value){
-		int start = index;
-		int end   = 0;
+	public static byte[][] split(byte[] array, int index, int len, byte value){
+		int maxIndex    = index + len;
+		int start       = index;
+		int end         = 0;
 		byte[][] result = new byte[10][];
 		int resultIndex = 0;
 		
-		int limit = array.length -1;
+		int limit = maxIndex -1;
 		
-		for(int i=index;i<array.length;i++){
+		for(int i=index;i<maxIndex;i++){
 			
 			if(array[i] == value){
 				end = i;
