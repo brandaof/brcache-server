@@ -1,6 +1,7 @@
 package org.brandao.brcache.server.command;
 
 import java.io.OutputStream;
+import java.util.Arrays;
 
 import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.CacheInputStream;
@@ -43,7 +44,7 @@ public class GetCommand extends AbstractCommand{
 	    }
 		
         try{
-            forUpdate = !parameters[2].equals("0");
+            forUpdate = !Arrays.equals(parameters[2], new byte[]{'0'});
         }
         catch(Throwable e){
             throw new ServerErrorException(ServerErrors.ERROR_1003, "update");

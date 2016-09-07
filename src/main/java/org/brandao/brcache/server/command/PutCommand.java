@@ -79,11 +79,17 @@ public class PutCommand extends AbstractCommand{
         Throwable error    = null;
         
         try{
+        	byte[] b = new byte[1024];
+        	int l = 0;
+        	while((l = stream.read(b, 0, b.length)) != -1);
+        	
+        	/*
             result = cache.putStream(
                 key, 
                 stream,
                 timeToLive,
                 timeToIdle);
+                */
         }
         catch(Throwable e){
         	//capturado erro no processamento do fluxo de bytes do item
