@@ -122,17 +122,91 @@ public class TextBufferReader extends InputStream{
         return 0;
     }
     
+    public int readLineInBytes(byte[] b, int off, int len) throws IOException{
+    	
+    	int startOff = this.offset;
+    	int read     = 0;
+
+		int maxRead;
+		int maxWrite;
+		int transf;
+    	
+    	for(;;){
+    		
+            if(this.offset == this.limit){
+        		maxRead  = this.offset - startOff;
+        		maxWrite = len;
+        		transf   = maxRead > maxWrite? maxWrite : maxRead;
+            	
+            	System.arraycopy(this.buffer, startOff, b, off, transf);
+            	
+            	len -= transf;
+            	off += transf;
+            	read+= transf;
+            	
+            	if(this.checkBuffer() < 0)
+            		return read;
+            	
+            	startOff = this.offset;
+            }
+            
+            if(this.buffer[this.offset++] == '\n'){
+            	
+        		maxRead  = this.offset - startOff;
+        		maxWrite = len;
+        		transf   = maxRead > maxWrite? maxWrite : maxRead;
+            	
+            	if(this.limit > 1){ 
+            		if(this.buffer[this.offset-2] == '\r'){
+                    	System.arraycopy(this.buffer, startOff, b, off, transf - 2);
+                    	read+= transf - 2;
+                    	return read;
+            		}
+            		else{
+                        throw new IOException("expected \\r");
+            		}
+            	}
+            	else{
+            		return read;
+            	}
+            }
+            
+    	}
+    	
+    }
+    
     public byte[] readLineInBytes() throws IOException{
-    	ByteArrayOutputStream bout = new ByteArrayOutputStream(1024);
-    	byte[] result = new byte[1024];
-    	int resultOff = 0;
+    	
+    	ByteArrayOutputStream bout = new ByteArrayOutputStream(12);
     	int startOff  = this.offset;
     	
     	for(;;){
             if(this.offset == this.limit){
-            	
+            	bout.write(this.buffer, startOff, this.offset - startOff);
+            	if(this.checkBuffer() < 0)
+            		return bout.toByteArray();
+            	startOff = this.offset;
             }
+            
+            if(this.buffer[this.offset++] == '\n'){
+            	bout.write(this.buffer, startOff, this.offset - startOff);
+            	byte[] array = bout.toByteArray();
+            	
+            	if(array.length > 0){ 
+            		if(array[array.length-1] == '\r'){
+                    	return Arrays.copyOf(array, array.length - 1);
+            		}
+            		else{
+                        throw new IOException("expected \\r");
+            		}
+            	}
+            	else{
+            		return array;
+            	}
+            }
+            
     	}
+    	
     }
     
     /*

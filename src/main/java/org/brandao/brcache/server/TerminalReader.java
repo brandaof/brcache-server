@@ -29,6 +29,8 @@ public interface TerminalReader {
     String getMessage() throws ReadDataException;
 
     byte[] getMessageBytes() throws ReadDataException;
+
+    int readMessage(byte[] b, int off, int len) throws ReadDataException;
     
     InputStream getStream() throws IOException;
 
