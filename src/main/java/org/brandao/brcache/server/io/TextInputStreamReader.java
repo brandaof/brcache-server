@@ -15,15 +15,17 @@
  * limitations under the License.
  */
 
-package org.brandao.brcache.server;
+package org.brandao.brcache.server.io;
 
 import java.io.IOException;
+
+import org.brandao.brcache.server.TerminalConstants;
 
 /**
  *
  * @author Brandao
  */
-class TextInputStreamReader 
+public class TextInputStreamReader 
 	extends AbstractTextInputStreamReader{
 
     private static final byte[] BOUNDARY = TerminalConstants.BOUNDARY;

@@ -29,6 +29,9 @@ import org.brandao.brcache.Cache;
 import org.brandao.brcache.CacheConstants;
 import org.brandao.brcache.Configuration;
 import org.brandao.brcache.collections.Collections;
+import org.brandao.brcache.server.io.CompressStreamFactory;
+import org.brandao.brcache.server.io.DefaultStreamFactory;
+import org.brandao.brcache.server.io.StreamFactory;
 import org.brandao.brcache.tx.CacheTransactionManager;
 import org.brandao.brcache.tx.CacheTransactionManagerImp;
 

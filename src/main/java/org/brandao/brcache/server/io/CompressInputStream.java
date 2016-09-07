@@ -16,7 +16,7 @@
  */
 
 
-package org.brandao.brcache.server;
+package org.brandao.brcache.server.io;
 
 import java.io.IOException;
 import java.io.InputStream;

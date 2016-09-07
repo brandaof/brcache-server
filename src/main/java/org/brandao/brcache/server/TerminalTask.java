@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.server.io.StreamFactory;
 import org.brandao.brcache.server.terminalinfolisteners.AutoCommitListener;
 
 /**

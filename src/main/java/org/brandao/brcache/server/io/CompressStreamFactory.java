@@ -15,38 +15,39 @@
  * limitations under the License.
  */
 
-
-package org.brandao.brcache.server;
+package org.brandao.brcache.server.io;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.Socket;
+import java.util.Properties;
 import java.util.zip.Deflater;
-import java.util.zip.DeflaterOutputStream;
+import java.util.zip.Inflater;
 
 /**
  *
  * @author Brandao
  */
-public class CompressOutputStream 
-    extends DeflaterOutputStream {
+public class CompressStreamFactory 
+    implements StreamFactory{
 
-    public CompressOutputStream(OutputStream out, Deflater def) {
-        super(out, def);
+    public CompressStreamFactory(){
+        throw new UnsupportedOperationException("not implemented yet");
     }
     
-    public CompressOutputStream(OutputStream out, Deflater def, int size) {
-        super(out, def, size);
+    public InputStream createInpuStream(Socket socket) throws IOException {
+        return new CompressInputStream(
+            socket.getInputStream(), new Inflater(true), 1024);
+    }
+
+    public OutputStream createOutputStream(Socket socket) throws IOException {
+        return new CompressOutputStream(
+                socket.getOutputStream(),
+            new Deflater(Deflater.BEST_COMPRESSION, true), 1024);
+    }
+
+    public void setConfiguration(Properties config) {
     }
     
-    public CompressOutputStream(OutputStream out) {
-        super(out);
-        this.out = out;
-    }
-    
-    @Override
-    public void flush() throws IOException{
-        super.finish();
-        super.flush();
-        def.reset();
-    }
 }

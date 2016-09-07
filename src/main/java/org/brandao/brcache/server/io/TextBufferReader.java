@@ -15,8 +15,9 @@
  * limitations under the License.
  */
 
-package org.brandao.brcache.server;
+package org.brandao.brcache.server.io;
 
+import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +27,7 @@ import java.util.Arrays;
  *
  * @author Brandao
  */
-class TextBufferReader extends InputStream{
+public class TextBufferReader extends InputStream{
     
     private int offset;
     
@@ -122,6 +123,20 @@ class TextBufferReader extends InputStream{
     }
     
     public byte[] readLineInBytes() throws IOException{
+    	ByteArrayOutputStream bout = new ByteArrayOutputStream(1024);
+    	byte[] result = new byte[1024];
+    	int resultOff = 0;
+    	int startOff  = this.offset;
+    	
+    	for(;;){
+            if(this.offset == this.limit){
+            	
+            }
+    	}
+    }
+    
+    /*
+    public byte[] readLineInBytes() throws IOException{
     	
         this.result = new byte[0];
         this.offsetResult = 0;
@@ -176,19 +191,12 @@ class TextBufferReader extends InputStream{
                 this.offset++;
                 return this.result;
             }
-            /*
-            if(this.offset > 0 && this.buffer[this.offset-1] == '\r' && this.buffer[this.offset] == '\n'){
-                this.updateResult(this.buffer, start, this.offset - start - 1);
-                this.hasLineFeed = true;
-                this.offset++;
-                return this.result;
-            }
-            */
             else{
                 this.offset++;
             }
         }
     }
+    */
     
     public byte[] readLineInBytes(int totalRead) throws IOException{
     	
