@@ -26,7 +26,7 @@ import java.util.Arrays;
  *
  * @author Brandao
  */
-class TextBufferReader {
+class TextBufferReader extends InputStream{
     
     private int offset;
     
@@ -58,11 +58,73 @@ class TextBufferReader {
         return data == null? null : new String(data);
     }
 
+    public int read() throws IOException{
+    	
+        if(this.checkBuffer() < 0){
+        	return -1;
+        }
+    	
+        return this.buffer[this.offset++];
+    }
+    
+    public int read(byte[] b, int off, int len) throws IOException{
+    	
+    	int read  = 0;
+    	
+    	while(len > 0){
+    		
+            if(this.checkBuffer() < 0){
+            	return read;
+            }
+            	
+            int maxRead = this.limit - this.offset;
+            
+            if(len > maxRead){
+            	System.arraycopy(this.buffer, this.offset, b, off, maxRead);
+            	this.offset += maxRead;
+            	off         += maxRead;
+            	read        += maxRead;
+            	len         -= maxRead;
+            }
+            else{
+            	System.arraycopy(this.buffer, this.offset, b, off, len);
+            	this.offset += len;
+            	read        += len;
+            	return read; 
+            }
+            
+    	}
+    	
+    	return read;
+    }
+    
+    private int checkBuffer() throws IOException{
+    	
+        if(this.offset == this.limit){
+            
+            if(this.limit == this.capacity){
+                this.offset = 0;
+                this.limit  = 0;
+            }
+            
+            int len = stream.read(this.buffer, this.limit, this.buffer.length - limit);
+            
+            if(len == -1){
+            	return -1;
+            }
+                //throw new EOFException("premature end of data");
+            
+            this.limit += len;
+            return len;
+        }    		
+    	
+        return 0;
+    }
+    
     public byte[] readLineInBytes() throws IOException{
     	
         this.result = new byte[0];
         this.offsetResult = 0;
-        
         int start = this.offset;
         
         while(true){
