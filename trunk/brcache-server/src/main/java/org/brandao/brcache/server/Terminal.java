@@ -38,6 +38,7 @@ import org.brandao.brcache.server.command.ShowVarsCommand;
 import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
 import org.brandao.brcache.server.io.StreamFactory;
+import org.brandao.brcache.server.util.ArraysUtil;
 import org.brandao.brcache.tx.CacheTransaction;
 import org.brandao.brcache.tx.CacheTransactionManager;
 import org.brandao.brcache.tx.TXCache;

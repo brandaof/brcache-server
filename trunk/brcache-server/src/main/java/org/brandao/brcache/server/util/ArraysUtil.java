@@ -1,4 +1,4 @@
-package org.brandao.brcache.server;
+package org.brandao.brcache.server.util;
 
 import java.util.Arrays;
 

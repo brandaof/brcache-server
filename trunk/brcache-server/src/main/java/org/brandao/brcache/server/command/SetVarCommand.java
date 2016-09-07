@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.brandao.brcache.BasicCache;
-import org.brandao.brcache.server.ArraysUtil;
 import org.brandao.brcache.server.ServerConstants;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalConstants;
@@ -12,6 +11,7 @@ import org.brandao.brcache.server.TerminalReader;
 import org.brandao.brcache.server.TerminalWriter;
 import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
+import org.brandao.brcache.server.util.ArraysUtil;
 import org.brandao.brcache.server.util.ClassUtil;
 
 /**
