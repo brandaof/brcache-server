@@ -45,7 +45,7 @@ public class PutCommand extends AbstractCommand{
 	    }
 		
         try{
-        	timeToLive = Integer.parseInt(ArraysUtil.toString(parameters[2]));
+        	timeToLive = 0;//Integer.parseInt(ArraysUtil.toString(parameters[2]));
         	if(timeToLive < 0){
         		throw new IllegalStateException();
         	}
@@ -55,7 +55,7 @@ public class PutCommand extends AbstractCommand{
         }
 
         try{
-        	timeToIdle = Integer.parseInt(ArraysUtil.toString(parameters[3]));
+        	timeToIdle = 0;//Integer.parseInt(ArraysUtil.toString(parameters[3]));
         	if(timeToIdle < 0){
         		throw new IllegalStateException();
         	}
