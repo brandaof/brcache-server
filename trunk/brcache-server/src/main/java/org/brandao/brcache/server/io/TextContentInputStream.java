@@ -1,9 +1,11 @@
-package org.brandao.brcache.server;
+package org.brandao.brcache.server.io;
 
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+
+import org.brandao.brcache.server.TerminalConstants;
 
 public class TextContentInputStream 
 	extends InputStream{

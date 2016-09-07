@@ -15,16 +15,18 @@
  * limitations under the License.
  */
 
-package org.brandao.brcache.server;
+package org.brandao.brcache.server.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
+
+import org.brandao.brcache.server.TerminalConstants;
 
 /**
  *
  * @author Brandao
  */
-class TextOutputStream extends OutputStream{
+public class TextOutputStream extends OutputStream{
 
     private final TextBufferWriter buffer;
     

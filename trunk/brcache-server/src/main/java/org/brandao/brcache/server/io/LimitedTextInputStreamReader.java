@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 
-package org.brandao.brcache.server;
+package org.brandao.brcache.server.io;
 
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.Arrays;
+
+import org.brandao.brcache.server.TerminalConstants;
 
 /**
  *

@@ -21,6 +21,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
+import org.brandao.brcache.server.io.StreamFactory;
+import org.brandao.brcache.server.io.TextBufferReader;
+import org.brandao.brcache.server.io.TextContentInputStream;
+import org.brandao.brcache.server.io.TextInputStreamReader;
+
 /**
  *
  * @author Brandao

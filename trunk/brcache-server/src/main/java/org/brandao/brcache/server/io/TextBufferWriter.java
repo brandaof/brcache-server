@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.brandao.brcache.server;
+package org.brandao.brcache.server.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -24,7 +24,7 @@ import java.io.OutputStream;
  *
  * @author Brandao
  */
-class TextBufferWriter {
+public class TextBufferWriter {
     
     private int offset;
     

@@ -15,32 +15,38 @@
  * limitations under the License.
  */
 
-package org.brandao.brcache.server;
+
+package org.brandao.brcache.server.io;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.Socket;
-import java.util.Properties;
+import java.util.zip.Deflater;
+import java.util.zip.DeflaterOutputStream;
 
 /**
- * Implementação padrão da fábrica que produz objetos que auxiliam na 
- * manipulação do fluxo de dados de uma conexão.
- * 
+ *
  * @author Brandao
  */
-public class DefaultStreamFactory 
-    implements StreamFactory{
+public class CompressOutputStream 
+    extends DeflaterOutputStream {
 
-    public InputStream createInpuStream(Socket socket) throws IOException {
-        return socket.getInputStream();
-    }
-
-    public OutputStream createOutputStream(Socket socket) throws IOException {
-        return socket.getOutputStream();
-    }
-
-    public void setConfiguration(Properties config) {
+    public CompressOutputStream(OutputStream out, Deflater def) {
+        super(out, def);
     }
     
+    public CompressOutputStream(OutputStream out, Deflater def, int size) {
+        super(out, def, size);
+    }
+    
+    public CompressOutputStream(OutputStream out) {
+        super(out);
+        this.out = out;
+    }
+    
+    @Override
+    public void flush() throws IOException{
+        super.finish();
+        super.flush();
+        def.reset();
+    }
 }
