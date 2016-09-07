@@ -122,7 +122,7 @@ public class TextBufferReader extends InputStream{
         return 0;
     }
     
-    public int readLineInBytes(byte[] b, int off, int len) throws IOException{
+    public int readFullLineInBytes(byte[] b, int off, int len) throws IOException{
     	
     	int startOff = this.offset;
     	int read     = 0;
@@ -132,12 +132,15 @@ public class TextBufferReader extends InputStream{
 		int transf;
     	
     	for(;;){
+    		maxRead  = this.offset - startOff;
+    		maxWrite = len;
+    		transf   = maxRead > maxWrite? maxWrite : maxRead;
+
+    		if(maxWrite == 0){
+    			throw new IOException("out of memoty");
+    		}
     		
             if(this.offset == this.limit){
-        		maxRead  = this.offset - startOff;
-        		maxWrite = len;
-        		transf   = maxRead > maxWrite? maxWrite : maxRead;
-            	
             	System.arraycopy(this.buffer, startOff, b, off, transf);
             	
             	len -= transf;
@@ -151,24 +154,9 @@ public class TextBufferReader extends InputStream{
             }
             
             if(this.buffer[this.offset++] == '\n'){
-            	
-        		maxRead  = this.offset - startOff;
-        		maxWrite = len;
-        		transf   = maxRead > maxWrite? maxWrite : maxRead;
-            	
-            	if(this.limit > 1){ 
-            		if(this.buffer[this.offset-2] == '\r'){
-                    	System.arraycopy(this.buffer, startOff, b, off, transf - 2);
-                    	read+= transf - 2;
-                    	return read;
-            		}
-            		else{
-                        throw new IOException("expected \\r");
-            		}
-            	}
-            	else{
-            		return read;
-            	}
+            	System.arraycopy(this.buffer, startOff, b, off, transf);
+            	read+= transf;
+            	return read;
             }
             
     	}
