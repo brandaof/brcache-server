@@ -24,6 +24,8 @@ import org.brandao.brcache.server.error.ServerErrors;
  */
 public class PutCommand extends AbstractCommand{
 
+	private byte[] b = new byte[9024];
+
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
 			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
@@ -45,7 +47,7 @@ public class PutCommand extends AbstractCommand{
 	    }
 		
         try{
-        	timeToLive = 0;//Integer.parseInt(ArraysUtil.toString(parameters[2]));
+        	timeToLive = Integer.parseInt(ArraysUtil.toString(parameters[2]));
         	if(timeToLive < 0){
         		throw new IllegalStateException();
         	}
@@ -55,7 +57,7 @@ public class PutCommand extends AbstractCommand{
         }
 
         try{
-        	timeToIdle = 0;//Integer.parseInt(ArraysUtil.toString(parameters[3]));
+        	timeToIdle = Integer.parseInt(ArraysUtil.toString(parameters[3]));
         	if(timeToIdle < 0){
         		throw new IllegalStateException();
         	}
@@ -79,7 +81,6 @@ public class PutCommand extends AbstractCommand{
         Throwable error    = null;
         
         try{
-        	byte[] b = new byte[1024];
         	int l = 0;
         	while((l = stream.read(b, 0, b.length)) != -1);
         	
