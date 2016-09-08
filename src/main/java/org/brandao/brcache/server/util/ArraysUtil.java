@@ -90,7 +90,7 @@ public class ArraysUtil {
 			result[resultIndex++] = item;
 		}
 		
-		return Arrays.copyOf(result, resultIndex);
+		return result;//Arrays.copyOf(result, resultIndex);
 	}
 	
 	/**
