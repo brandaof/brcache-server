@@ -91,7 +91,7 @@ public class LimitedTextInputStreamReader
         //indicador do fim do stream (end)
     	line = buffer.readLineInBytes();
         
-        if(line == null || !Arrays.equals(TerminalConstants.BOUNDARY, line))
+        if(line == null || !Arrays.equals(TerminalConstants.BOUNDARY_DTA, line))
         	throw new EOFException("expected end\\r\\n");
         
         return true;

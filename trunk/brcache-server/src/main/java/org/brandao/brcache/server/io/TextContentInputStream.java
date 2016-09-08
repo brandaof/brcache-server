@@ -11,9 +11,9 @@ public class TextContentInputStream
 	extends InputStream{
 
     private static final byte[] BOUNDARY = 
-             (TerminalConstants.CRLFText + 
-             TerminalConstants.BOUNDARY_MESSAGE + 
-             TerminalConstants.CRLFText).getBytes();
+             (TerminalConstants.CRLF + 
+             TerminalConstants.BOUNDARY + 
+             TerminalConstants.CRLF).getBytes();
     
 	private TextBufferReader buffer;
 	

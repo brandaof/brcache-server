@@ -117,7 +117,7 @@ public class PutCommand extends AbstractCommand{
         }
         
 
-    	writer.sendMessage(result? TerminalConstants.REPLACE_SUCCESS : TerminalConstants.STORED);
+    	writer.sendMessage(result? TerminalConstants.REPLACE_SUCCESS_DTA : TerminalConstants.STORED_DTA);
         writer.flush();
         
 	}

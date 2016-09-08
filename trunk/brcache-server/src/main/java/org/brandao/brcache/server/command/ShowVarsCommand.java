@@ -58,10 +58,10 @@ public class ShowVarsCommand
         for(String prop: keys){
             result
             	.append(prop).append(": ")
-            	.append(map.get(prop)).append(TerminalConstants.CRLFText);
+            	.append(map.get(prop)).append(TerminalConstants.CRLF);
         }
         
-        result.append(TerminalConstants.BOUNDARY_MESSAGE);
+        result.append(TerminalConstants.BOUNDARY);
         writer.sendMessage(result.toString());
         writer.flush();
 		

@@ -28,7 +28,7 @@ import org.brandao.brcache.server.TerminalConstants;
 public class TextInputStreamReader 
 	extends AbstractTextInputStreamReader{
 
-    private static final byte[] BOUNDARY = TerminalConstants.BOUNDARY;
+    private static final byte[] BOUNDARY = TerminalConstants.BOUNDARY_DTA;
     
     public TextInputStreamReader(TextBufferReader buffer, int offset){
     	super(buffer, offset);

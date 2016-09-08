@@ -29,7 +29,7 @@ import org.brandao.brcache.server.TerminalConstants;
  */
 public abstract class AbstractTextInputStreamReader extends InputStream{
 
-    private static final byte[] CRLF = TerminalConstants.CRLF;
+    private static final byte[] CRLF = TerminalConstants.CRLF_DTA;
 	
     protected TextBufferReader buffer;
     
