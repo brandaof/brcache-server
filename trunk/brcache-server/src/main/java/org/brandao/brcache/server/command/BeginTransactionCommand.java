@@ -36,7 +36,7 @@ public class BeginTransactionCommand
 		
 		terminal.getTerminalVars().set(ServerConstants.AUTO_COMMIT, false);
 		
-        writer.sendMessage(TerminalConstants.SUCCESS);
+        writer.sendMessage(TerminalConstants.SUCCESS_DTA);
         writer.flush();
 		
 	}

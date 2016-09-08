@@ -169,7 +169,7 @@ public class Terminal {
             		message, 
             		0, 
             		message[readMessage - 1] == '\r'? readMessage - 1 : readMessage, 
-            		TerminalConstants.SEPARATOR_COMMAND_DTA );
+            		TerminalConstants.SEPARATOR_CHAR );
                 
                	if(Arrays.equals(TerminalConstants.PUT_CMD_DTA, params[0])){
             		PUT.execute(this, cache, reader, writer, params);

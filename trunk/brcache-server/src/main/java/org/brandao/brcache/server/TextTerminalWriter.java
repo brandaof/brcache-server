@@ -23,7 +23,7 @@ import java.net.Socket;
 
 import org.brandao.brcache.server.io.StreamFactory;
 import org.brandao.brcache.server.io.TextBufferWriter;
-import org.brandao.brcache.server.io.TextOutputStream;
+import org.brandao.brcache.server.util.ArraysUtil;
 
 /**
  *
@@ -45,7 +45,7 @@ public class TextTerminalWriter implements TerminalWriter{
 
     public void sendMessage(String message) throws WriteDataException {
         try{
-            this.buffer.write(message.getBytes());
+            this.buffer.write(ArraysUtil.toBytes(message));
             this.buffer.write(TerminalConstants.CRLF_DTA);
         }
         catch(IOException e){
@@ -57,6 +57,24 @@ public class TextTerminalWriter implements TerminalWriter{
         try{
             this.buffer.write(message);
             this.buffer.write(TerminalConstants.CRLF_DTA);
+        }
+        catch(IOException e){
+            throw new WriteDataException(TerminalConstants.SEND_MESSAGE_FAIL, e);
+        }
+    }
+
+    public void write(byte[] b, int off, int len) throws WriteDataException {
+        try{
+            this.buffer.write(b, off, len);
+        }
+        catch(IOException e){
+            throw new WriteDataException(TerminalConstants.SEND_MESSAGE_FAIL, e);
+        }
+    }
+
+    public void write(byte[] b) throws WriteDataException {
+        try{
+            this.buffer.write(b, 0, b.length);
         }
         catch(IOException e){
             throw new WriteDataException(TerminalConstants.SEND_MESSAGE_FAIL, e);
@@ -83,7 +101,7 @@ public class TextTerminalWriter implements TerminalWriter{
     }
     
     public OutputStream getStream() {
-        return new TextOutputStream(this.buffer);
+        return this.buffer;//new TextOutputStream(this.buffer);
     }
 
 }

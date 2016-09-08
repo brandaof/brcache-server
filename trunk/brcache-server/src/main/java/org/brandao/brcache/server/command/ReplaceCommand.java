@@ -109,7 +109,7 @@ public class ReplaceCommand extends AbstractCommand{
     			throw new ServerErrorException(error, ServerErrors.ERROR_1004);
         }
         
-    	writer.sendMessage(result? TerminalConstants.REPLACE_SUCCESS : TerminalConstants.NOT_STORED);
+    	writer.sendMessage(result? TerminalConstants.REPLACE_SUCCESS_DTA : TerminalConstants.NOT_STORED_DTA);
         writer.flush();
         
 	}

@@ -28,6 +28,10 @@ public interface TerminalWriter {
     void sendMessage(String message) throws WriteDataException;
 
     void sendMessage(byte[] message) throws WriteDataException;
+
+    void write(byte[] b, int off, int len) throws WriteDataException;
+
+    void write(byte[] b) throws WriteDataException;
     
     void sendCRLF() throws WriteDataException;
     

@@ -34,7 +34,7 @@ public class CommitTransactionCommand
 		CacheTransaction tx = txCahe.getTransactionManager().getCurrrent();
 		tx.commit();
 		
-        writer.sendMessage(TerminalConstants.SUCCESS);
+        writer.sendMessage(TerminalConstants.SUCCESS_DTA);
         writer.flush();
 		
 	}

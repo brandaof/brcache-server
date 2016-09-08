@@ -69,7 +69,7 @@ public class SetVarCommand
 		
 		
 		terminal.getTerminalVars().put(key, value);
-        writer.sendMessage(TerminalConstants.SUCCESS);
+        writer.sendMessage(TerminalConstants.SUCCESS_DTA);
         writer.flush();
 		
 	}
