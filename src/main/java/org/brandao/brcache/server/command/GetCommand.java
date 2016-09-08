@@ -25,6 +25,14 @@ import org.brandao.brcache.tx.TXCache;
  */
 public class GetCommand extends AbstractCommand{
 
+	private static final byte[] FALSE        = new byte[]{'0'};
+	
+	private static final byte[] PREFIX       = "value ".getBytes();
+
+	private static final byte[] SUFFIX       = " 0".getBytes();
+	
+	private static final byte[] EMPTY_SUFFIX = " 0 0".getBytes();
+
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
 			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
@@ -44,7 +52,7 @@ public class GetCommand extends AbstractCommand{
 	    }
 		
         try{
-            forUpdate = !Arrays.equals(parameters[2], new byte[]{'0'});
+            forUpdate = !Arrays.equals(parameters[2], FALSE);
         }
         catch(Throwable e){
             throw new ServerErrorException(ServerErrors.ERROR_1003, "update");
@@ -66,13 +74,12 @@ public class GetCommand extends AbstractCommand{
         	}
         	
             if(in != null){
-                String responseMessage = 
-            		"value " +
-            		key +
-            		TerminalConstants.SEPARATOR_COMMAND +
-            		in.getSize() +
-            		" 0";
-                writer.sendMessage(responseMessage);
+            	writer.write(PREFIX, 0, PREFIX.length);
+            	writer.write(ArraysUtil.toBytes(key));
+            	writer.write(TerminalConstants.SEPARATOR_COMMAND_DTA);
+            	writer.write(ArraysUtil.toBytes(in.getSize()));
+            	writer.write(SUFFIX, 0, SUFFIX.length);
+            	
                 OutputStream out = null;
                 try{
                     out = writer.getStream();
@@ -90,11 +97,9 @@ public class GetCommand extends AbstractCommand{
                 }
             }
             else{
-                String responseMessage =
-            		"value " +
-    				key +
-    				" 0 0";
-                writer.sendMessage(responseMessage);
+            	writer.write(PREFIX, 0, PREFIX.length);
+            	writer.write(ArraysUtil.toBytes(key));
+            	writer.write(EMPTY_SUFFIX, 0, EMPTY_SUFFIX.length);
             }
         }
         finally{
@@ -102,7 +107,7 @@ public class GetCommand extends AbstractCommand{
                 in.close();
         }
 
-        writer.sendMessage(TerminalConstants.BOUNDARY);
+        writer.sendMessage(TerminalConstants.BOUNDARY_DTA);
         writer.flush();
         
 	}

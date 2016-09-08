@@ -34,7 +34,7 @@ public class RollbackTransactionCommand
 		CacheTransaction tx = txCahe.getTransactionManager().getCurrrent();
 		tx.rollback();
 		
-        writer.sendMessage(TerminalConstants.SUCCESS);
+        writer.sendMessage(TerminalConstants.SUCCESS_DTA);
         writer.flush();
 		
 	}

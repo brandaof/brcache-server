@@ -121,7 +121,7 @@ public class SetCommand extends AbstractCommand{
         }
         
 
-        writer.sendMessage(result != null || error != null? TerminalConstants.NOT_STORED : TerminalConstants.STORED);
+        writer.sendMessage(result != null || error != null? TerminalConstants.NOT_STORED_DTA : TerminalConstants.STORED_DTA);
         writer.flush();        
 	}
 

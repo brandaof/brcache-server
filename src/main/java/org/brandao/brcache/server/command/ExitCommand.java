@@ -22,7 +22,7 @@ public class ExitCommand
 			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
 		 
-        writer.sendMessage(TerminalConstants.DISCONNECT);
+        writer.sendMessage(TerminalConstants.DISCONNECT_DTA);
         writer.flush();
         terminal.destroy();
 	}

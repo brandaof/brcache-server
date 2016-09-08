@@ -62,6 +62,8 @@ public class TerminalConstants {
     public static final String CANT_READ_PARAMETER 			= "cant read parameter: %s";
     
     public static final String DISCONNECT 					= "goodbye!";
+
+    public static final byte[] DISCONNECT_DTA				= "goodbye!".getBytes();
     
     public static final byte[] SUCCESS_DTA					= "ok".getBytes();
     
@@ -97,12 +99,14 @@ public class TerminalConstants {
 	
 	public static final byte[] EXIT_CMD_DTA 				= "exit".getBytes();
 	
-	public static final byte SEPARATOR_COMMAND_DTA 			= ' ';
+	public static final byte[] SEPARATOR_COMMAND_DTA 		= new byte[]{' '};
 	
 	public static final String[] EMPTY_STR_ARRAY 			= new String[]{};
 	
     public static final byte[] CRLF_DTA 					= "\r\n".getBytes();
     
     public static final byte[] BOUNDARY_DTA 				= BOUNDARY.getBytes();
+
+	public static final byte SEPARATOR_CHAR 				= ' ';
     
 }

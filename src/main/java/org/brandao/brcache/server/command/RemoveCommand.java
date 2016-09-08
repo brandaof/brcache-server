@@ -35,10 +35,10 @@ public class RemoveCommand extends AbstractCommand{
         result = cache.remove(name);
     	
 	    if(result){
-	    	writer.sendMessage(TerminalConstants.SUCCESS);
+	    	writer.sendMessage(TerminalConstants.SUCCESS_DTA);
 	    }
 	    else{
-	    	writer.sendMessage(TerminalConstants.NOT_FOUND);
+	    	writer.sendMessage(TerminalConstants.NOT_FOUND_DTA);
 	    }
 	    writer.flush();
 
