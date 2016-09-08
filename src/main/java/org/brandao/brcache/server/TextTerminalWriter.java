@@ -46,16 +46,26 @@ public class TextTerminalWriter implements TerminalWriter{
     public void sendMessage(String message) throws WriteDataException {
         try{
             this.buffer.write(message.getBytes());
-            this.buffer.write(TerminalConstants.CRLF);
+            this.buffer.write(TerminalConstants.CRLF_DTA);
         }
         catch(IOException e){
             throw new WriteDataException(TerminalConstants.SEND_MESSAGE_FAIL, e);
         }
     }
 
+    public void sendMessage(byte[] message) throws WriteDataException {
+        try{
+            this.buffer.write(message);
+            this.buffer.write(TerminalConstants.CRLF_DTA);
+        }
+        catch(IOException e){
+            throw new WriteDataException(TerminalConstants.SEND_MESSAGE_FAIL, e);
+        }
+    }
+    
     public void sendCRLF() throws WriteDataException {
         try{
-            this.buffer.write(TerminalConstants.CRLF);
+            this.buffer.write(TerminalConstants.CRLF_DTA);
         }
         catch(IOException e){
             throw new WriteDataException(TerminalConstants.SEND_MESSAGE_FAIL, e);
@@ -76,8 +86,4 @@ public class TextTerminalWriter implements TerminalWriter{
         return new TextOutputStream(this.buffer);
     }
 
-	public OutputStream getDirectStream() {
-		return this.buffer.getDirectOutputStream();
-	}
-    
 }

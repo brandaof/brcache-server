@@ -102,7 +102,7 @@ public class GetCommand extends AbstractCommand{
                 in.close();
         }
 
-        writer.sendMessage(TerminalConstants.BOUNDARY_MESSAGE);
+        writer.sendMessage(TerminalConstants.BOUNDARY);
         writer.flush();
         
 	}

@@ -26,13 +26,13 @@ import java.io.OutputStream;
 public interface TerminalWriter {
     
     void sendMessage(String message) throws WriteDataException;
+
+    void sendMessage(byte[] message) throws WriteDataException;
     
     void sendCRLF() throws WriteDataException;
     
     void flush() throws WriteDataException;
     
     OutputStream getStream();
-
-    OutputStream getDirectStream();
     
 }

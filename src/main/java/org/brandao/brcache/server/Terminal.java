@@ -219,7 +219,9 @@ public class Terminal {
         			EXIT.execute(this, cache, reader, writer, params);
                	}
                 else{
-                    this.writer.sendMessage(ServerErrors.ERROR_1001.getString(ArraysUtil.toString(params[0])));
+                    this.writer.sendMessage(
+                    		ServerErrors.ERROR_1001.getString(ArraysUtil.toString(params[0]))
+            		);
                     this.writer.flush();
                 }
             }

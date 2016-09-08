@@ -154,6 +154,104 @@ public class ArraysUtil {
 	}
 
 	/**
+	 * Converte um valor numérico em um texto no formato de arranjo de bytes.
+	 * <p>É equivalente ao trecho abaixo:</p>
+	 * <pre>
+	 * String value = Long.toString(longValue);
+	 * byte[] bytes = value.getBytes();
+	 * </pre>
+	 * 
+	 * @param value valor. 
+	 * @return arranjo de bytes.
+	 */
+	public static byte[] toBytes(long value){
+
+		if(value == 0){
+			return new byte[]{ZERO};
+		}
+		
+		boolean negative = false;
+		
+		if(value < 0){
+			negative = true;
+			value = value ^ NEGATIVE_LONG - 1;
+		}
+		
+		long tmp = value;
+		byte[] r = new byte[20];
+		int i    = 20;
+		
+		while(tmp > 0){
+			r[--i] = (byte)(ZERO + (tmp % 10));
+			tmp = tmp / 10;
+		}
+		
+		if(negative){
+			r[--i] = NEGATIVE;
+		}
+
+		return i > 0? Arrays.copyOfRange(r, i, r.length) : r;
+	}
+	
+	/**
+	 * Converte um valor numérico em um texto no formato de arranjo de bytes.
+	 * <p>É equivalente ao trecho abaixo:</p>
+	 * <pre>
+	 * String value = Long.toString(longValue);
+	 * byte[] bytes = value.getBytes();
+	 * </pre>
+	 * 
+	 * @param value valor. 
+	 * @return arranjo de bytes.
+	 */
+	public static byte[] toBytes(int value){
+
+		if(value == 0){
+			return new byte[]{ZERO};
+		}
+		
+		boolean negative = false;
+		
+		if(value < 0){
+			negative = true;
+			value = value ^ NEGATIVE_INT - 1;
+		}
+		
+		long tmp = value;
+		byte[] r = new byte[20];
+		int i    = 20;
+		
+		while(tmp > 0){
+			r[--i] = (byte)(ZERO + (tmp % 10));
+			tmp = tmp / 10;
+		}
+		
+		if(negative){
+			r[--i] = NEGATIVE;
+		}
+
+		return i > 0? Arrays.copyOfRange(r, i, r.length) : r;
+	}
+	
+	/**
+	 * Converte uma string em um arranjo de bytes.
+	 * 
+	 * @param value valor. 
+	 * @return arranjo de bytes.
+	 */
+	public static byte[] toBytes(String value){
+		
+		char[] chars = value.toCharArray();
+		byte[] bytes = new byte[chars.length];
+		
+		for(int i=0;i<chars.length;i++){
+			bytes[i] = (byte)chars[i];
+		}
+		
+		return bytes;
+	}
+	
+	/**
 	 * Converte um texto representado por um arranjo de bytes em um inteiro.
 	 * @param value arranjo.
 	 * @return inteiro.
@@ -194,6 +292,25 @@ public class ArraysUtil {
 		}
 		
 		return new String(chars);
+	}
+	
+	public static byte[] concat(byte[][] value){
+		
+		int size = 0;
+		
+		for(byte[] dta: value){
+			size += dta.length;
+		}
+		
+		byte[] result = new byte[size];
+		int index = 0;
+		
+		for(byte[] dta: value){
+			System.arraycopy(dta, 0, result, index, dta.length);
+			index += dta.length;
+		}
+		
+		return result;
 	}
 	
 	private static byte[] copy(byte[] origin, int start, int end){
