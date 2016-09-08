@@ -161,7 +161,6 @@ public class Terminal {
     	byte[] message = new byte[cache.getConfig().getMaxSizeKey() + 30];
     	
         while(this.run){
-        	
             try{
                 int readMessage = reader.readMessage(message, 0, message.length);
                 byte[][] params  = ArraysUtil.split(
