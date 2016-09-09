@@ -99,7 +99,6 @@ public class Terminal {
         try{
             this.socket          = socket;
             this.socket.setTcpNoDelay(true);
-            this.socket.setSendBufferSize(128*1024*1024);
             this.cache           = cache;
             this.readBufferSize  = readBufferSize;
             this.writeBufferSize = writeBufferSize;
