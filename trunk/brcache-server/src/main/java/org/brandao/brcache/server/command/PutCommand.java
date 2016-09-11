@@ -45,7 +45,7 @@ public class PutCommand extends AbstractCommand{
 	    }
 		
         try{
-        	timeToLive = Integer.parseInt(ArraysUtil.toString(parameters[2]));
+        	timeToLive = ArraysUtil.toInt(parameters[2]);
         	if(timeToLive < 0){
         		throw new IllegalStateException();
         	}
@@ -55,7 +55,7 @@ public class PutCommand extends AbstractCommand{
         }
 
         try{
-        	timeToIdle = Integer.parseInt(ArraysUtil.toString(parameters[3]));
+        	timeToIdle = ArraysUtil.toInt(parameters[3]);
         	if(timeToIdle < 0){
         		throw new IllegalStateException();
         	}
@@ -65,7 +65,7 @@ public class PutCommand extends AbstractCommand{
         }
 
         try{
-            size = Integer.parseInt(ArraysUtil.toString(parameters[4]));
+            size = ArraysUtil.toInt(parameters[4]);
         	if(size <= 0){
         		throw new IllegalStateException();
         	}
@@ -79,6 +79,8 @@ public class PutCommand extends AbstractCommand{
         Throwable error    = null;
         
         try{
+        	//int l = 0;
+        	//while((l = stream.read(b, 0, b.length)) != -1);
             result = cache.putStream(
                 key, 
                 stream,
@@ -90,19 +92,17 @@ public class PutCommand extends AbstractCommand{
         	error = e;
         }
         finally{
-            if(stream != null){
-            	try{
-                	//tenta fechar o fluxo
-            		stream.close();
-            	}
-            	catch(Throwable e){
-            		//se error for null, a falha a ser considerada é do 
-            		//fechamento do fluxo.
-            		if(error == null){
-            			throw new ServerErrorException(e, ServerErrors.ERROR_1004);
-            		}
-            	}
-            }
+        	try{
+            	//tenta fechar o fluxo
+        		stream.close();
+        	}
+        	catch(Throwable e){
+        		//se error for null, a falha a ser considerada é do 
+        		//fechamento do fluxo.
+        		if(error == null){
+        			throw new ServerErrorException(e, ServerErrors.ERROR_1004);
+        		}
+        	}
             
             //Lança o erro encontrado no processamento da stream.
             if(error != null)
@@ -110,7 +110,12 @@ public class PutCommand extends AbstractCommand{
         }
         
 
-    	writer.sendMessage(result? TerminalConstants.REPLACE_SUCCESS_DTA : TerminalConstants.STORED_DTA);
+        if(result){
+        	writer.sendMessage(TerminalConstants.REPLACE_SUCCESS_DTA);
+        }
+        else{
+        	writer.sendMessage(TerminalConstants.STORED_DTA);
+        }
         writer.flush();
         
 	}
