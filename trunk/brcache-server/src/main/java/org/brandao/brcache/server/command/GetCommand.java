@@ -79,6 +79,7 @@ public class GetCommand extends AbstractCommand{
             	writer.write(TerminalConstants.SEPARATOR_COMMAND_DTA);
             	writer.write(ArraysUtil.toBytes(in.getSize()));
             	writer.write(SUFFIX, 0, SUFFIX.length);
+            	writer.write(TerminalConstants.CRLF_DTA, 0, TerminalConstants.CRLF_DTA.length);
             	
                 OutputStream out = null;
                 try{
@@ -93,13 +94,15 @@ public class GetCommand extends AbstractCommand{
                         catch(Throwable e){
                         }
                     }
-                    writer.sendCRLF();
+                	writer.write(TerminalConstants.CRLF_DTA, 0, TerminalConstants.CRLF_DTA.length);
+                    //writer.sendCRLF();
                 }
             }
             else{
             	writer.write(PREFIX, 0, PREFIX.length);
             	writer.write(ArraysUtil.toBytes(key));
             	writer.write(EMPTY_SUFFIX, 0, EMPTY_SUFFIX.length);
+            	writer.write(TerminalConstants.CRLF_DTA, 0, TerminalConstants.CRLF_DTA.length);
             }
         }
         finally{
