@@ -3,17 +3,14 @@ package org.brandao.brcache.server.io;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 import org.brandao.brcache.server.TerminalConstants;
+import org.brandao.brcache.server.util.ArraysUtil;
 
 public class TextContentInputStream 
 	extends InputStream{
 
-    private static final byte[] BOUNDARY = 
-             (TerminalConstants.CRLF + 
-             TerminalConstants.BOUNDARY + 
-             TerminalConstants.CRLF).getBytes();
+    private static final byte[] BOUNDARY = TerminalConstants.CRLF_DTA;
     
 	private TextBufferReader buffer;
 	
@@ -21,10 +18,13 @@ public class TextContentInputStream
 	
 	private int read;
 	
+    private byte[] closeBuffer;
+	
 	public TextContentInputStream(TextBufferReader buffer, int size){
-		this.buffer = buffer;
-		this.size   = size;
-		this.read   = 0;
+		this.buffer     = buffer;
+		this.size       = size;
+		this.read       = 0;
+		this.closeBuffer = new byte[1024];
 	}
 	
     public int read() throws IOException{
@@ -55,18 +55,16 @@ public class TextContentInputStream
     public void close() throws IOException{
     	
         if(size != read){
-        	byte[] tmp = new byte[1024];
         	int toRead = size - read;
         	while(toRead > 0){
-        		read += this.buffer.read(tmp, 0, tmp.length);
+        		read += this.buffer.read(this.closeBuffer, 0, this.closeBuffer.length);
         		toRead = size - read;
         	}
         }
     	
-        byte[] limit = new byte[7];
-        this.buffer.read(limit, 0, limit.length);
+        this.buffer.read(this.closeBuffer, 0, 2);
         
-        if(!Arrays.equals(limit, BOUNDARY)){
+        if(!ArraysUtil.startsWith(this.closeBuffer, BOUNDARY)){
         	throw new EOFException("premature end of data");
         }
         
