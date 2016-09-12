@@ -33,6 +33,12 @@ public class GetCommand extends AbstractCommand{
 	
 	private static final byte[] EMPTY_SUFFIX = " 0 0".getBytes();
 
+	private static final byte[] SEPARATOR_COMMAND_DTA = TerminalConstants.SEPARATOR_COMMAND_DTA;
+	
+	private static final byte[] CRLF_DTA = TerminalConstants.CRLF_DTA;
+	
+	private static final byte[] BOUNDARY_DTA = TerminalConstants.BOUNDARY_DTA;
+	
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
 			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
@@ -76,10 +82,10 @@ public class GetCommand extends AbstractCommand{
             if(in != null){
             	writer.write(PREFIX, 0, PREFIX.length);
             	writer.write(ArraysUtil.toBytes(key));
-            	writer.write(TerminalConstants.SEPARATOR_COMMAND_DTA);
+            	writer.write(SEPARATOR_COMMAND_DTA, 0, SEPARATOR_COMMAND_DTA.length);
             	writer.write(ArraysUtil.toBytes(in.getSize()));
             	writer.write(SUFFIX, 0, SUFFIX.length);
-            	writer.write(TerminalConstants.CRLF_DTA, 0, TerminalConstants.CRLF_DTA.length);
+            	writer.write(CRLF_DTA, 0, CRLF_DTA.length);
             	
                 OutputStream out = null;
                 try{
@@ -94,15 +100,14 @@ public class GetCommand extends AbstractCommand{
                         catch(Throwable e){
                         }
                     }
-                	writer.write(TerminalConstants.CRLF_DTA, 0, TerminalConstants.CRLF_DTA.length);
-                    //writer.sendCRLF();
+                	writer.write(CRLF_DTA, 0, CRLF_DTA.length);
                 }
             }
             else{
             	writer.write(PREFIX, 0, PREFIX.length);
             	writer.write(ArraysUtil.toBytes(key));
             	writer.write(EMPTY_SUFFIX, 0, EMPTY_SUFFIX.length);
-            	writer.write(TerminalConstants.CRLF_DTA, 0, TerminalConstants.CRLF_DTA.length);
+            	writer.write(CRLF_DTA, 0, CRLF_DTA.length);
             }
         }
         finally{
@@ -110,7 +115,8 @@ public class GetCommand extends AbstractCommand{
                 in.close();
         }
 
-        writer.sendMessage(TerminalConstants.BOUNDARY_DTA);
+        writer.sendMessage(BOUNDARY_DTA);
+        
         writer.flush();
         
 	}

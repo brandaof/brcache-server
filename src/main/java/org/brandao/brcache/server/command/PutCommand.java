@@ -24,6 +24,10 @@ import org.brandao.brcache.server.util.ArraysUtil;
  */
 public class PutCommand extends AbstractCommand{
 
+	private static final byte[] REPLACE_SUCCESS_DTA = TerminalConstants.REPLACE_SUCCESS_DTA;
+
+	private static final byte[] STORED_DTA = TerminalConstants.STORED_DTA;
+	
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
 			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
@@ -111,10 +115,10 @@ public class PutCommand extends AbstractCommand{
         
 
         if(result){
-        	writer.sendMessage(TerminalConstants.REPLACE_SUCCESS_DTA);
+        	writer.sendMessage(REPLACE_SUCCESS_DTA);
         }
         else{
-        	writer.sendMessage(TerminalConstants.STORED_DTA);
+        	writer.sendMessage(STORED_DTA);
         }
         writer.flush();
         
