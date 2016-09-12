@@ -148,7 +148,7 @@ public class TextBufferReader extends InputStream{
             	read+= transf;
             	
             	if(this.checkBuffer() < 0)
-            		return read;
+            		return read > 0? read : -1;
             	
             	startOff = this.offset;
             }

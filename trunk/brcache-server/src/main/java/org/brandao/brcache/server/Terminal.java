@@ -164,17 +164,13 @@ public class Terminal {
             try{
                 int readMessage = reader.readMessage(message, 0, message.length);
                 
-                if(readMessage < 0){
-                	continue;
-                }
-                
                 byte[][] params  = ArraysUtil.split(
             		message, 
             		0, 
             		message[readMessage - 1] == '\r'? readMessage - 1 : readMessage, 
             		TerminalConstants.SEPARATOR_CHAR );
                 
-               	if(Arrays.equals(TerminalConstants.PUT_CMD_DTA, params[0])){
+               	if(params[0][0] == 'p'){//Arrays.equals(TerminalConstants.PUT_CMD_DTA, params[0])){
             		PUT.execute(this, cache, reader, writer, params);
                	}
                	else 
@@ -228,7 +224,7 @@ public class Terminal {
                     this.writer.flush();
                 }
             }
-            catch (StringIndexOutOfBoundsException ex) {
+            catch (ArrayIndexOutOfBoundsException ex) {
             	ex.printStackTrace();
                 this.writer.sendMessage(ServerErrors.ERROR_1002.getString());
                 this.writer.flush();
