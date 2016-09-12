@@ -47,11 +47,26 @@ public class ArraysUtil {
 		return true;
 	}
 
+	/**
+	 * Verifica se dois arranjos de bytes são iguais.
+	 * @param a arranjo a ser comparado.
+	 * @param b arranjo a ser comparado.
+	 * @return <code>true</code> se forem iguais. Caso contrário, <code>false</code> 
+	 */
 	public static boolean equals(byte[] a, byte[] b){
 		try{
-			for(int i=0;i<a.length;i++){
-				if( a[i] != b[i]){
-					return false;
+			if(a.length > b.length){
+				for(int i=0;i<a.length;i++){
+					if( a[i] != b[i]){
+						return false;
+					}
+				}
+			}
+			else{
+				for(int i=0;i<b.length;i++){
+					if( a[i] != b[i]){
+						return false;
+					}
 				}
 			}
 			return true;
