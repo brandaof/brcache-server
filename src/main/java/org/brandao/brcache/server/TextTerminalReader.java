@@ -52,7 +52,6 @@ public class TextTerminalReader implements TerminalReader{
     }
 
     public InputStream getStream(int size) {
-        //return new LimitedTextInputStreamReader(this.buffer, this.offset, size);
     	return new TextContentInputStream(buffer, size);
     }
     
