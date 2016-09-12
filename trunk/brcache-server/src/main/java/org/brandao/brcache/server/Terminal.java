@@ -98,7 +98,6 @@ public class Terminal {
             int readBufferSize, int writeBufferSize, TerminalVars terminalVars) throws IOException{
         try{
             this.socket          = socket;
-            this.socket.setTcpNoDelay(true);
             this.cache           = cache;
             this.readBufferSize  = readBufferSize;
             this.writeBufferSize = writeBufferSize;
@@ -164,6 +163,11 @@ public class Terminal {
         while(this.run){
             try{
                 int readMessage = reader.readMessage(message, 0, message.length);
+                
+                if(readMessage < 0){
+                	continue;
+                }
+                
                 byte[][] params  = ArraysUtil.split(
             		message, 
             		0, 

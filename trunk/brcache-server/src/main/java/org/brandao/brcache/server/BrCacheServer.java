@@ -128,6 +128,7 @@ public class BrCacheServer {
             Socket socket = null;
             try{
                 socket = this.serverSocket.accept();
+                socket.setTcpNoDelay(true);
                 Terminal terminal = this.terminalFactory.getInstance();
                 TerminalTask task = 
                     new TerminalTask(
