@@ -47,6 +47,20 @@ public class ArraysUtil {
 		return true;
 	}
 
+	public static boolean equals(byte[] a, byte[] b){
+		try{
+			for(int i=0;i<a.length;i++){
+				if( a[i] != b[i]){
+					return false;
+				}
+			}
+			return true;
+		}
+		catch(Throwable e){
+			return false;
+		}
+	}
+	
 	/**
 	 * Fragmento um arranjo usando um byte como delimitador.
 	 * @param array arranjo

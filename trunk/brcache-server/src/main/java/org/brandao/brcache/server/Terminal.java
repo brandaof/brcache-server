@@ -170,51 +170,51 @@ public class Terminal {
             		message[readMessage - 1] == '\r'? readMessage - 1 : readMessage, 
             		TerminalConstants.SEPARATOR_CHAR );
                 
-               	if(params[0][0] == 'p'){//Arrays.equals(TerminalConstants.PUT_CMD_DTA, params[0])){
+               	if(ArraysUtil.equals(TerminalConstants.PUT_CMD_DTA, params[0])){
             		PUT.execute(this, cache, reader, writer, params);
                	}
                	else 
-               	if(Arrays.equals(TerminalConstants.GET_CMD_DTA, params[0])){
+               	if(ArraysUtil.equals(TerminalConstants.GET_CMD_DTA, params[0])){
         			GET.execute(this, cache, reader, writer, params);
             	}
             	else
-               	if(Arrays.equals(TerminalConstants.REPLACE_CMD_DTA, params[0])){
+               	if(ArraysUtil.equals(TerminalConstants.REPLACE_CMD_DTA, params[0])){
         			REPLACE.execute(this, cache, reader, writer, params);
                	}
                	else
-               	if(Arrays.equals(TerminalConstants.SET_CMD_DTA, params[0])){
+               	if(ArraysUtil.equals(TerminalConstants.SET_CMD_DTA, params[0])){
         			SET.execute(this, cache, reader, writer, params);
                	}
                	else
-               	if(Arrays.equals(TerminalConstants.REMOVE_CMD_DTA, params[0])){
+               	if(ArraysUtil.equals(TerminalConstants.REMOVE_CMD_DTA, params[0])){
         			REMOVE.execute(this, cache, reader, writer, params);
                	}
                	else
-               	if(Arrays.equals(TerminalConstants.BEGIN_CMD_DTA, params[0])){
+               	if(ArraysUtil.equals(TerminalConstants.BEGIN_CMD_DTA, params[0])){
         			BEGIN_TX.execute(this, cache, reader, writer, params);
                	}
                	else
-               	if(Arrays.equals(TerminalConstants.COMMIT_CMD_DTA, params[0])){
+               	if(ArraysUtil.equals(TerminalConstants.COMMIT_CMD_DTA, params[0])){
         			COMMIT_TX.execute(this, cache, reader, writer, params);
                	}
                	else
-               	if(Arrays.equals(TerminalConstants.ROLLBACK_CMD_DTA, params[0])){
+               	if(ArraysUtil.equals(TerminalConstants.ROLLBACK_CMD_DTA, params[0])){
         			ROLLBACK_TX.execute(this, cache, reader, writer, params);
                	}
                	else 
-               	if(Arrays.equals(TerminalConstants.SHOW_VAR_CMD_DTA, params[0])){
+               	if(ArraysUtil.equals(TerminalConstants.SHOW_VAR_CMD_DTA, params[0])){
         			SHOW_VAR.execute(this, cache, reader, writer, params);
                	}
                	else 
-               	if(Arrays.equals(TerminalConstants.SET_VAR_CMD_DTA, params[0])){
+               	if(ArraysUtil.equals(TerminalConstants.SET_VAR_CMD_DTA, params[0])){
         			SET_VAR.execute(this, cache, reader, writer, params);
                	}
                	else 
-               	if(Arrays.equals(TerminalConstants.SHOW_VARS_CMD_DTA, params[0])){
+               	if(ArraysUtil.equals(TerminalConstants.SHOW_VARS_CMD_DTA, params[0])){
         			SHOW_VARS.execute(this, cache, reader, writer, params);
                	}
                	else 
-               	if(Arrays.equals(TerminalConstants.EXIT_CMD_DTA, params[0])){
+               	if(ArraysUtil.equals(TerminalConstants.EXIT_CMD_DTA, params[0])){
         			EXIT.execute(this, cache, reader, writer, params);
                	}
                 else{
