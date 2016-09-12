@@ -17,7 +17,6 @@ import org.brandao.brcache.server.util.ArraysUtil;
  * <pre>
  * put &lt;key&gt; &lt;timeToLive&gt; &lt;timeToIdle&gt; &lt;size&gt; &lt;reserved&gt;\r\n
  * &lt;data&gt;\r\n
- * end\r\n 
  * </pre> 
  * @author Brandao
  *
@@ -83,8 +82,6 @@ public class PutCommand extends AbstractCommand{
         Throwable error    = null;
         
         try{
-        	//int l = 0;
-        	//while((l = stream.read(b, 0, b.length)) != -1);
             result = cache.putStream(
                 key, 
                 stream,
