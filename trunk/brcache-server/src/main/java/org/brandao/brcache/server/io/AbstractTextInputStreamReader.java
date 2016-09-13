@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 import org.brandao.brcache.server.TerminalConstants;
+import org.brandao.brcache.server.util.ArraysUtil;
 
 /**
  *
@@ -88,7 +89,7 @@ public abstract class AbstractTextInputStreamReader extends InputStream{
                 
                 if(insertlinefeed){
                     this.byteBuffer = Arrays.copyOf(CRLF, CRLF.length + line.length);
-                    System.arraycopy(line, 0, this.byteBuffer, CRLF.length, line.length);
+                    ArraysUtil.arraycopy(line, 0, this.byteBuffer, CRLF.length, line.length);
                 }
                 else
                     this.byteBuffer = line;
@@ -98,7 +99,7 @@ public abstract class AbstractTextInputStreamReader extends InputStream{
             }
             
             if(maxWrite > maxRead){
-                System.arraycopy(
+            	ArraysUtil.arraycopy(
                         this.byteBuffer, 
                         this.offsetBuf, 
                         bytes, 
@@ -109,7 +110,7 @@ public abstract class AbstractTextInputStreamReader extends InputStream{
                 offset         += maxRead;
             }
             else{
-                System.arraycopy(
+            	ArraysUtil.arraycopy(
                     this.byteBuffer, 
                     this.offsetBuf, 
                     bytes, 

@@ -20,6 +20,8 @@ package org.brandao.brcache.server.io;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.brandao.brcache.server.util.ArraysUtil;
+
 /**
  *
  * @author Brandao
@@ -67,13 +69,13 @@ public class TextBufferWriter extends OutputStream{
             int maxWrite = this.capacity - this.offset;
             
             if(maxRead > maxWrite){
-                System.arraycopy(buffer, offset, this.buffer, this.offset, maxWrite);
+            	ArraysUtil.arraycopy(buffer, offset, this.buffer, this.offset, maxWrite);
                 offset      += maxWrite;
                 this.offset += maxWrite;
                 this.flush();
             }
             else{
-                System.arraycopy(buffer, offset, this.buffer, this.offset, maxRead);
+            	ArraysUtil.arraycopy(buffer, offset, this.buffer, this.offset, maxRead);
                 offset       += maxRead;
                 this.offset  += maxRead;
             }
