@@ -159,11 +159,10 @@ public class Terminal {
     
     public void execute() throws Throwable{
     	byte[] message = new byte[cache.getConfig().getMaxSizeKey() + 30];
-    	
         while(this.run){
             try{
                 int readMessage = reader.readMessage(message, 0, message.length);
-                
+
                 /*
                 byte[][] params  = ArraysUtil.split(
             		message, 
@@ -224,6 +223,11 @@ public class Terminal {
                	if(ArraysUtil.equals(TerminalConstants.EXIT_CMD_DTA, params[0])){
         			EXIT.execute(this, cache, reader, writer, params);
                	}
+               	else
+               	if(params[0] == null){
+               		System.out.println("connection closed: " + readMessage);
+               		this.run = false;
+               	}
                 else{
                     this.writer.sendMessage(
                     		ServerErrors.ERROR_1001.getString(ArraysUtil.toString(params[0]))
@@ -245,6 +249,8 @@ public class Terminal {
                 this.writer.flush();
             }
             catch(Throwable ex){
+            	//System.out.println(new String(old));
+            	//System.out.println(new String(message));
             	ex.printStackTrace();
                 throw ex;
             }
