@@ -163,13 +163,6 @@ public class Terminal {
             try{
                 int readMessage = reader.readMessage(message, 0, message.length);
 
-                /*
-                byte[][] params  = ArraysUtil.split(
-            		message, 
-            		0, 
-            		message[readMessage - 1] == '\r'? readMessage - 1 : readMessage, 
-            		TerminalConstants.SEPARATOR_CHAR );
-                */
                 byte[][] params  = ArraysUtil.split(
             		message, 
             		0, 
@@ -225,7 +218,6 @@ public class Terminal {
                	}
                	else
                	if(params[0] == null){
-               		System.out.println("connection closed: " + readMessage);
                		this.run = false;
                	}
                 else{
