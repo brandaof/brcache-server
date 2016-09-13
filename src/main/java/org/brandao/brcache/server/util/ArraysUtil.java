@@ -11,6 +11,24 @@ import java.util.List;
  */
 public class ArraysUtil {
 
+	/*
+	private static final Unsafe UNSAFE;
+	
+    private static final long BYTE_ARRAY_OFFSET;
+    
+    static {
+        try {
+            Field theUnsafe = Unsafe.class.getDeclaredField("theUnsafe");
+            theUnsafe.setAccessible(true);
+            UNSAFE = (Unsafe) theUnsafe.get(null);
+    		BYTE_ARRAY_OFFSET = UNSAFE.arrayBaseOffset(byte[].class);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+	*/
+	
 	private static final int NEGATIVE_INT   = 0xffffffff;
 	
 	private static final long NEGATIVE_LONG = 0xffffffffffffffffL;
@@ -24,6 +42,13 @@ public class ArraysUtil {
 	private static final byte TRUE          = 1;
 
 	private static final byte FALSE         = 0;
+	
+	public static void arraycopy(byte[] src, int srcPos,
+            byte[] dest, int destPos,
+            int length){
+		//UNSAFE.copyMemory(src, BYTE_ARRAY_OFFSET + srcPos, dest, BYTE_ARRAY_OFFSET + destPos, length);
+		System.arraycopy(src, srcPos, dest, destPos, length);
+	}
 	
 	/**
 	 * Verifica se um arranjo de bytes inicia com os mesmos bytes de outro arranjo de bytes.
@@ -335,7 +360,7 @@ public class ArraysUtil {
 		int index = 0;
 		
 		for(byte[] dta: value){
-			System.arraycopy(dta, 0, result, index, dta.length);
+			arraycopy(dta, 0, result, index, dta.length);
 			index += dta.length;
 		}
 		
@@ -345,8 +370,20 @@ public class ArraysUtil {
 	private static byte[] copy(byte[] origin, int start, int end){
 		int len = end-start;
 		byte[] item = new byte[end-start];
-		System.arraycopy(origin, start, item, 0, len);
+		arraycopy(origin, start, item, 0, len);
 		return item;
 	}
+
+	/*
+	private static long getAddress(Object obj) {
+		Object[] array = new Object[] {obj};
+	    long baseOffset = UNSAFE.arrayBaseOffset(Object[].class);
+	    return normalize(UNSAFE.getInt(array, baseOffset));
+	}
 	
+	private static long normalize(int value) {
+	    if(value >= 0) return value;
+	    return (~0L >>> 32) & value;
+	}	
+	*/
 }

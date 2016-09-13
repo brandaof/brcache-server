@@ -164,10 +164,17 @@ public class Terminal {
             try{
                 int readMessage = reader.readMessage(message, 0, message.length);
                 
+                /*
                 byte[][] params  = ArraysUtil.split(
             		message, 
             		0, 
             		message[readMessage - 1] == '\r'? readMessage - 1 : readMessage, 
+            		TerminalConstants.SEPARATOR_CHAR );
+                */
+                byte[][] params  = ArraysUtil.split(
+            		message, 
+            		0, 
+            		readMessage, 
             		TerminalConstants.SEPARATOR_CHAR );
                 
                	if(ArraysUtil.equals(TerminalConstants.PUT_CMD_DTA, params[0])){

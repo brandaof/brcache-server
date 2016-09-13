@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
+import org.brandao.brcache.server.util.ArraysUtil;
+
 /**
  *
  * @author Brandao
@@ -81,14 +83,14 @@ public class TextBufferReader extends InputStream{
             int maxRead = this.limit - this.offset;
             
             if(len > maxRead){
-            	System.arraycopy(this.buffer, this.offset, b, off, maxRead);
+            	ArraysUtil.arraycopy(this.buffer, this.offset, b, off, maxRead);
             	this.offset += maxRead;
             	off         += maxRead;
             	read        += maxRead;
             	len         -= maxRead;
             }
             else{
-            	System.arraycopy(this.buffer, this.offset, b, off, len);
+            	ArraysUtil.arraycopy(this.buffer, this.offset, b, off, len);
             	this.offset += len;
             	read        += len;
             	return read; 
@@ -141,7 +143,7 @@ public class TextBufferReader extends InputStream{
         		maxWrite = len;
         		transf   = maxRead > maxWrite? maxWrite : maxRead;
         		
-            	System.arraycopy(this.buffer, startOff, b, off, transf);
+        		ArraysUtil.arraycopy(this.buffer, startOff, b, off, transf);
             	
             	len -= transf;
             	off += transf;
@@ -158,8 +160,10 @@ public class TextBufferReader extends InputStream{
         		maxWrite = len;
         		transf   = maxRead > maxWrite? maxWrite : maxRead;
             	
-            	System.arraycopy(this.buffer, startOff, b, off, transf - 1);
-            	read+= transf - 1;
+        		if(this.buffer[this.offset - 2] != '\r')
+        			throw new IOException("expected \r");
+        		ArraysUtil.arraycopy(this.buffer, startOff, b, off, transf - 2);
+            	read+= transf - 2;
             	return read;
             }
             
@@ -295,7 +299,7 @@ public class TextBufferReader extends InputStream{
             else
             	read = remainingToMaxRead;
             
-            System.arraycopy(this.buffer, this.offset, this.result, this.offsetResult, read);
+            ArraysUtil.arraycopy(this.buffer, this.offset, this.result, this.offsetResult, read);
             this.offsetResult += read;
         	//this.updateResult(this.buffer, this.offset, read);
             this.offset += read;
@@ -315,7 +319,7 @@ public class TextBufferReader extends InputStream{
         else
             this.result = Arrays.copyOf(this.result, this.result.length + len);
         
-        System.arraycopy(data, offset, this.result, this.offsetResult, len);
+        ArraysUtil.arraycopy(data, offset, this.result, this.offsetResult, len);
         this.offsetResult += len;
         
     }
