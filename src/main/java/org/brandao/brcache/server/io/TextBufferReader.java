@@ -43,8 +43,6 @@ public class TextBufferReader extends InputStream{
 
     private boolean hasLineFeed;
     
-    private byte[] result;
-    
     private int offsetResult;
     
     public TextBufferReader(int capacity, InputStream stream){
@@ -53,7 +51,6 @@ public class TextBufferReader extends InputStream{
         this.buffer   = new byte[capacity];
         this.capacity = capacity;
         this.stream   = stream;
-        this.result   = null;
     }
 
     public String readLine() throws IOException{
@@ -133,14 +130,14 @@ public class TextBufferReader extends InputStream{
 		
     	for(;;){
     		if(len == 0){
-    			throw new IOException("out of memoty");
+    			throw new IOException("out of memory");
     		}
     		
             if(this.offset == this.limit){
         		maxRead  = this.offset - startOff;
         		
         		if(maxRead > len){
-        			throw new IOException("out of memoty");
+        			throw new IOException("out of memory");
         		}
         		
         		ArraysUtil.arraycopy(this.buffer, startOff, b, off, maxRead);
@@ -159,7 +156,7 @@ public class TextBufferReader extends InputStream{
         		maxRead  = this.offset - startOff;
         		
         		if(maxRead > len){
-        			throw new IOException("out of memoty");
+        			throw new IOException("out of memory");
         		}
         		
         		if(this.offset < 2){
@@ -232,7 +229,7 @@ public class TextBufferReader extends InputStream{
     
     public byte[] readLineInBytes(int totalRead) throws IOException{
     	
-        this.result = new byte[totalRead];
+        byte[] result = new byte[totalRead];
         this.offsetResult = 0;
         
         int remainingToMaxRead = totalRead;
@@ -261,29 +258,14 @@ public class TextBufferReader extends InputStream{
             else
             	read = remainingToMaxRead;
             
-            ArraysUtil.arraycopy(this.buffer, this.offset, this.result, this.offsetResult, read);
+            ArraysUtil.arraycopy(this.buffer, this.offset, result, this.offsetResult, read);
             this.offsetResult += read;
         	//this.updateResult(this.buffer, this.offset, read);
             this.offset += read;
             remainingToMaxRead -= read;
         }
         
-        return this.result;
-    }
-    
-    private void updateResult(byte[] data, int offset, int len){
-        
-        if(len == 0)
-            return;
-        
-        if(this.result == null)
-            this.result = new byte[len];
-        else
-            this.result = Arrays.copyOf(this.result, this.result.length + len);
-        
-        ArraysUtil.arraycopy(data, offset, this.result, this.offsetResult, len);
-        this.offsetResult += len;
-        
+        return result;
     }
     
     public void clear(){
