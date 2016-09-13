@@ -48,7 +48,6 @@ public class TextContentInputStream
     	int toRead  = len > maxRead? maxRead : len;
     	int l       = this.buffer.read(b, off, toRead);
     	this.read  += l;
-    	
     	return l;
     }
     
@@ -57,8 +56,14 @@ public class TextContentInputStream
         if(size != read){
         	int toRead = size - read;
         	while(toRead > 0){
-        		read += this.buffer.read(this.closeBuffer, 0, this.closeBuffer.length);
-        		toRead = size - read;
+        		
+        		int r = this.buffer.read(this.closeBuffer, 0, this.closeBuffer.length);
+        		
+        		if(r < 0){
+                	throw new EOFException("premature end of data");
+        		}
+        		read   += r;
+        		toRead -= r;
         	}
         }
     	

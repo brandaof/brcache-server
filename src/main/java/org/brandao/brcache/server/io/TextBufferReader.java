@@ -130,9 +130,7 @@ public class TextBufferReader extends InputStream{
     	int read     = 0;
 
 		int maxRead;
-		int maxWrite;
-		int transf;
-    	
+		
     	for(;;){
     		if(len == 0){
     			throw new IOException("out of memoty");
@@ -140,14 +138,16 @@ public class TextBufferReader extends InputStream{
     		
             if(this.offset == this.limit){
         		maxRead  = this.offset - startOff;
-        		maxWrite = len;
-        		transf   = maxRead > maxWrite? maxWrite : maxRead;
         		
-        		ArraysUtil.arraycopy(this.buffer, startOff, b, off, transf);
+        		if(maxRead > len){
+        			throw new IOException("out of memoty");
+        		}
+        		
+        		ArraysUtil.arraycopy(this.buffer, startOff, b, off, maxRead);
             	
-            	len -= transf;
-            	off += transf;
-            	read+= transf;
+            	len -= maxRead;
+            	off += maxRead;
+            	read+= maxRead;
             	
             	if(this.checkBuffer() < 0)
             		return read > 0? read : -1;
@@ -157,13 +157,38 @@ public class TextBufferReader extends InputStream{
             
             if(this.buffer[this.offset++] == '\n'){
         		maxRead  = this.offset - startOff;
-        		maxWrite = len;
-        		transf   = maxRead > maxWrite? maxWrite : maxRead;
-            	
-        		if(this.buffer[this.offset - 2] != '\r')
-        			throw new IOException("expected \r");
-        		ArraysUtil.arraycopy(this.buffer, startOff, b, off, transf - 2);
-            	read+= transf - 2;
+        		
+        		if(maxRead > len){
+        			throw new IOException("out of memoty");
+        		}
+        		
+        		if(this.offset < 2){
+        			if(read == 0 || b[read -1] != '\r'){
+            			throw new IOException("expected \\r");
+        			}
+        			else{
+                		ArraysUtil.arraycopy(this.buffer, startOff, b, off - 1, maxRead - 1);
+                    	read+= maxRead - 2;
+        			}
+        		}
+        		else{
+        			if(this.buffer[this.offset - 2] != '\r'){
+            			throw new IOException("expected \\r");
+        			}
+        			else{
+                		ArraysUtil.arraycopy(this.buffer, startOff, b, off, maxRead - 2);
+                    	read+= maxRead - 2;
+        			}
+        		}
+        		
+        		/*
+        		if(this.offset < 2 || this.buffer[this.offset - 2] != '\r'){
+            		ArraysUtil.arraycopy(this.buffer, startOff, b, off, maxRead);
+            		read+= maxRead;
+        			System.out.println("\"\"" + new String(b, 0, read).replace("\r", "\\r").replace("\n", "\\n") + "\"\"");
+        			throw new IOException("expected \\r");
+        		}
+        		*/
             	return read;
             }
             
@@ -204,69 +229,6 @@ public class TextBufferReader extends InputStream{
     	}
     	
     }
-    
-    /*
-    public byte[] readLineInBytes() throws IOException{
-    	
-        this.result = new byte[0];
-        this.offsetResult = 0;
-        int start = this.offset;
-        
-        while(true){
-
-            if(this.offset == this.limit){
-                
-                if(this.limit == this.capacity){
-                    
-                    if(start < this.limit){
-                        this.updateResult(this.buffer, start, this.offset - start - 1);
-                        this.buffer[0] = this.buffer[this.buffer.length - 1];
-                        this.offset = 1;
-                        this.limit  = 1;
-                    }
-                    else{
-                        this.offset = 0;
-                        this.limit  = 0;
-                    }
-                    
-                    start  = 0;
-                }
-                
-                int len = stream.read(this.buffer, this.limit, this.buffer.length - limit);
-                
-                if(len == -1)
-                    throw new EOFException("premature end of data");
-                
-                this.limit += len;
-            }
-            
-            if(this.offset == this.buffer.length){
-                this.updateResult(this.buffer, start, this.offset - start - 1);
-                this.hasLineFeed = false;
-                this.offset = 1;
-                this.limit  = 1;
-                this.buffer[0] = this.buffer[this.buffer.length - 1];
-                return this.result;
-            }
-            else
-            if(this.offset > 0 && this.buffer[this.offset] == '\n'){
-            	
-            	if(start == this.offset || this.buffer[this.offset-1] != '\r'){
-                    this.offset++;
-                    throw new IOException("expected \\r");
-            	}
-            	
-                this.updateResult(this.buffer, start, this.offset - start - 1);
-                this.hasLineFeed = true;
-                this.offset++;
-                return this.result;
-            }
-            else{
-                this.offset++;
-            }
-        }
-    }
-    */
     
     public byte[] readLineInBytes(int totalRead) throws IOException{
     	
