@@ -178,14 +178,6 @@ public class TextBufferReader extends InputStream{
         			}
         		}
         		
-        		/*
-        		if(this.offset < 2 || this.buffer[this.offset - 2] != '\r'){
-            		ArraysUtil.arraycopy(this.buffer, startOff, b, off, maxRead);
-            		read+= maxRead;
-        			System.out.println("\"\"" + new String(b, 0, read).replace("\r", "\\r").replace("\n", "\\n") + "\"\"");
-        			throw new IOException("expected \\r");
-        		}
-        		*/
             	return read;
             }
             

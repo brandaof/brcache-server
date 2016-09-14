@@ -27,7 +27,16 @@ public class TextContentInputStream
 		this.closeBuffer = new byte[1024];
 	}
 	
-    public int read() throws IOException{
+    public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+		this.read = 0;
+	}
+
+	public int read() throws IOException{
     	
     	if(this.size == this.read ){
     		return -1;

@@ -1,5 +1,6 @@
 package org.brandao.brcache.server.command;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import org.brandao.brcache.BasicCache;
@@ -36,6 +37,34 @@ public class PutCommand extends AbstractCommand{
         int size;
 		String key;
 
+		try{
+			key        = ArraysUtil.toString(parameters[1]);
+        	timeToLive = ArraysUtil.toInt(parameters[2]);
+        	timeToIdle = ArraysUtil.toInt(parameters[3]);
+            size       = ArraysUtil.toInt(parameters[4]);
+			
+			if(key == null){
+		        throw new NullPointerException();
+			}
+			
+        	if(timeToLive < 0){
+        		throw new IllegalStateException();
+        	}
+        	
+        	if(timeToIdle < 0){
+        		throw new IllegalStateException();
+        	}
+        	
+        	if(size <= 0){
+        		throw new IllegalStateException();
+        	}
+        	
+	    }
+	    catch(Throwable e){
+	        throw new ServerErrorException(ServerErrors.ERROR_1004);
+	    }
+		
+		/*
 		try{
 			key = ArraysUtil.toString(parameters[1]);
 			
@@ -76,12 +105,15 @@ public class PutCommand extends AbstractCommand{
         catch(Throwable e){
             throw new ServerErrorException(ServerErrors.ERROR_1003, "size");
         }
-        
+        */
         InputStream stream = reader.getStream(size);
         boolean result     = false;
         Throwable error    = null;
         
         try{
+        	//byte[] b = new byte[size];
+        	//stream.read(b);
+        	
             result = cache.putStream(
                 key, 
                 stream,

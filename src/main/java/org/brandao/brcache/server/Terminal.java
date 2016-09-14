@@ -217,12 +217,12 @@ public class Terminal {
         			EXIT.execute(this, cache, reader, writer, params);
                	}
                	else
-               	if(params[0] == null){
+               	if(params[0] == null && readMessage < 0){
                		this.run = false;
                	}
                 else{
                     this.writer.sendMessage(
-                    		ServerErrors.ERROR_1001.getString(ArraysUtil.toString(params[0]))
+                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
             		);
                     this.writer.flush();
                 }

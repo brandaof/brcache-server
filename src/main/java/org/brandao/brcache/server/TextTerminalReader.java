@@ -38,12 +38,15 @@ public class TextTerminalReader implements TerminalReader{
     
     private TextBufferReader buffer;
     
+    private TextContentInputStream textContentInputStream;
+    
     private int offset;
     
     public TextTerminalReader(Socket socket, StreamFactory streamFactory, int readBufferSize) throws IOException{
         this.socket = socket;
         this.stream = streamFactory.createInpuStream(socket);
         this.buffer = new TextBufferReader(readBufferSize, this.stream);
+        this.textContentInputStream = new TextContentInputStream(buffer, 0);
         this.offset = 0;
     }
     
@@ -52,7 +55,9 @@ public class TextTerminalReader implements TerminalReader{
     }
 
     public InputStream getStream(int size) {
-    	return new TextContentInputStream(buffer, size);
+    	textContentInputStream.setSize(size);
+    	return textContentInputStream;
+    	//return new TextContentInputStream(buffer, size);
     }
     
     public int getOffset() {
