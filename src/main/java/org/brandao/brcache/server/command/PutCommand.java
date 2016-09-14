@@ -63,57 +63,12 @@ public class PutCommand extends AbstractCommand{
 	    catch(Throwable e){
 	        throw new ServerErrorException(ServerErrors.ERROR_1004);
 	    }
-		
-		/*
-		try{
-			key = ArraysUtil.toString(parameters[1]);
-			
-			if(key == null){
-		        throw new NullPointerException();
-			}
-	    }
-	    catch(Throwable e){
-	        throw new ServerErrorException(ServerErrors.ERROR_1003, "key");
-	    }
-		
-        try{
-        	timeToLive = ArraysUtil.toInt(parameters[2]);
-        	if(timeToLive < 0){
-        		throw new IllegalStateException();
-        	}
-        }
-        catch(Throwable e){
-            throw new ServerErrorException(ServerErrors.ERROR_1003, "timeToLive");
-        }
 
-        try{
-        	timeToIdle = ArraysUtil.toInt(parameters[3]);
-        	if(timeToIdle < 0){
-        		throw new IllegalStateException();
-        	}
-        }
-        catch(Throwable e){
-            throw new ServerErrorException(ServerErrors.ERROR_1003, "timeToIdle");
-        }
-
-        try{
-            size = ArraysUtil.toInt(parameters[4]);
-        	if(size <= 0){
-        		throw new IllegalStateException();
-        	}
-        }
-        catch(Throwable e){
-            throw new ServerErrorException(ServerErrors.ERROR_1003, "size");
-        }
-        */
         InputStream stream = reader.getStream(size);
         boolean result     = false;
         Throwable error    = null;
         
         try{
-        	//byte[] b = new byte[size];
-        	//stream.read(b);
-        	
             result = cache.putStream(
                 key, 
                 stream,
