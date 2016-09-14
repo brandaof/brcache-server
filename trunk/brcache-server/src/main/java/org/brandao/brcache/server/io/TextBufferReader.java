@@ -129,6 +129,7 @@ public class TextBufferReader extends InputStream{
 		int maxRead;
 		
     	for(;;){
+    		
     		if(len == 0){
     			throw new IOException("out of memory");
     		}
