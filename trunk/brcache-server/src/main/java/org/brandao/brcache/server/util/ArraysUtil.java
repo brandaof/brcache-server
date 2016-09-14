@@ -1,11 +1,8 @@
 package org.brandao.brcache.server.util;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import sun.misc.Unsafe;
 
 /**
  * Provê métodos auxiliares de manipulação de arranjo de bytes.
