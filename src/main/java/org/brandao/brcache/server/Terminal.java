@@ -20,7 +20,6 @@ package org.brandao.brcache.server;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Arrays;
 
 import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.server.command.BeginTransactionCommand;
@@ -101,7 +100,7 @@ public class Terminal {
             this.cache           = cache;
             this.readBufferSize  = readBufferSize;
             this.writeBufferSize = writeBufferSize;
-            this.reader          = new TextTerminalReader(this.socket, streamFactory, readBufferSize);
+            this.reader          = new TextTerminalReader(this.socket, cache.getConfig().getMemory(), streamFactory, readBufferSize);
             this.writer          = new TextTerminalWriter(this.socket, streamFactory, writeBufferSize);
             this.run             = true;
             this.terminalVars    = terminalVars;

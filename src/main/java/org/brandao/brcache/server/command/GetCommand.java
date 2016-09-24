@@ -89,8 +89,14 @@ public class GetCommand extends AbstractCommand{
             	
                 OutputStream out = null;
                 try{
+                	byte[] b = new byte[2048];
+                	int l;
                     out = writer.getStream();
-                    in.writeTo(out);
+                    
+                	while((l = in.read(b, 0, b.length)) != -1){
+                		out.write(b, 0, l);
+                	}
+                	
                 }
                 finally{
                     if(out != null){
