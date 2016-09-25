@@ -7,7 +7,7 @@ import java.io.InputStream;
 import org.brandao.brcache.server.TerminalConstants;
 import org.brandao.brcache.server.util.ArraysUtil;
 
-public class TextContentInputStream 
+public class LimitedSizeInputStream 
 	extends InputStream{
 
     private static final byte[] BOUNDARY = TerminalConstants.CRLF_DTA;
@@ -20,7 +20,7 @@ public class TextContentInputStream
 	
     private byte[] closeBuffer;
 	
-	public TextContentInputStream(BufferedInputStream buffer, int size){
+	public LimitedSizeInputStream(BufferedInputStream buffer, int size){
 		this.buffer     = buffer;
 		this.size       = size;
 		this.read       = 0;

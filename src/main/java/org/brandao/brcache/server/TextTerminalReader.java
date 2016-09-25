@@ -24,7 +24,7 @@ import java.net.Socket;
 import org.brandao.brcache.memory.Memory;
 import org.brandao.brcache.server.io.StreamFactory;
 import org.brandao.brcache.server.io.BufferedInputStream;
-import org.brandao.brcache.server.io.TextContentInputStream;
+import org.brandao.brcache.server.io.LimitedSizeInputStream;
 import org.brandao.brcache.server.io.TextInputStreamReader;
 
 /**
@@ -39,7 +39,7 @@ public class TextTerminalReader implements TerminalReader{
     
     private BufferedInputStream buffer;
     
-    private TextContentInputStream textContentInputStream;
+    private LimitedSizeInputStream textContentInputStream;
     
     private int offset;
     
@@ -47,7 +47,7 @@ public class TextTerminalReader implements TerminalReader{
         this.socket = socket;
         this.stream = streamFactory.createInpuStream(socket);
         this.buffer = new BufferedInputStream(readBufferSize, this.stream);
-        this.textContentInputStream = new TextContentInputStream(buffer, 0);
+        this.textContentInputStream = new LimitedSizeInputStream(buffer, 0);
         this.offset = 0;
     }
     
