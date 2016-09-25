@@ -61,20 +61,15 @@ public class LimitedSizeInputStream
     }
     
     public void close() throws IOException{
-    	
-        if(size != read){
-        	int toRead = size - read;
-        	while(toRead > 0){
-        		
-        		int r = this.buffer.read(this.closeBuffer, 0, this.closeBuffer.length);
-        		
-        		if(r < 0){
-                	throw new EOFException("premature end of data");
-        		}
-        		read   += r;
-        		toRead -= r;
-        	}
-        }
+    	int toRead = size - read;
+    	while(toRead > 0){
+    		int r = this.buffer.read(this.closeBuffer, 0, this.closeBuffer.length);
+    		if(r < 0){
+            	throw new EOFException("premature end of data");
+    		}
+    		read   += r;
+    		toRead -= r;
+    	}
     	
         this.buffer.read(this.closeBuffer, 0, 2);
         
