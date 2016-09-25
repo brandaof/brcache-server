@@ -12,7 +12,7 @@ public class TextContentInputStream
 
     private static final byte[] BOUNDARY = TerminalConstants.CRLF_DTA;
     
-	private TextBufferReader buffer;
+	private BufferedInputStream buffer;
 	
 	private int size;
 	
@@ -20,7 +20,7 @@ public class TextContentInputStream
 	
     private byte[] closeBuffer;
 	
-	public TextContentInputStream(TextBufferReader buffer, int size){
+	public TextContentInputStream(BufferedInputStream buffer, int size){
 		this.buffer     = buffer;
 		this.size       = size;
 		this.read       = 0;

@@ -18,24 +18,24 @@
 package org.brandao.brcache.server.io;
 
 import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
-import org.brandao.brcache.memory.Memory;
-import org.brandao.brcache.memory.RegionMemory;
+import org.brandao.brcache.server.util.ArraysUtil;
 
 /**
  *
  * @author Brandao
  */
-public class TextBufferReader extends InputStream{
+public class BufferedInputStream extends InputStream{
     
     private int offset;
     
     private int limit;
     
-    private RegionMemory buffer;
+    private byte[] buffer;
     
     private int capacity;
     
@@ -43,13 +43,12 @@ public class TextBufferReader extends InputStream{
 
     private boolean hasLineFeed;
     
-    private Memory memory;
+    private int offsetResult;
     
-    public TextBufferReader(int capacity, Memory memory, InputStream stream){
+    public BufferedInputStream(int capacity, InputStream stream){
         this.offset   = 0;
         this.limit    = 0;
-        this.memory   = memory;
-        this.buffer   = this.memory.alloc(capacity);
+        this.buffer   = new byte[capacity];
         this.capacity = capacity;
         this.stream   = stream;
     }
@@ -65,8 +64,7 @@ public class TextBufferReader extends InputStream{
         	return -1;
         }
     	
-        return this.buffer.get(this.offset++);
-        //return this.buffer[this.offset++];
+        return this.buffer[this.offset++];
     }
     
     public int read(byte[] b, int off, int len) throws IOException{
@@ -82,16 +80,14 @@ public class TextBufferReader extends InputStream{
             int maxRead = this.limit - this.offset;
             
             if(len > maxRead){
-            	//ArraysUtil.arraycopy(this.buffer, this.offset, b, off, maxRead);
-            	this.buffer.read(this.offset, b, off, maxRead);
+            	ArraysUtil.arraycopy(this.buffer, this.offset, b, off, maxRead);
             	this.offset += maxRead;
             	off         += maxRead;
             	read        += maxRead;
             	len         -= maxRead;
             }
             else{
-            	//ArraysUtil.arraycopy(this.buffer, this.offset, b, off, len);
-            	this.buffer.read(this.offset, b, off, len);
+            	ArraysUtil.arraycopy(this.buffer, this.offset, b, off, len);
             	this.offset += len;
             	read        += len;
             	return read; 
@@ -111,12 +107,8 @@ public class TextBufferReader extends InputStream{
                 this.limit  = 0;
             }
             
-            int l    = (int)(this.buffer.size() - this.limit);
-            byte[] b = new byte[l];
-            int len  = stream.read(b, 0, l);
-            this.buffer.write(this.limit, b, 0, len);
-            //int len = stream.read(this.buffer, this.limit, this.buffer.length - limit);
-
+            int len = stream.read(this.buffer, this.limit, this.buffer.length - limit);
+            
             if(len == -1){
             	return -1;
             }
@@ -149,8 +141,7 @@ public class TextBufferReader extends InputStream{
         			throw new IOException("out of memory");
         		}
         		
-            	this.buffer.read(startOff, b, off, maxRead);
-        		//ArraysUtil.arraycopy(this.buffer, startOff, b, off, maxRead);
+        		ArraysUtil.arraycopy(this.buffer, startOff, b, off, maxRead);
             	
             	len -= maxRead;
             	off += maxRead;
@@ -162,8 +153,7 @@ public class TextBufferReader extends InputStream{
             	startOff = this.offset;
             }
             
-            //if(this.buffer[this.offset++] == '\n'){
-            if(this.buffer.get(this.offset++) == '\n'){
+            if(this.buffer[this.offset++] == '\n'){
         		maxRead  = this.offset - startOff;
         		
         		if(maxRead > len){
@@ -171,23 +161,20 @@ public class TextBufferReader extends InputStream{
         		}
         		
         		if(this.offset < 2){
-        			if(read == 0 || b[read - 1] != '\r'){
+        			if(read == 0 || b[read -1] != '\r'){
             			throw new IOException("expected \\r");
         			}
         			else{
-                    	this.buffer.read(startOff, b, off - 1, maxRead - 1);
-                		//ArraysUtil.arraycopy(this.buffer, startOff, b, off - 1, maxRead - 1);
+                		ArraysUtil.arraycopy(this.buffer, startOff, b, off - 1, maxRead - 1);
                     	read+= maxRead - 2;
         			}
         		}
         		else{
-        			//if(this.buffer[this.offset - 2] != '\r'){
-        			if(this.buffer.get(this.offset - 2) != '\r'){
+        			if(this.buffer[this.offset - 2] != '\r'){
             			throw new IOException("expected \\r");
         			}
         			else{
-                    	this.buffer.read(startOff, b, off, maxRead - 2);
-                		//ArraysUtil.arraycopy(this.buffer, startOff, b, off, maxRead - 2);
+                		ArraysUtil.arraycopy(this.buffer, startOff, b, off, maxRead - 2);
                     	read+= maxRead - 2;
         			}
         		}
@@ -206,27 +193,14 @@ public class TextBufferReader extends InputStream{
     	
     	for(;;){
             if(this.offset == this.limit){
-            	
-            	int l = this.offset - startOff;
-            	byte[] b = new byte[l];
-            	this.buffer.read(startOff, b, 0, l);
-            	bout.write(b, 0, b.length);
-            	
-            	//bout.write(this.buffer, startOff, this.offset - startOff);
+            	bout.write(this.buffer, startOff, this.offset - startOff);
             	if(this.checkBuffer() < 0)
             		return bout.toByteArray();
             	startOff = this.offset;
             }
             
-            //if(this.buffer[this.offset++] == '\n'){
-            if(this.buffer.get(this.offset++) == '\n'){
-            	
-            	int l = this.offset - startOff;
-            	byte[] b = new byte[l];
-            	this.buffer.read(startOff, b, 0, l);
-            	bout.write(b, 0, b.length);
-            	
-            	//bout.write(this.buffer, startOff, this.offset - startOff);
+            if(this.buffer[this.offset++] == '\n'){
+            	bout.write(this.buffer, startOff, this.offset - startOff);
             	byte[] array = bout.toByteArray();
             	
             	if(array.length > 0){ 
@@ -244,6 +218,47 @@ public class TextBufferReader extends InputStream{
             
     	}
     	
+    }
+    
+    public byte[] readLineInBytes(int totalRead) throws IOException{
+    	
+        byte[] result = new byte[totalRead];
+        this.offsetResult = 0;
+        
+        int remainingToMaxRead = totalRead;
+        int read;
+        
+        while(remainingToMaxRead > 0){
+
+            if(this.offset == this.limit){
+                
+                if(this.limit == this.capacity){
+                    this.offset = 0;
+                    this.limit  = 0;
+                }
+                
+                int len = stream.read(this.buffer, this.limit, this.buffer.length - limit);
+                
+                if(len == -1)
+                    throw new EOFException("premature end of data");
+                
+                this.limit += len;
+            }
+            
+            int maxRead = this.limit - this.offset;
+            if(remainingToMaxRead > maxRead)
+            	read = maxRead;
+            else
+            	read = remainingToMaxRead;
+            
+            ArraysUtil.arraycopy(this.buffer, this.offset, result, this.offsetResult, read);
+            this.offsetResult += read;
+        	//this.updateResult(this.buffer, this.offset, read);
+            this.offset += read;
+            remainingToMaxRead -= read;
+        }
+        
+        return result;
     }
     
     public void clear(){

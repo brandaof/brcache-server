@@ -30,12 +30,12 @@ public class TextInputStreamReader
 
     private static final byte[] BOUNDARY = TerminalConstants.BOUNDARY_DTA;
     
-    public TextInputStreamReader(TextBufferReader buffer, int offset){
+    public TextInputStreamReader(BufferedInputStream buffer, int offset){
     	super(buffer, offset);
     }
     
 	@Override
-	protected byte[] readData(TextBufferReader buffer) throws IOException {
+	protected byte[] readData(BufferedInputStream buffer) throws IOException {
 		
         byte[] line = buffer.readLineInBytes();
         
@@ -46,7 +46,7 @@ public class TextInputStreamReader
 	}
 
 	@Override
-	protected boolean closeData(TextBufferReader buffer) throws IOException {
+	protected boolean closeData(BufferedInputStream buffer) throws IOException {
         byte[] line;
         while((line = buffer.readLineInBytes()) != null){
 

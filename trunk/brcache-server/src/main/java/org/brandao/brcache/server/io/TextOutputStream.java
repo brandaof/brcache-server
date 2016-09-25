@@ -28,11 +28,11 @@ import org.brandao.brcache.server.TerminalConstants;
  */
 public class TextOutputStream extends OutputStream{
 
-    private final TextBufferWriter buffer;
+    private final BufferedOutputStream buffer;
     
     private boolean closed;
     
-    public TextOutputStream(TextBufferWriter buffer){
+    public TextOutputStream(BufferedOutputStream buffer){
         this.buffer = buffer;
         this.closed = false;
     }
