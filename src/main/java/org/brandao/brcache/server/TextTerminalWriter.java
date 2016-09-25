@@ -22,7 +22,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 import org.brandao.brcache.server.io.StreamFactory;
-import org.brandao.brcache.server.io.TextBufferWriter;
+import org.brandao.brcache.server.io.BufferedOutputStream;
 import org.brandao.brcache.server.util.ArraysUtil;
 
 /**
@@ -31,14 +31,14 @@ import org.brandao.brcache.server.util.ArraysUtil;
  */
 public class TextTerminalWriter implements TerminalWriter{
 
-    private TextBufferWriter buffer;
+    private BufferedOutputStream buffer;
     
     private int writeBufferSize;
     
     public TextTerminalWriter(Socket socket, StreamFactory streamFactory, 
             int writeBufferSize) throws IOException{
         this.writeBufferSize = writeBufferSize;
-        this.buffer = new TextBufferWriter(
+        this.buffer = new BufferedOutputStream(
                 this.writeBufferSize, 
                 streamFactory.createOutputStream(socket));
     }

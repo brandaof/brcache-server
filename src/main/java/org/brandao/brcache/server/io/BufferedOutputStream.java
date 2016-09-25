@@ -26,11 +26,10 @@ import org.brandao.brcache.server.util.ArraysUtil;
  *
  * @author Brandao
  */
-public class TextBufferWriter extends OutputStream{
+public class BufferedOutputStream extends OutputStream{
     
     private int offset;
     
-    //private ByteBuffer buffer;
     private byte[] buffer;
     
     private int capacity;
@@ -39,7 +38,7 @@ public class TextBufferWriter extends OutputStream{
 
     private boolean hasLineFeed;
     
-    public TextBufferWriter(int capacity, OutputStream out){
+    public BufferedOutputStream(int capacity, OutputStream out){
         
         if(capacity < 1)
             throw new IllegalArgumentException("capacity");

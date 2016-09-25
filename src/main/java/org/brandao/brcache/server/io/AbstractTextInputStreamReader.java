@@ -32,7 +32,7 @@ public abstract class AbstractTextInputStreamReader extends InputStream{
 
     private static final byte[] CRLF = TerminalConstants.CRLF_DTA;
 	
-    protected TextBufferReader buffer;
+    protected BufferedInputStream buffer;
     
     protected byte[] byteBuffer;
     
@@ -42,7 +42,7 @@ public abstract class AbstractTextInputStreamReader extends InputStream{
     
     private boolean hasLineFeed;
     
-    public AbstractTextInputStreamReader(TextBufferReader buffer, int offset){
+    public AbstractTextInputStreamReader(BufferedInputStream buffer, int offset){
         this.buffer      = buffer;
         this.byteBuffer  = null;
         this.offsetBuf   = offset;
@@ -125,7 +125,7 @@ public abstract class AbstractTextInputStreamReader extends InputStream{
         return offset - initOffset;
     }
     
-    protected abstract byte[] readData(TextBufferReader buffer) throws IOException;
+    protected abstract byte[] readData(BufferedInputStream buffer) throws IOException;
     
     @Override
     public void close() throws IOException{
@@ -141,5 +141,5 @@ public abstract class AbstractTextInputStreamReader extends InputStream{
         }
    }
     
-    protected abstract boolean closeData(TextBufferReader buffer) throws IOException;
+    protected abstract boolean closeData(BufferedInputStream buffer) throws IOException;
 }
