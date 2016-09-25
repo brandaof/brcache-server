@@ -43,7 +43,7 @@ public class TextTerminalReader implements TerminalReader{
     
     private int offset;
     
-    public TextTerminalReader(Socket socket, Memory memory, StreamFactory streamFactory, int readBufferSize) throws IOException{
+    public TextTerminalReader(Socket socket, StreamFactory streamFactory, int readBufferSize) throws IOException{
         this.socket = socket;
         this.stream = streamFactory.createInpuStream(socket);
         this.buffer = new BufferedInputStream(readBufferSize, this.stream);
