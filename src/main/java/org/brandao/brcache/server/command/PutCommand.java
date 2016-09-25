@@ -1,6 +1,5 @@
 package org.brandao.brcache.server.command;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import org.brandao.brcache.BasicCache;

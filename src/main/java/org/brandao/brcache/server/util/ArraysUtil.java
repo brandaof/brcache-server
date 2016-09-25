@@ -80,21 +80,18 @@ public class ArraysUtil {
 	 */
 	public static boolean equals(byte[] a, byte[] b){
 		try{
+			int r = 0;
 			if(a.length > b.length){
 				for(int i=0;i<a.length;i++){
-					if( a[i] != b[i]){
-						return false;
-					}
+					r = r | (a[i] ^ b[i]);
 				}
 			}
 			else{
 				for(int i=0;i<b.length;i++){
-					if( a[i] != b[i]){
-						return false;
-					}
+					r = r | (a[i] ^ b[i]);
 				}
 			}
-			return true;
+			return r == 0;
 		}
 		catch(Throwable e){
 			return false;
