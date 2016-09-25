@@ -132,7 +132,7 @@ public class ArraysUtil {
 			
 		}
 		
-		if((limit > start || (start == limit && array[limit] != 32)) ){
+		if((limit > start || (start == limit && array[limit] != value)) ){
 			byte[] item = copy(array, start, limit + 1);
 			
 			if(resultIndex >= result.length){
