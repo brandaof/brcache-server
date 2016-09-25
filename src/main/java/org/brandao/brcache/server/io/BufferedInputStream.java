@@ -60,7 +60,7 @@ public class BufferedInputStream extends InputStream{
 
     public int read() throws IOException{
     	
-        if(this.checkBuffer() < 0){
+        if(this.offset == this.limit && this.checkBuffer() < 0){
         	return -1;
         }
     	
@@ -73,13 +73,14 @@ public class BufferedInputStream extends InputStream{
     	
     	while(len > 0){
     		
-            if(this.checkBuffer() < 0){
-            	return read;
-            }
-            	
             int maxRead = this.limit - this.offset;
             
             if(len > maxRead){
+            	
+                if(this.offset == this.limit && this.checkBuffer() < 0){
+                	return read;
+                }
+                
             	ArraysUtil.arraycopy(this.buffer, this.offset, b, off, maxRead);
             	this.offset += maxRead;
             	off         += maxRead;
@@ -99,26 +100,20 @@ public class BufferedInputStream extends InputStream{
     }
     
     private int checkBuffer() throws IOException{
-    	
-        if(this.offset == this.limit){
-            
-            if(this.limit == this.capacity){
-                this.offset = 0;
-                this.limit  = 0;
-            }
-            
-            int len = stream.read(this.buffer, this.limit, this.buffer.length - limit);
-            
-            if(len == -1){
-            	return -1;
-            }
-                //throw new EOFException("premature end of data");
-            
-            this.limit += len;
-            return len;
-        }    		
-    	
-        return 0;
+        if(this.limit == this.capacity){
+            this.offset = 0;
+            this.limit  = 0;
+        }
+        
+        int len = stream.read(this.buffer, this.limit, this.buffer.length - limit);
+        
+        if(len == -1){
+        	return -1;
+        }
+            //throw new EOFException("premature end of data");
+        
+        this.limit += len;
+        return len;
     }
     
     public int readFullLineInBytes(byte[] b, int off, int len) throws IOException{
@@ -147,7 +142,7 @@ public class BufferedInputStream extends InputStream{
             	off += maxRead;
             	read+= maxRead;
             	
-            	if(this.checkBuffer() < 0)
+            	if(this.offset == this.limit && this.checkBuffer() < 0)
             		return read > 0? read : -1;
             	
             	startOff = this.offset;
@@ -194,7 +189,7 @@ public class BufferedInputStream extends InputStream{
     	for(;;){
             if(this.offset == this.limit){
             	bout.write(this.buffer, startOff, this.offset - startOff);
-            	if(this.checkBuffer() < 0)
+            	if(this.offset == this.limit && this.checkBuffer() < 0)
             		return bout.toByteArray();
             	startOff = this.offset;
             }
