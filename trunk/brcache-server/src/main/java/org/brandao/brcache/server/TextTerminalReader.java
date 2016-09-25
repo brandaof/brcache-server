@@ -21,10 +21,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
-import org.brandao.brcache.memory.Memory;
 import org.brandao.brcache.server.io.StreamFactory;
 import org.brandao.brcache.server.io.BufferedInputStream;
 import org.brandao.brcache.server.io.LimitedSizeInputStream;
+import org.brandao.brcache.server.io.TextInputStream;
 import org.brandao.brcache.server.io.TextInputStreamReader;
 
 /**
@@ -33,7 +33,8 @@ import org.brandao.brcache.server.io.TextInputStreamReader;
  */
 public class TextTerminalReader implements TerminalReader{
 
-    private Socket socket;
+    @SuppressWarnings("unused")
+	private Socket socket;
     
     private InputStream stream;
     
@@ -47,7 +48,7 @@ public class TextTerminalReader implements TerminalReader{
         this.socket = socket;
         this.stream = streamFactory.createInpuStream(socket);
         this.buffer = new BufferedInputStream(readBufferSize, this.stream);
-        this.textContentInputStream = new LimitedSizeInputStream(buffer, 0);
+        this.textContentInputStream = new TextInputStream(buffer, 0);
         this.offset = 0;
     }
     
