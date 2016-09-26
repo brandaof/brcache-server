@@ -60,7 +60,7 @@ public class PutCommand extends AbstractCommand{
         	
 	    }
 	    catch(Throwable e){
-	        throw new ServerErrorException(ServerErrors.ERROR_1004);
+	        throw new ServerErrorException(ServerErrors.ERROR_1004, e);
 	    }
 
         InputStream stream = reader.getStream(size);

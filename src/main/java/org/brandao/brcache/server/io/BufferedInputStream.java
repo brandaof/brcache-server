@@ -176,63 +176,6 @@ public class BufferedInputStream extends InputStream{
 		}
 		
 		return read;
-		/*
-    	for(;;){
-    		
-    		if(len == 0){
-    			throw new IOException("out of memory");
-    		}
-    		
-            if(this.offset == this.limit){
-        		maxRead  = this.offset - startOff;
-        		
-        		if(maxRead > len){
-        			throw new IOException("out of memory");
-        		}
-        		
-        		ArraysUtil.arraycopy(this.buffer, startOff, b, off, maxRead);
-            	
-            	len -= maxRead;
-            	off += maxRead;
-            	read+= maxRead;
-            	
-            	if(this.offset == this.limit && this.checkBuffer() < 0)
-            		return read > 0? read : -1;
-            	
-            	startOff = this.offset;
-            }
-            
-            if(this.buffer[this.offset++] == '\n'){
-        		maxRead  = this.offset - startOff;
-        		
-        		if(maxRead > len){
-        			throw new IOException("out of memory");
-        		}
-        		
-        		if(this.offset < 2){
-        			if(read == 0 || b[read -1] != '\r'){
-            			throw new IOException("expected \\r");
-        			}
-        			else{
-                		ArraysUtil.arraycopy(this.buffer, startOff, b, off - 1, maxRead - 1);
-                    	read+= maxRead - 2;
-        			}
-        		}
-        		else{
-        			if(this.buffer[this.offset - 2] != '\r'){
-            			throw new IOException("expected \\r");
-        			}
-        			else{
-                		ArraysUtil.arraycopy(this.buffer, startOff, b, off, maxRead - 2);
-                    	read+= maxRead - 2;
-        			}
-        		}
-        		
-            	return read;
-            }
-            
-    	}
-    	*/
     }
     
     public byte[] readLineInBytes() throws IOException{
