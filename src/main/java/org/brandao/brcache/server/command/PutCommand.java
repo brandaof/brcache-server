@@ -96,15 +96,8 @@ public class PutCommand extends AbstractCommand{
     			throw new ServerErrorException(error, ServerErrors.ERROR_1004);
         }
         
-
-        if(result){
-        	writer.sendMessage(REPLACE_SUCCESS_DTA);
-        }
-        else{
-        	writer.sendMessage(STORED_DTA);
-        }
+    	writer.sendMessage(result? REPLACE_SUCCESS_DTA : STORED_DTA);
         writer.flush();
-        
 	}
 
 }
