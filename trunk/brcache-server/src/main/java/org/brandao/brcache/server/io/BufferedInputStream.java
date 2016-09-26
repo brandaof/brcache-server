@@ -110,7 +110,6 @@ public class BufferedInputStream extends InputStream{
         if(len == -1){
         	return -1;
         }
-            //throw new EOFException("premature end of data");
         
         this.limit += len;
         return len;
