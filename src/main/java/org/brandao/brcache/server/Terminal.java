@@ -72,6 +72,8 @@ public class Terminal {
 	
 	public static final Command EXIT   		= new ExitCommand();
 	
+	public static final byte SEPARATOR_CHAR = TerminalConstants.SEPARATOR_CHAR;
+	
     private BasicCache cache;
     
     private Socket socket;
@@ -166,7 +168,7 @@ public class Terminal {
             		message, 
             		0, 
             		readMessage, 
-            		TerminalConstants.SEPARATOR_CHAR );
+            		SEPARATOR_CHAR );
                 
                	if(ArraysUtil.equals(TerminalConstants.PUT_CMD_DTA, params[0])){
             		PUT.execute(this, cache, reader, writer, params);
