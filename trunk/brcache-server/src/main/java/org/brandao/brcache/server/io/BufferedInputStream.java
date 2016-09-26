@@ -115,7 +115,7 @@ public class BufferedInputStream extends InputStream{
         return len;
     }
     
-    public int readFullLineInBytes(byte[] b, int off, int len) throws IOException{
+    public int readFullLine(byte[] b, int off, int len) throws IOException{
     	
     	int startOff = this.offset;
     	int read     = 0;
