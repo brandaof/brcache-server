@@ -209,20 +209,25 @@ public class BrCacheServer {
     }
     
     private void initCache(Configuration config){
+        BRCacheConfig brcacheConfig = new BRCacheConfig();
+        brcacheConfig.setConfiguration(config);
+        
         boolean transactionSupport = config.getBoolean("transaction_support","false");
         long txTimeout             = config.getLong("transaction_time_out","300000");
         
-        CacheTransactionManager txManager = 
-        		(CacheTransactionManager)config.getObject(
-        				"transaction_manager", 
-        				CacheTransactionManagerImp.class.getName());
-
-        BRCacheConfig brcacheConfig = new BRCacheConfig();
-        brcacheConfig.setConfiguration(config);
         this.cache = new BasicCache(brcacheConfig);
         
         if(transactionSupport){
-        	this.cache = this.cache.getTXCache(txManager, txTimeout);
+        	
+            CacheTransactionManager txManager = 
+            		(CacheTransactionManager)config.getObject(
+            				"transaction_manager", 
+            				CacheTransactionManagerImp.class.getName());
+
+            txManager.setPath(brcacheConfig.getDataPath() + "/tx");
+            txManager.setTimeout(txTimeout);
+            
+        	this.cache = this.cache.getTXCache(txManager);
         }
     }
     
