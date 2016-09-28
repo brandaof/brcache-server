@@ -14,8 +14,12 @@ public interface ServerConstants {
     
     public static final String READ_BUFFER_SIZE 	= "read_buffer_size";
     
-    public static final String COMPRESS_STREAM 		= "compress_stream";
-
     public static final String AUTO_COMMIT 			= "auto_commit";
+
+    public static final String TRANSACTION_SUPPORT	= "transaction_support";
+
+    public static final String TRANSACTION_TIMEOUT	= "transaction_timeout";
     
+    public static final String TRANSACTION_MANAGER	= "transaction_manager";
+
 }

@@ -29,7 +29,6 @@ import org.brandao.brcache.Cache;
 import org.brandao.brcache.CacheConstants;
 import org.brandao.brcache.Configuration;
 import org.brandao.brcache.collections.Collections;
-import org.brandao.brcache.server.io.CompressStreamFactory;
 import org.brandao.brcache.server.io.DefaultStreamFactory;
 import org.brandao.brcache.server.io.StreamFactory;
 import org.brandao.brcache.tx.CacheTransactionManager;
@@ -70,13 +69,18 @@ public class BrCacheServer {
     
     private boolean run;
     
-    private boolean compress;
-    
     private StreamFactory streamFactory;
     
     private TerminalVars globalVars;
     
     private String dataPath;
+    
+    private boolean txSupport;
+    
+    private long txTimeout;
+    
+    private CacheTransactionManager txManager; 
+    
     /**
      * Cria uma nova instância do cache.
      * 
@@ -166,12 +170,7 @@ public class BrCacheServer {
     }
     
     private StreamFactory createStreamFactory(){
-        StreamFactory factory;
-        if(this.compress)
-            factory = new CompressStreamFactory();
-        else
-            factory = new DefaultStreamFactory();
-        
+        StreamFactory factory = new DefaultStreamFactory();
         factory.setConfiguration(this.config);
         return factory;
     }
@@ -184,49 +183,42 @@ public class BrCacheServer {
     }
 
     private void initProperties(Configuration config){
-        long portNumber            = config.getLong(ServerConstants.PORT,"8084");
-        long max_connections       = config.getLong(ServerConstants.MAX_CONNECTIONS,"1024");
-        long timeout_connection    = config.getLong(ServerConstants.TIMEOUT_CONNECTION,"0");
-        boolean reuse_address      = config.getBoolean(ServerConstants.REUSE_ADDRESS, "false");
-        String data_path           = config.getString(CacheConstants.DATA_PATH,"/var/brcache");
-        long write_buffer_size     = config.getLong(ServerConstants.WRITE_BUFFER_SIZE,"16k");
-        long read_buffer_size      = config.getLong(ServerConstants.READ_BUFFER_SIZE,"16k");
-        boolean compressState      = config.getBoolean(ServerConstants.COMPRESS_STREAM,"false");
+        int portNumber			= config.getInt(ServerConstants.PORT,						"8084");
+        int max_connections		= config.getInt(ServerConstants.MAX_CONNECTIONS,			"1024");
+        int timeout_connection	= config.getInt(ServerConstants.TIMEOUT_CONNECTION,			"0");
+        boolean reuse_address	= config.getBoolean(ServerConstants.REUSE_ADDRESS,			"false");
+        String data_path		= config.getString(CacheConstants.DATA_PATH,				"/var/brcache");
+        int write_buffer_size	= config.getInt(ServerConstants.WRITE_BUFFER_SIZE,			"16k");
+        int read_buffer_size	= config.getInt(ServerConstants.READ_BUFFER_SIZE,			"16k");
+        boolean txSupport		= config.getBoolean(ServerConstants.TRANSACTION_SUPPORT,	"false");
+        long txTimeout			= config.getLong(ServerConstants.TRANSACTION_TIMEOUT,		"300000");
+        Object txManager		= config.getObject(ServerConstants.TRANSACTION_MANAGER,		CacheTransactionManagerImp.class.getName());
         
-        this.run             = false;
-        this.config          = config;
-        this.timeout         = (int)timeout_connection;
-        this.reuseAddress    = reuse_address;
-        this.maxConnections  = (int)max_connections;
-        this.port            = (int)portNumber;
-        this.readBufferSize  = (int)read_buffer_size;
-        this.writeBufferSize = (int)write_buffer_size;
-        this.compress        = compressState;
-        this.dataPath        = data_path;
+        this.run                = false;
+        this.config             = config;
+        this.timeout            = timeout_connection;
+        this.reuseAddress       = reuse_address;
+        this.maxConnections     = max_connections;
+        this.port               = portNumber;
+        this.readBufferSize     = read_buffer_size;
+        this.writeBufferSize    = write_buffer_size;
+        this.dataPath           = data_path;
+        this.txSupport          = txSupport;
+        this.txTimeout          = txTimeout;
+        this.txManager          = (CacheTransactionManager)txManager;
         
         Collections.setPath(data_path);
-        
     }
     
     private void initCache(Configuration config){
         BRCacheConfig brcacheConfig = new BRCacheConfig();
         brcacheConfig.setConfiguration(config);
         
-        boolean transactionSupport = config.getBoolean("transaction_support","false");
-        long txTimeout             = config.getLong("transaction_time_out","300000");
-        
         this.cache = new BasicCache(brcacheConfig);
         
-        if(transactionSupport){
-        	
-            CacheTransactionManager txManager = 
-            		(CacheTransactionManager)config.getObject(
-            				"transaction_manager", 
-            				CacheTransactionManagerImp.class.getName());
-
+        if(this.txSupport){
             txManager.setPath(brcacheConfig.getDataPath() + "/tx");
-            txManager.setTimeout(txTimeout);
-            
+            txManager.setTimeout(this.txTimeout);
         	this.cache = this.cache.getTXCache(txManager);
         }
     }
@@ -237,7 +229,7 @@ public class BrCacheServer {
     }
     
     private void initGlobalTerminalInfo(){
-    	this.globalVars     = new TerminalVars();
+    	this.globalVars             = new TerminalVars();
         BRCacheConfig brcacheConfig = this.cache.getConfig();
     	
         this.globalVars.put("port", 				this.port);
@@ -247,7 +239,8 @@ public class BrCacheServer {
         this.globalVars.put("data_path",			this.dataPath);
         this.globalVars.put("write_buffer_size",	this.writeBufferSize);
         this.globalVars.put("read_buffer_size",		this.readBufferSize);
-        this.globalVars.put("compress_stream",		this.compress);
+        this.globalVars.put("transaction_support",	this.txSupport);
+        this.globalVars.put("transaction_timeout",	this.txTimeout);
         
         this.globalVars.put("nodes_buffer_size",	brcacheConfig.getNodesBufferSize());
         this.globalVars.put("nodes_page_size",		brcacheConfig.getNodesPageSize());
@@ -268,7 +261,7 @@ public class BrCacheServer {
     }
     
     public StreamFactory getStreamFactory() {
-        return streamFactory;
+        return this.streamFactory;
     }
     
 }
