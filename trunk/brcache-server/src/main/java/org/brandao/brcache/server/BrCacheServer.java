@@ -183,13 +183,13 @@ public class BrCacheServer {
     }
 
     private void initProperties(Configuration config){
-        int portNumber			= config.getInt(ServerConstants.PORT,						"8084");
+        int portNumber			= config.getInt(ServerConstants.PORT,						"1044");
         int max_connections		= config.getInt(ServerConstants.MAX_CONNECTIONS,			"1024");
-        int timeout_connection	= config.getInt(ServerConstants.TIMEOUT_CONNECTION,			"0");
+        int timeout_connection	= config.getInt(ServerConstants.TIMEOUT_CONNECTION,			"1000");
         boolean reuse_address	= config.getBoolean(ServerConstants.REUSE_ADDRESS,			"false");
         String data_path		= config.getString(CacheConstants.DATA_PATH,				"/var/brcache");
-        int write_buffer_size	= config.getInt(ServerConstants.WRITE_BUFFER_SIZE,			"16k");
-        int read_buffer_size	= config.getInt(ServerConstants.READ_BUFFER_SIZE,			"16k");
+        int write_buffer_size	= config.getInt(ServerConstants.WRITE_BUFFER_SIZE,			"8k");
+        int read_buffer_size	= config.getInt(ServerConstants.READ_BUFFER_SIZE,			"8k");
         boolean txSupport		= config.getBoolean(ServerConstants.TRANSACTION_SUPPORT,	"false");
         long txTimeout			= config.getLong(ServerConstants.TRANSACTION_TIMEOUT,		"300000");
         Object txManager		= config.getObject(ServerConstants.TRANSACTION_MANAGER,		CacheTransactionManagerImp.class.getName());
