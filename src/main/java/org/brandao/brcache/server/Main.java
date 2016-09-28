@@ -30,7 +30,9 @@ import org.brandao.brcache.Configuration;
 public class Main {
     
     public static void main(String[] params) throws IOException{
-        File f = new File("brcache.conf");
+    	StartParamsParser paramsParser = new StartParamsParser(params);
+    	
+        File f = new File(paramsParser.getConfigFile());
         
         if(!f.exists() || !f.canRead()){
             System.out.println("configuration not found!");
