@@ -44,13 +44,7 @@ public class SetVarCommand
 			if(key == null){
 		        throw new NullPointerException();
 			}
-	    }
-	    catch(Throwable e){
-	        throw new ServerErrorException(ServerErrors.ERROR_1003, "var_name");
-	    }
-
 		
-		try{
 			value = ArraysUtil.toString(parameters[2]);
 			
 			if(value == null){
@@ -64,9 +58,8 @@ public class SetVarCommand
 			
 	    }
 	    catch(Throwable e){
-	        throw new ServerErrorException(ServerErrors.ERROR_1003, "new_value");
+	        throw new ServerErrorException(ServerErrors.ERROR_1004, e);
 	    }
-		
 		
 		terminal.getTerminalVars().put(key, value);
         writer.sendMessage(TerminalConstants.SUCCESS_DTA);
