@@ -20,7 +20,7 @@ public class StartParamsParser {
 				if(parts.length != 2 || parts[1].trim().isEmpty()){
 					throw new IllegalStateException("expected --default-file=<path>");
 				}
-				this.configFile = params[1].trim();
+				this.configFile = parts[1].trim();
 			}
 		}
 	}
