@@ -32,7 +32,6 @@ public class Main {
     
     public static void main(String[] params) throws IOException{
     	StartParamsParser paramsParser = new StartParamsParser(params);
-    	
     	start(paramsParser.getConfigFile());
     }
     
