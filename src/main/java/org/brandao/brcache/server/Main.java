@@ -19,6 +19,7 @@ package org.brandao.brcache.server;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.brandao.brcache.Configuration;
@@ -32,7 +33,11 @@ public class Main {
     public static void main(String[] params) throws IOException{
     	StartParamsParser paramsParser = new StartParamsParser(params);
     	
-        File f = new File(paramsParser.getConfigFile());
+    	start(paramsParser.getConfigFile());
+    }
+    
+    private static void start(String configFile) throws FileNotFoundException, IOException{
+        File f = new File(configFile);
         
         if(!f.exists() || !f.canRead()){
             System.out.println("configuration not found!");
