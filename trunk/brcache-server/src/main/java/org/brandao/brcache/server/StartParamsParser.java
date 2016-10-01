@@ -7,8 +7,8 @@ public class StartParamsParser {
 	private String[] params;
 	
 	public StartParamsParser(String[] params){
-		this.params = params;
-		this.configFile = "./brcache.conf";
+		this.params             = params;
+		this.configFile         = "./brcache.conf";
 		this.parser();
 	}
 	
@@ -28,5 +28,5 @@ public class StartParamsParser {
 	public String getConfigFile() {
 		return configFile;
 	}
-	
+
 }
