@@ -23,18 +23,30 @@ SolidCompression=yes
 Uninstallable=yes
 
 [run]
-Filename: {sys}\sc.exe; Parameters: "create BRCache10b3 start= auto binPath= ""java -Xms{heapMemory}m -Xmx{heapMemory}m -jar {app}\brcache-server-1.0-b3.jar --default-file=""{app}\brcache.conf"" """ ; Flags: runhidden
+;Instala o serviço
+Filename: {app}\prunsrv.exe; Parameters: "install BRCache10B3 --DisplayName=""BRCache Server Beta"" --Description=""The BRCache is a general-purpose caching system with transaction support."" --Install=""{app}\prunsrv.exe"" --StartPath=""{app}"" --Classpath=""{app}\brcache-server-1.0-b3.jar"";""{app}\lib\brcache-1.0-b3.jar"";""{app}\lib\named-lock-1.0-b2.jar"" --StartMode=jvm --StartClass=org.brandao.brcache.server.Bootstrap --StartMethod=start --StartParams=--default-file=""{app}\brcache.conf"" --StopPath=""{app}"" --StopMode=jvm --StopClass=org.brandao.brcache.server.Bootstrap --StopMethod=stop --StopParams= --StdOutput=stdout.log --StdError=stderr.log --Startup=auto --JvmOptions=-Xms{code:getHeapMemory}m ++JvmOptions=-Xmx{code:getHeapMemory}m" ; Flags: runhidden
+;Inicia o serviço
+Filename: {app}\prunsrv.exe; Parameters: "//ES/brcache10b3" ; Flags: runhidden
+;Inicia o manager
+Filename: {app}\brcache10b3.exe; Parameters: "//MS" ; Flags: runhidden nowait
 
 [UninstallRun]
-Filename: {sys}\sc.exe; Parameters: "stop BRCache10b3" ; Flags: runhidden
-Filename: {sys}\sc.exe; Parameters: "delete BRCache10b3" ; Flags: runhidden
+;Para o serviço
+Filename: {app}\brcache10b3.exe; Parameters: "//MQ" ; Flags: runhidden
+;Desinstala o serviço
+Filename: {app}\prunsrv.exe; Parameters: "//DS/brcache10b3" ; Flags: runhidden
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
+;Arquivo necesários para iniciar o serviço
+Source: "C:\projetos\brcache\brcache-server\install\brcache10b3.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\projetos\brcache\brcache-server\install\prunsrv.exe"; DestDir: "{app}"; Flags: ignoreversion
+
+;Arquivos do projeto
 Source: "C:\projetos\brcache\brcache-server\target\brcache-server-1.0-b3.jar"; DestDir: "{app}"; AfterInstall: CreateConfig; Flags: ignoreversion
-Source: "C:\projetos\brcache\brcache-server\target\lib\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\projetos\brcache\brcache-server\target\lib\*"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs createallsubdirs
 ;Source: "C:\projetos\brcache\brcache-server\install\server.bmp"; DestDir: "{tmp}"; Flags: dontcopy
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
@@ -446,6 +458,17 @@ function InitializeSetup(): boolean;
 
 begin
  Result := CheckJava();
+end;
+
+//*********************************************************************************
+// Obtém o valor do heap
+//*********************************************************************************
+function GetHeapMemory (Param: string) : String;
+
+begin
+
+  Result := IntToStr(heapMemory);
+
 end;
 
 procedure InitializeWizard();
