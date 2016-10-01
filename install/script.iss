@@ -16,18 +16,18 @@ AppUpdatesURL=http://brcache.brandao.org/
 DefaultDirName={pf}\BRCache 1.0-b3
 DefaultGroupName=BRCache 1.0 Beta
 AllowNoIcons=yes
-OutputDir=C:\projetos
-OutputBaseFilename=setup
+OutputDir=C:\projetos\brcache\brcache-server\install
+OutputBaseFilename=brcache-server-1.0-b3
 Compression=lzma
 SolidCompression=yes
 Uninstallable=yes
 
 [run]
-;Filename: {sys}\sc.exe; Parameters: "create BRCache10b3 start= auto binPath= ""java -Xms{heapMemory}m -Xmx{heapMemory}m -jar {app}\brcache-server-1.0-b3.jar --default-file=""{app}\brcache.conf"" """ ; Flags: runhidden
+Filename: {sys}\sc.exe; Parameters: "create BRCache10b3 start= auto binPath= ""java -Xms{heapMemory}m -Xmx{heapMemory}m -jar {app}\brcache-server-1.0-b3.jar --default-file=""{app}\brcache.conf"" """ ; Flags: runhidden
 
 [UninstallRun]
-;Filename: {sys}\sc.exe; Parameters: "stop BRCache10b3" ; Flags: runhidden
-;Filename: {sys}\sc.exe; Parameters: "delete BRCache10b3" ; Flags: runhidden
+Filename: {sys}\sc.exe; Parameters: "stop BRCache10b3" ; Flags: runhidden
+Filename: {sys}\sc.exe; Parameters: "delete BRCache10b3" ; Flags: runhidden
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
