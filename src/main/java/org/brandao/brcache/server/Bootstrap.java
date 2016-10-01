@@ -37,6 +37,7 @@ public class Bootstrap {
 	
 	public static void stop(String[] args) throws IOException{
 		server.stop();
+        System.exit(0);
 	}
 	
 }
