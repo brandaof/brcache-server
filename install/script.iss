@@ -207,7 +207,11 @@ var
   index_buffer_size: Extended;
   data_buffer_size: Extended;
   mem: integer;
+  appPath: String;
 begin
+  appPath           := ExpandConstant('{app}');
+  StringChange(appPath, '\', '\\');
+
   nodes_buffer_size := 20;
   index_buffer_size := 12;
   data_buffer_size  := 64;
@@ -275,7 +279,7 @@ begin
   Strings[ 35] := '# Local onde se faz a troca dos dados quando ';
   Strings[ 36] := '# o limite da memória é atingido.';
   Strings[ 37] := '# O valor padrão é "/var/brcache".';
-  Strings[ 38] := 'data_path=' + ExpandConstant('{app}') + '/data';
+  Strings[ 38] := 'data_path=' + appPath + '\\data';
   Strings[ 39] := '';
   Strings[ 40] := '# Tamanho do buffer usado para armazenar os nós na memória.';
   Strings[ 41] := '# O valor padrão é 1m.';
@@ -405,7 +409,7 @@ begin
   developerServerLabel.Height   := 40;
   developerServerLabel.AutoSize := False;
   developerServerLabel.Wordwrap := True;
-  developerServerLabel.Caption  := 'This is a development machine, and many other applications will be run on it. BRCache Server should only use a minimal  amount of memory.';
+  developerServerLabel.Caption  := 'This is a development machine, and many other applications will be run on it. BRCache Server should only use a minimal amount of memory.';
 
   // Server machine
   serverOption            := TNewRadioButton.Create(Page);
@@ -425,7 +429,7 @@ begin
   serverServerLabel.Height   := 40;
   serverServerLabel.AutoSize := False;
   serverServerLabel.Wordwrap := True;
-  serverServerLabel.Caption  := 'Several server applications will be running on this machine. Choose this option for web/application servers. BRCache Server will have medium memory usage';
+  serverServerLabel.Caption  := 'Several server applications will be running on this machine. Choose this option for web/application servers. BRCache Server will have medium memory usage.';
 
 
   // Dedicated Server machine
