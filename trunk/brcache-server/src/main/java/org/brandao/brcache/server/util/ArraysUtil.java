@@ -78,7 +78,7 @@ public class ArraysUtil {
 	 */
 	public static boolean equals(byte[] a, byte[] b){
 		try{
-			if(a.length > b.length){
+			if(a.length >= b.length){
 				for(int i=0;i<a.length;i++){
 					if( a[i] != b[i]){
 						return false;
