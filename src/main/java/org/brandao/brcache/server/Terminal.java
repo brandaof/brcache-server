@@ -159,11 +159,14 @@ public class Terminal {
     }
     
     public void execute() throws Throwable{
-    	byte[] message = new byte[cache.getConfig().getMaxSizeKey() + 30];
+    	byte[] message  = new byte[cache.getConfig().getMaxSizeKey() + 30];
+        byte[][] params = new byte[0][];
+        int readMessage = -1;
+        
         while(this.run){
             try{
-                int readMessage = reader.readMessage(message, 0, message.length);
-                byte[][] params = ArraysUtil.split(message, 0, readMessage, SEPARATOR_CHAR);
+                readMessage = reader.readMessage(message, 0, message.length);
+                params = ArraysUtil.split(message, 0, readMessage, SEPARATOR_CHAR);
                 
                 /*
                	if(params[0] == null && readMessage < 0){
@@ -349,6 +352,21 @@ public class Terminal {
                     this.writer.flush();
                 }
                 */
+            }
+            catch (NullPointerException ex) {
+               	if(params[0] == null && readMessage < 0){
+               		this.run = false;
+               		continue;
+               	}
+               	else
+               	if(params[0] == null){
+                    this.writer.sendMessage(
+                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+            		);
+                    this.writer.flush();
+            	}
+               	else
+               		throw ex;
             }
             catch (ArrayIndexOutOfBoundsException ex) {
             	ex.printStackTrace();
