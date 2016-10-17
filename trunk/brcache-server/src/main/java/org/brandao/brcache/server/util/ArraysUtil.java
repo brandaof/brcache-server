@@ -1,8 +1,6 @@
 package org.brandao.brcache.server.util;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Provê métodos auxiliares de manipulação de arranjo de bytes.
@@ -148,39 +146,6 @@ public class ArraysUtil {
 	}
 	
 	/**
-	 * Fragmento um arranjo usando um byte como delimitador.
-	 * @param array arranjo
-	 * @param value delimitador.
-	 * @param index índice inicial.
-	 * @return fragmentos.
-	 */
-	public static byte[][] split(byte[] array, int index, byte value){
-		int start = index;
-		int end   = 0;
-		List<byte[]> result = new ArrayList<byte[]>();
-		int limit = array.length -1;
-		
-		for(int i=index;i<array.length;i++){
-			
-			if(array[i] == value){
-				end = i;
-				byte[] item = copy(array, start, end);
-				result.add(item);
-				start = end + 1;
-				end = start;
-			}
-			
-		}
-		
-		if(start != limit || (start == limit && array[limit] != 32) ){
-			byte[] item = copy(array, start, limit + 1);
-			result.add(item);
-		}
-		
-		return result.toArray(new byte[0][]);
-	}
-	
-	/**
 	 * Converte um texto representado por um arranjo de bytes em um inteiro.
 	 * @param value arranjo.
 	 * @return inteiro.
@@ -194,11 +159,19 @@ public class ArraysUtil {
 		int result = 0;
 		int mult   = 1;
 		
+		while(limit>=start){
+			int tmp = value[limit--] - ZERO;
+			result += tmp*mult;
+			mult   *= 10;
+		}
+		
+		/*
 		for(int i=limit;i>=start;i--){
 			int tmp = value[i] - ZERO;
 			result += tmp*mult;
 			mult   *= 10;
 		}
+		*/
 		
 		if(signal == FALSE){
 			result = (result ^ NEGATIVE_INT) + 1;
@@ -297,10 +270,18 @@ public class ArraysUtil {
 		
 		char[] chars = value.toCharArray();
 		byte[] bytes = new byte[chars.length];
+		int len      = chars.length;
+		int i        = 0;
 		
+		while(i<len){
+			bytes[i] = (byte)chars[i++];
+		}
+		
+		/*
 		for(int i=0;i<chars.length;i++){
 			bytes[i] = (byte)chars[i];
 		}
+		*/
 		
 		return bytes;
 	}
@@ -339,10 +320,11 @@ public class ArraysUtil {
 	 */
 	public static String toString(byte[] value){
 		char[] chars = new char[value.length];
-		int len = value.length;
+		int len      = value.length;
+		int i        = 0;
 		
-		for(int i=0;i<len;i++){
-			chars[i] = (char)value[i];
+		while(i<len){
+			chars[i] = (char)value[i++];
 		}
 		
 		return new String(chars);

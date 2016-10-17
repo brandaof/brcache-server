@@ -165,6 +165,132 @@ public class Terminal {
                 int readMessage = reader.readMessage(message, 0, message.length);
                 byte[][] params = ArraysUtil.split(message, 0, readMessage, SEPARATOR_CHAR);
                 
+                /*
+               	if(params[0] == null && readMessage < 0){
+               		this.run = false;
+               		continue;
+               	}
+                */
+                
+                switch (params[0][0]) {
+				case 'p':
+					
+	               	if(ArraysUtil.equals(TerminalConstants.PUT_CMD_DTA, params[0])){
+	            		PUT.execute(this, cache, reader, writer, params);
+	               	}
+	                else{
+	                    this.writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+	            		);
+	                    this.writer.flush();
+	                }
+	               	
+					break;
+				case 'g':
+					
+	               	if(ArraysUtil.equals(TerminalConstants.GET_CMD_DTA, params[0])){
+	        			GET.execute(this, cache, reader, writer, params);
+	            	}
+	                else{
+	                    this.writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+	            		);
+	                    this.writer.flush();
+	                }
+	               	
+	               	break;
+				case 'r':
+					
+	               	if(ArraysUtil.equals(TerminalConstants.REPLACE_CMD_DTA, params[0])){
+	        			REPLACE.execute(this, cache, reader, writer, params);
+	               	}
+	               	else
+	               	if(ArraysUtil.equals(TerminalConstants.REMOVE_CMD_DTA, params[0])){
+	        			REMOVE.execute(this, cache, reader, writer, params);
+	               	}
+	               	else
+	               	if(ArraysUtil.equals(TerminalConstants.ROLLBACK_CMD_DTA, params[0])){
+	        			ROLLBACK_TX.execute(this, cache, reader, writer, params);
+	               	}
+	                else{
+	                    this.writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+	            		);
+	                    this.writer.flush();
+	                }
+	               	
+	               	break;
+				case 's':
+					
+	               	if(ArraysUtil.equals(TerminalConstants.SET_CMD_DTA, params[0])){
+	        			SET.execute(this, cache, reader, writer, params);
+	               	}
+	               	else
+	               	if(ArraysUtil.equals(TerminalConstants.SHOW_VAR_CMD_DTA, params[0])){
+	        			SHOW_VAR.execute(this, cache, reader, writer, params);
+	               	}
+	               	else
+	               	if(ArraysUtil.equals(TerminalConstants.SET_VAR_CMD_DTA, params[0])){
+	        			SET_VAR.execute(this, cache, reader, writer, params);
+	               	}
+	               	else
+	               	if(ArraysUtil.equals(TerminalConstants.SHOW_VARS_CMD_DTA, params[0])){
+	        			SHOW_VARS.execute(this, cache, reader, writer, params);
+	               	}
+	                else{
+	                    this.writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+	            		);
+	                    this.writer.flush();
+	                }
+	               	
+	               	break;
+				case 'b':
+					
+	               	if(ArraysUtil.equals(TerminalConstants.BEGIN_CMD_DTA, params[0])){
+	        			BEGIN_TX.execute(this, cache, reader, writer, params);
+	               	}
+	                else{
+	                    this.writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+	            		);
+	                    this.writer.flush();
+	                }
+	               	
+	               	break;
+				case 'c':
+	               	if(ArraysUtil.equals(TerminalConstants.COMMIT_CMD_DTA, params[0])){
+	        			COMMIT_TX.execute(this, cache, reader, writer, params);
+	               	}
+	                else{
+	                    this.writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+	            		);
+	                    this.writer.flush();
+	                }
+	               	
+	               	break;
+				case 'e':
+	               	if(ArraysUtil.equals(TerminalConstants.EXIT_CMD_DTA, params[0])){
+	        			EXIT.execute(this, cache, reader, writer, params);
+	               	}
+	                else{
+	                    this.writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+	            		);
+	                    this.writer.flush();
+	                }
+	               	
+	               	break;
+				default:
+                    this.writer.sendMessage(
+                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+            		);
+                    this.writer.flush();
+					break;
+				}
+               	
+                /*
                	if(ArraysUtil.equals(TerminalConstants.PUT_CMD_DTA, params[0])){
             		PUT.execute(this, cache, reader, writer, params);
                	}
@@ -222,6 +348,7 @@ public class Terminal {
             		);
                     this.writer.flush();
                 }
+                */
             }
             catch (ArrayIndexOutOfBoundsException ex) {
             	ex.printStackTrace();

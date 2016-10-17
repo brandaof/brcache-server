@@ -52,19 +52,15 @@ public class GetCommand extends AbstractCommand{
 			if(key == null){
 		        throw new NullPointerException();
 			}
+		
+            forUpdate = !ArraysUtil.equals(parameters[2], FALSE);
 	    }
 	    catch(Throwable e){
-	        throw new ServerErrorException(ServerErrors.ERROR_1003, "key");
+	        throw new ServerErrorException(ServerErrors.ERROR_1004, e);
 	    }
 		
-        try{
-            forUpdate = !Arrays.equals(parameters[2], FALSE);
-        }
-        catch(Throwable e){
-            throw new ServerErrorException(ServerErrors.ERROR_1003, "update");
-        }
-		
         CacheInputStream in = null;
+        
         try{
         	if(forUpdate){
         		if(!(cache instanceof TXCache)){
@@ -89,14 +85,8 @@ public class GetCommand extends AbstractCommand{
             	
                 OutputStream out = null;
                 try{
-                	byte[] b = new byte[2048];
-                	int l;
                     out = writer.getStream();
-                    
-                	while((l = in.read(b, 0, b.length)) != -1){
-                		out.write(b, 0, l);
-                	}
-                	
+                	in.writeTo(out);
                 }
                 finally{
                     if(out != null){
@@ -122,9 +112,7 @@ public class GetCommand extends AbstractCommand{
         }
 
         writer.sendMessage(BOUNDARY_DTA);
-        
         writer.flush();
-        
 	}
 
 }
