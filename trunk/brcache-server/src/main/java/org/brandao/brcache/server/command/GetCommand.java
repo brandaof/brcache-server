@@ -1,7 +1,6 @@
 package org.brandao.brcache.server.command;
 
 import java.io.OutputStream;
-import java.util.Arrays;
 
 import org.brandao.brcache.BasicCache;
 import org.brandao.brcache.CacheInputStream;
@@ -25,19 +24,23 @@ import org.brandao.brcache.tx.TXCache;
  */
 public class GetCommand extends AbstractCommand{
 
-	private static final byte[] FALSE        = new byte[]{'0'};
+	private static final byte[] FALSE                 = new byte[]{'0'};
 	
-	private static final byte[] PREFIX       = "value ".getBytes();
+	private static final byte[] PREFIX                = "value ".getBytes();
 
-	private static final byte[] SUFFIX       = " 0".getBytes();
+	private static final byte[] SUFFIX                = " 0".getBytes();
+
+	private static final byte[] FULL_SUFFIX           = " 0\r\n".getBytes();
 	
-	private static final byte[] EMPTY_SUFFIX = " 0 0".getBytes();
+	private static final byte[] EMPTY_SUFFIX          = " 0 0".getBytes();
 
+	private static final byte[] FULL_EMPTY_SUFFIX     = " 0 0\r\n".getBytes();
+	
 	private static final byte[] SEPARATOR_COMMAND_DTA = TerminalConstants.SEPARATOR_COMMAND_DTA;
 	
-	private static final byte[] CRLF_DTA = TerminalConstants.CRLF_DTA;
+	private static final byte[] CRLF_DTA              = TerminalConstants.CRLF_DTA;
 	
-	private static final byte[] BOUNDARY_DTA = TerminalConstants.BOUNDARY_DTA;
+	private static final byte[] BOUNDARY_DTA          = TerminalConstants.FULL_BOUNDARY_DTA;
 	
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
 			TerminalWriter writer, byte[][] parameters)
@@ -53,7 +56,7 @@ public class GetCommand extends AbstractCommand{
 		        throw new NullPointerException();
 			}
 		
-            forUpdate = !ArraysUtil.equals(parameters[2], FALSE);
+            forUpdate = parameters[2][0] != '0'; //!ArraysUtil.equals(parameters[2], FALSE);
 	    }
 	    catch(Throwable e){
 	        throw new ServerErrorException(ServerErrors.ERROR_1004, e);
@@ -62,6 +65,7 @@ public class GetCommand extends AbstractCommand{
         CacheInputStream in = null;
         
         try{
+        	
         	if(forUpdate){
         		if(!(cache instanceof TXCache)){
         			throw new ServerErrorException(ServerErrors.ERROR_1009);
@@ -80,8 +84,8 @@ public class GetCommand extends AbstractCommand{
             	writer.write(ArraysUtil.toBytes(key));
             	writer.write(SEPARATOR_COMMAND_DTA, 0, SEPARATOR_COMMAND_DTA.length);
             	writer.write(ArraysUtil.toBytes(in.getSize()));
-            	writer.write(SUFFIX, 0, SUFFIX.length);
-            	writer.write(CRLF_DTA, 0, CRLF_DTA.length);
+            	writer.write(FULL_SUFFIX, 0, FULL_SUFFIX.length);
+            	//writer.write(CRLF_DTA, 0, CRLF_DTA.length);
             	
                 OutputStream out = null;
                 try{
@@ -102,8 +106,8 @@ public class GetCommand extends AbstractCommand{
             else{
             	writer.write(PREFIX, 0, PREFIX.length);
             	writer.write(ArraysUtil.toBytes(key));
-            	writer.write(EMPTY_SUFFIX, 0, EMPTY_SUFFIX.length);
-            	writer.write(CRLF_DTA, 0, CRLF_DTA.length);
+            	writer.write(FULL_EMPTY_SUFFIX, 0, FULL_EMPTY_SUFFIX.length);
+            	//writer.write(CRLF_DTA, 0, CRLF_DTA.length);
             }
         }
         finally{
@@ -111,7 +115,7 @@ public class GetCommand extends AbstractCommand{
                 in.close();
         }
 
-        writer.sendMessage(BOUNDARY_DTA);
+        writer.write(BOUNDARY_DTA, 0, BOUNDARY_DTA.length);
         writer.flush();
 	}
 
