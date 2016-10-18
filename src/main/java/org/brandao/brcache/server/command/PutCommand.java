@@ -23,9 +23,9 @@ import org.brandao.brcache.server.util.ArraysUtil;
  */
 public class PutCommand extends AbstractCommand{
 
-	private static final byte[] REPLACE_SUCCESS_DTA = TerminalConstants.REPLACE_SUCCESS_DTA;
+	private static final byte[] REPLACE_SUCCESS_DTA = TerminalConstants.FULL_REPLACE_SUCCESS_DTA;
 
-	private static final byte[] STORED_DTA = TerminalConstants.STORED_DTA;
+	private static final byte[] STORED_DTA = TerminalConstants.FULL_STORED_DTA;
 	
 	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
 			TerminalWriter writer, byte[][] parameters)
@@ -42,22 +42,10 @@ public class PutCommand extends AbstractCommand{
         	timeToIdle = ArraysUtil.toInt(parameters[3]);
             size       = ArraysUtil.toInt(parameters[4]);
 			
-			if(key == null){
-		        throw new NullPointerException();
+			if(key == null || timeToLive < 0 || timeToIdle < 0 || size <= 0){
+		        throw new IllegalStateException();
 			}
 			
-        	if(timeToLive < 0){
-        		throw new IllegalStateException();
-        	}
-        	
-        	if(timeToIdle < 0){
-        		throw new IllegalStateException();
-        	}
-        	
-        	if(size <= 0){
-        		throw new IllegalStateException();
-        	}
-        	
 	    }
 	    catch(Throwable e){
 	        throw new ServerErrorException(ServerErrors.ERROR_1004, e);
@@ -96,7 +84,9 @@ public class PutCommand extends AbstractCommand{
     			throw new ServerErrorException(error, ServerErrors.ERROR_1004);
         }
         
-    	writer.sendMessage(result? REPLACE_SUCCESS_DTA : STORED_DTA);
+        byte[] resultData = result? REPLACE_SUCCESS_DTA : STORED_DTA;
+        
+    	writer.write(resultData, 0, resultData.length);
         writer.flush();
 	}
 
