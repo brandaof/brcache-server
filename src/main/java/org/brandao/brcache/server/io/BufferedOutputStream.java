@@ -57,6 +57,33 @@ public class BufferedOutputStream extends OutputStream{
         this.write(new byte[]{(byte)(i & 0xff)}, 0, 1);
     }
     
+    public void directWrite(byte[] buffer, int offset, int len) throws IOException{
+        int limitOffset  = offset + len;
+        
+    	this.flush();
+        
+        while(offset < limitOffset){
+            int maxRead  = limitOffset - offset;
+            int maxWrite = this.capacity - this.offset;
+            
+            if(maxRead > maxWrite){
+            	//ArraysUtil.arraycopy(buffer, offset, this.buffer, this.offset, maxWrite);
+            	this.out.write(buffer, offset, maxWrite);
+                offset      += maxWrite;
+                this.offset += maxWrite;
+                this.flush();
+            }
+            else{
+            	//ArraysUtil.arraycopy(buffer, offset, this.buffer, this.offset, maxRead);
+            	this.out.write(buffer, offset, maxRead);
+                offset       += maxRead;
+                this.offset  += maxRead;
+            }
+        }
+        
+        this.out.flush();
+    }
+
     public void write(byte[] buffer, int offset, int len) throws IOException{
         int limitOffset  = offset + len;
         
@@ -79,7 +106,7 @@ public class BufferedOutputStream extends OutputStream{
                 this.offset  += maxRead;
             }
         }
-    }
+    } 
 
     public OutputStream getDirectOutputStream(){
     	return this.out;
@@ -94,7 +121,12 @@ public class BufferedOutputStream extends OutputStream{
     }
 
     public void close() throws IOException{
-    	this.flush();
+    	try{
+    		this.flush();
+    	}
+    	finally{
+    		super.close();
+    	}
     }
     
     public void clear(){
