@@ -68,10 +68,14 @@ public class TerminalConstants {
     public static final byte[] SUCCESS_DTA					= "ok".getBytes();
     
     public static final byte[] STORED_DTA 					= "stored".getBytes();
+    
+    public static final byte[] FULL_STORED_DTA				= "stored\r\n".getBytes();
 
     public static final byte[] NOT_STORED_DTA				= "not_stored".getBytes();
     
     public static final byte[] REPLACE_SUCCESS_DTA			= "replaced".getBytes();
+
+    public static final byte[] FULL_REPLACE_SUCCESS_DTA		= "replaced\r\n".getBytes();
     
     public static final byte[] NOT_FOUND_DTA 				= "not_found".getBytes();
     
@@ -107,6 +111,8 @@ public class TerminalConstants {
     
     public static final byte[] BOUNDARY_DTA 				= BOUNDARY.getBytes();
 
+    public static final byte[] FULL_BOUNDARY_DTA 			= (BOUNDARY + CRLF) .getBytes();
+    
 	public static final byte SEPARATOR_CHAR 				= ' ';
     
 }
