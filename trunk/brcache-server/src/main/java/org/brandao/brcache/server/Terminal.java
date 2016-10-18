@@ -168,16 +168,8 @@ public class Terminal {
                 readMessage = reader.readMessage(message, 0, message.length);
                 params = ArraysUtil.split(message, 0, readMessage, SEPARATOR_CHAR);
                 
-                /*
-               	if(params[0] == null && readMessage < 0){
-               		this.run = false;
-               		continue;
-               	}
-                */
-                
                 switch (params[0][0]) {
 				case 'p':
-					
 	               	if(ArraysUtil.equals(TerminalConstants.PUT_CMD_DTA, params[0])){
 	            		PUT.execute(this, cache, reader, writer, params);
 	               	}
