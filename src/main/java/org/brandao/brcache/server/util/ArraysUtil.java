@@ -160,18 +160,9 @@ public class ArraysUtil {
 		int mult   = 1;
 		
 		while(limit>=start){
-			int tmp = value[limit--] - ZERO;
-			result += tmp*mult;
+			result += (value[limit--] - ZERO)*mult;
 			mult   *= 10;
 		}
-		
-		/*
-		for(int i=limit;i>=start;i--){
-			int tmp = value[i] - ZERO;
-			result += tmp*mult;
-			mult   *= 10;
-		}
-		*/
 		
 		if(signal == FALSE){
 			result = (result ^ NEGATIVE_INT) + 1;
@@ -301,8 +292,8 @@ public class ArraysUtil {
 		int mult    = 1;
 		
 		for(int i=limit;i>=start;i--){
-			int tmp = value[i] - ZERO;
-			result += tmp*mult;
+			//int tmp = value[i] - ZERO;
+			result += (value[i] - ZERO)*mult;
 			mult   *= 10;
 		}
 		
