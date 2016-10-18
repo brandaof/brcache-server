@@ -31,6 +31,8 @@ public interface TerminalWriter {
 
     void write(byte[] b, int off, int len) throws WriteDataException;
 
+    void directWrite(byte[] b, int off, int len) throws WriteDataException;
+    
     void write(byte[] b) throws WriteDataException;
     
     void sendCRLF() throws WriteDataException;
