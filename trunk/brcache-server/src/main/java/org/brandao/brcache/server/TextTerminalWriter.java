@@ -63,6 +63,15 @@ public class TextTerminalWriter implements TerminalWriter{
         }
     }
 
+    public void directWrite(byte[] b, int off, int len) throws WriteDataException {
+        try{
+            this.buffer.directWrite(b, off, len);
+        }
+        catch(IOException e){
+            throw new WriteDataException(TerminalConstants.SEND_MESSAGE_FAIL, e);
+        }
+    }
+    
     public void write(byte[] b, int off, int len) throws WriteDataException {
         try{
             this.buffer.write(b, off, len);
