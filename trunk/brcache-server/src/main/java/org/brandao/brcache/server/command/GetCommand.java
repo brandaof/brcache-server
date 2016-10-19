@@ -65,7 +65,6 @@ public class GetCommand extends AbstractCommand{
         CacheInputStream in = null;
         
         try{
-        	
         	if(forUpdate){
         		if(!(cache instanceof TXCache)){
         			throw new ServerErrorException(ServerErrors.ERROR_1009);
@@ -85,7 +84,6 @@ public class GetCommand extends AbstractCommand{
             	writer.write(SEPARATOR_COMMAND_DTA, 0, SEPARATOR_COMMAND_DTA.length);
             	writer.write(ArraysUtil.toBytes(in.getSize()));
             	writer.write(FULL_SUFFIX, 0, FULL_SUFFIX.length);
-            	//writer.write(CRLF_DTA, 0, CRLF_DTA.length);
             	
                 OutputStream out = null;
                 try{
@@ -107,7 +105,6 @@ public class GetCommand extends AbstractCommand{
             	writer.write(PREFIX, 0, PREFIX.length);
             	writer.write(ArraysUtil.toBytes(key));
             	writer.write(FULL_EMPTY_SUFFIX, 0, FULL_EMPTY_SUFFIX.length);
-            	//writer.write(CRLF_DTA, 0, CRLF_DTA.length);
             }
         }
         finally{
