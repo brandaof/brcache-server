@@ -56,7 +56,8 @@ public class GetCommand extends AbstractCommand{
 		        throw new NullPointerException();
 			}
 		
-            forUpdate = parameters[2][0] != '0'; //!ArraysUtil.equals(parameters[2], FALSE);
+            forUpdate = parameters[2][0] != '0';
+			//forUpdate = !ArraysUtil.equals(parameters[2], FALSE);
 	    }
 	    catch(Throwable e){
 	        throw new ServerErrorException(ServerErrors.ERROR_1004, e);
