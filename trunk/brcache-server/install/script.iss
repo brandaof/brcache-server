@@ -7,46 +7,47 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{FF28A4E6-F7AF-4A44-9250-BA936DACA055}
 AppName=BRCache Server
-AppVersion=1.0 Beta 3
-;AppVerName=BRCache Server 1.0 Beta 3
+AppVersion=1.0 Beta 4
+AppVerName=BRCache Server 1.0 Beta 4
 AppPublisher=Brandao
 AppPublisherURL=http://brcache.brandao.org/
 AppSupportURL=http://brcache.brandao.org/
 AppUpdatesURL=http://brcache.brandao.org/
-DefaultDirName={pf}\BRCache 1.0-b3
+DefaultDirName={pf}\BRCache 1.0-b4
 DefaultGroupName=BRCache 1.0 Beta
 AllowNoIcons=yes
 OutputDir=C:\projetos\brcache\brcache-server\install
-OutputBaseFilename=brcache-server-1.0-b3
+OutputBaseFilename=brcache-server-1.0-b4
 Compression=lzma
 SolidCompression=yes
 Uninstallable=yes
 
 [run]
 ;Instala o serviço
-Filename: {app}\prunsrv.exe; Parameters: "install BRCache10B3 --DisplayName=""BRCache Server Beta"" --Description=""The BRCache is a general-purpose caching system with transaction support."" --Install=""{app}\prunsrv.exe"" --StartPath=""{app}"" --Classpath=""{app}\brcache-server-1.0-b3.jar"";""{app}\lib\brcache-1.0-b3.jar"";""{app}\lib\named-lock-1.0-b2.jar"" --StartMode=jvm --StartClass=org.brandao.brcache.server.Bootstrap --StartMethod=start --StartParams=--default-file=""{app}\brcache.conf"" --StopPath=""{app}"" --StopMode=jvm --StopClass=org.brandao.brcache.server.Bootstrap --StopMethod=stop --StopParams= --StdOutput=stdout.log --StdError=stderr.log --Startup=auto --JvmOptions=-Xms{code:getHeapMemory}m ++JvmOptions=-Xmx{code:getHeapMemory}m" ; Flags: runhidden
+Filename: {app}\prunsrv.exe; Parameters: "install BRCache10B4 --DisplayName=""BRCache Server Beta"" --Description=""The BRCache is a general-purpose caching system with transaction support."" --Install=""{app}\prunsrv.exe"" --StartPath=""{app}"" --Classpath=""{app}\brcache-server-1.0-b4.jar"";""{app}\lib\brcache-1.0-b4.jar"";""{app}\lib\named-lock-1.0-b2.jar"" --StartMode=jvm --StartClass=org.brandao.brcache.server.Bootstrap --StartMethod=start --StartParams=--default-file=""{app}\brcache.conf"" --StopPath=""{app}"" --StopMode=jvm --StopClass=org.brandao.brcache.server.Bootstrap --StopMethod=stop --StopParams= --StdOutput=stdout.log --StdError=stderr.log --Startup=auto --JvmOptions=-Xms{code:getHeapMemory}m ++JvmOptions=-Xmx{code:getHeapMemory}m" ; Flags: runhidden
 ;Inicia o serviço
-Filename: {app}\prunsrv.exe; Parameters: "//ES/brcache10b3" ; Flags: runhidden
+Filename: {app}\prunsrv.exe; Parameters: "//ES/brcache10b4" ; Flags: runhidden
 ;Inicia o manager
-Filename: {app}\brcache10b3.exe; Parameters: "//MS" ; Flags: runhidden nowait
+Filename: {app}\brcache10b4.exe; Parameters: "//MS" ; Flags: runhidden nowait
 
 [UninstallRun]
 ;Para o serviço
-Filename: {app}\brcache10b3.exe; Parameters: "//MQ" ; Flags: runhidden
+Filename: {app}\brcache10b4.exe; Parameters: "//MQ" ; Flags: runhidden
 ;Desinstala o serviço
-Filename: {app}\prunsrv.exe; Parameters: "//DS/brcache10b3" ; Flags: runhidden
+Filename: {app}\prunsrv.exe; Parameters: "//DS/brcache10b4" ; Flags: runhidden
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
 ;Arquivo necesários para iniciar o serviço
-Source: "C:\projetos\brcache\brcache-server\install\brcache10b3.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\projetos\brcache\brcache-server\install\brcache10b4.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\projetos\brcache\brcache-server\install\prunsrv.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ;Arquivos do projeto
-Source: "C:\projetos\brcache\brcache-server\target\brcache-server-1.0-b3.jar"; DestDir: "{app}"; AfterInstall: CreateConfig; Flags: ignoreversion
-Source: "C:\projetos\brcache\brcache-server\target\lib\*"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\projetos\brcache\brcache-server\target\brcache-server-1.0-b4.jar"; DestDir: "{app}"; AfterInstall: CreateConfig; Flags: ignoreversion
+Source: "C:\projetos\brcache\brcache-server\target\lib\brcache-1.0-b4.jar"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\projetos\brcache\brcache-server\target\lib\named-lock-1.0-b2.jar"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs createallsubdirs
 ;Source: "C:\projetos\brcache\brcache-server\install\server.bmp"; DestDir: "{tmp}"; Flags: dontcopy
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
