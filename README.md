@@ -41,6 +41,31 @@ de configuração.
 
 No diretório raiz da instalação, brcache-yy-xx, contém o arquivo brcache.conf. Nele contém toda a configuração do servidor.
 
+| Variável                | Descrição                                                                                   |
+| ------------------------| ------------------------------------------------------------------------------------------- |
+| port                    | Porta TCP/IP que o serivodr BRCache usa para escutar.                                       |
+| max_connections         | Quantidade máxima de sessões que o BRCache permite.                                         |
+| swapper_thread          | Quantidade de processos que fazem a troca dos dados da memória com outro dispositivo.       |
+| timeout_connection      | Timeout das conexões em milesegundos.                                                       |
+| write_buffer_size       | Tamanho do buffer de escrita.                                                               |
+| read_buffer_size        | Tamanho do buffer de leitura.                                                               |
+| data_path               | Local onde se faz a troca dos dados quando o limite da memória é atingido.                  |
+| nodes_buffer_size       | Tamanho do buffer usado para armazenar os nós na memória.                                   |
+| nodes_page_size         | Tamanho da página do buffer de nós.                                                         |
+| nodes_swap_factor       | Fator de swap dos nós.                                                                      |
+| index_buffer_size       | Tamanho do buffer usado para armazenar o índice dos itens na memória.                       |
+| index_page_size         | Tamanho da página do buffer de índices.                                                     |
+| index_swap_factor       | Fator de swap dos índices.                                                                  |
+| data_buffer_size        | Tamanho do buffer usado para armazenar os itens na memória.                                 |
+| data_page_size          | Tamanho da página do buffer de itens.                                                       |
+| data_block_size         | Tamanho do bloco de dados.                                                                  |
+| data_swap_factor        | Fator de swap dos itens.                                                                    |
+| max_size_entry          | Tamanho máximo em bytes que um item pode ter para ser armazenado no cache.                  |
+| max_size_key            | Tamanho máximo, em bytes que uma chave pode ter.                                            |
+| transaction_support     | Permite usar o suporte transacional. Pode assumir true ou false.                            |
+| transaction_timeout     | Define o tempo máximo em milesegundos que uma operação pode demorar.                        |
+| transaction_manager     | Gestor das transações no cache.                                                             |
+
 ## Teste básico de instalação
 
 Depois de ter instalado o BRCache, é aconselhável realizar um teste de inicialização simples para verificar que não há grandes 
