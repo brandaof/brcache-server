@@ -112,26 +112,47 @@ O servidor BRCache foi iniciado usando os parâmetros de linha de comando server
 O Memcached não necessitou de configurações adicionais e o BRCache foi configurado como se segue abaixo:
 
 `port=9090 
+
 max_connections=1024 
+
 swapper_thread=2 
+
 memory_access_type=unsafe 
+
 timeout_connection=1024 
+
 reuse_address=false 
+
 data_path=/mnt/brcache 
+
 nodes_buffer_size=1024m 
+
 nodes_page_size=1k 
+
 nodes_swap_factor=0.1 
+
 index_buffer_size=512m 
+
 index_page_size=1k 
+
 index_swap_factor=0.1 
+
 data_buffer_size=4000m 
+
 data_page_size=8k 
+
 data_block_size=1k 
+
 data_swap_factor=0.1 
+
 write_buffer_size=16k 
+
 read_buffer_size=16k 
+
 max_size_entry=128m 
+
 max_size_key=64 
+
 transaction_support=false `
 
 ### O calculo
