@@ -111,7 +111,7 @@ O servidor BRCache foi iniciado usando os parâmetros de linha de comando server
 
 O Memcached não necessitou de configurações adicionais e o BRCache foi configurado como se segue abaixo:
 
-`port=9090 
+port=9090 
 
 max_connections=1024 
 
@@ -153,7 +153,7 @@ max_size_entry=128m
 
 max_size_key=64 
 
-transaction_support=false `
+transaction_support=false
 
 ### O calculo
 
