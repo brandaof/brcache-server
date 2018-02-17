@@ -1,5 +1,5 @@
 # BRCache Server
-O BRCache server é um sistema de cache de propósito geral.A distribuição dos binárias estão disponíveis 
+O BRCache server é um sistema de cache de propósito geral com suporte transacional. A distribuição dos binárias estão disponíveis 
 no repositório SourceForge. (http://sourceforge.net/projects/brcache). A pronta disponibilidade do código fonte 
 permite-lhe depurar o servidor, aprender seu funcionamento interno e criar versões personalizadas para seu uso pessoal 
 ou empresarial.
