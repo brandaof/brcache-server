@@ -176,6 +176,11 @@
 			<artifactId>brcache</artifactId>
 			<version>1.0-b4</version>
 		</dependency>
+		<dependency>
+			<groupId>org.brandao</groupId>
+			<artifactId>entity-file-manager</artifactId>
+			<version>1.0.0.1</version>
+		</dependency>
 	</dependencies>
   
 </project>
