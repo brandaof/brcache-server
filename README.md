@@ -61,9 +61,9 @@ No diretório raiz da instalação, brcache-yy-xx, contém o arquivo brcache.con
 | data_block_size         | Tamanho do bloco de dados.                                                                  |
 | data_swap_factor        | Fator de swap dos itens.                                                                    |
 | max_size_entry          | Tamanho máximo em bytes que um item pode ter para ser armazenado no cache.                  |
-| max_size_key            | Tamanho máximo em bytes que uma chave pode ter.                                            |
+| max_size_key            | Tamanho máximo em bytes que uma chave pode ter.                                             |
 | transaction_support     | Permite usar o suporte transacional. Pode assumir true ou false.                            |
-| transaction_timeout     | Define o tempo máximo em milissegundos que uma operação pode demorar.                        |
+| transaction_timeout     | Define o tempo máximo em milissegundos que uma operação pode demorar.                       |
 | transaction_manager     | Gestor das transações no cache.                                                             |
 
 ## Teste básico de instalação
@@ -101,17 +101,22 @@ O experimento foi feito com a versão 1.4.5 64bit do Memcached e a versão 1.0 b
 
 Para o experimento, o servidor Memcached foi iniciado usando os parâmetros de linha de comando m igual a 8000 e t igual a 8.
 
-`memcached -m 8000 -t 8`
+```
+memcached -m 8000 -t 8
+```
 
 O servidor BRCache foi iniciado usando os parâmetros de linha de comando server e XX:ParallelGCThreads igual a 8.
 
-`java -server -XX:ParallelGCThreads=8 -jar brcache-server-1.0-b4.jar`
+```
+java -server -XX:ParallelGCThreads=8 -jar brcache-server-1.0-b4.jar
+```
 
 # As configurações adicionais do cache
 
 O Memcached não necessitou de configurações adicionais e o BRCache foi configurado como se segue abaixo:
 
-`port=9090
+```
+port=9090
 max_connections=1024  
 swapper_thread=2  
 memory_access_type=unsafe  
@@ -133,7 +138,7 @@ read_buffer_size=16k
 max_size_entry=128m  
 max_size_key=64  
 transaction_support=false  `
-
+```
 ### O cálculo
 
 A quantidade de operações por segundo foi obtida com a fórmula: ops = (1000000000*i)/t, onde:
