@@ -2,7 +2,7 @@ package org.brandao.brcache.server.command;
 
 import java.io.InputStream;
 
-import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.Cache;
 import org.brandao.brcache.CacheErrors;
 import org.brandao.brcache.CacheException;
 import org.brandao.brcache.CacheInputStream;
@@ -27,7 +27,7 @@ import org.brandao.brcache.server.util.ArraysUtil;
  */
 public class SetCommand extends AbstractCommand{
 
-	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
+	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
 			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
 		

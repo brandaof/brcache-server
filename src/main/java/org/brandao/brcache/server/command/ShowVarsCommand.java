@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.Cache;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalConstants;
-import org.brandao.brcache.server.TerminalVars;
 import org.brandao.brcache.server.TerminalReader;
+import org.brandao.brcache.server.TerminalVars;
 import org.brandao.brcache.server.TerminalWriter;
 
 /**
@@ -31,7 +31,7 @@ public class ShowVarsCommand
     	this.runtime = Runtime.getRuntime();
     }
     
-	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
+	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
 			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
 		

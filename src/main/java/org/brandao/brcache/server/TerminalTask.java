@@ -21,7 +21,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.Cache;
 import org.brandao.brcache.server.io.StreamFactory;
 import org.brandao.brcache.server.terminalinfolisteners.AutoCommitListener;
 
@@ -37,7 +37,7 @@ class TerminalTask implements Runnable{
     
     private final TerminalVars terminalVars;
     
-    private BasicCache cache;
+    private Cache cache;
     
     private Socket socket;
     
@@ -47,7 +47,7 @@ class TerminalTask implements Runnable{
     
     private StreamFactory streamFactory;
     
-    public TerminalTask(Terminal terminal, BasicCache cache, 
+    public TerminalTask(Terminal terminal, Cache cache, 
             Socket socket,
             StreamFactory streamFactory,
             int readBufferSize, int writeBufferSize, 

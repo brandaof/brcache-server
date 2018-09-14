@@ -2,7 +2,7 @@ package org.brandao.brcache.server.command;
 
 import java.io.OutputStream;
 
-import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.Cache;
 import org.brandao.brcache.CacheInputStream;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalConstants;
@@ -42,7 +42,7 @@ public class GetCommand extends AbstractCommand{
 	
 	private static final byte[] BOUNDARY_DTA          = TerminalConstants.FULL_BOUNDARY_DTA;
 	
-	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
+	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
 			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
 

@@ -1,6 +1,6 @@
 package org.brandao.brcache.server.terminalinfolisteners;
 
-import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.Cache;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalVars;
 import org.brandao.brcache.server.TerminalVars.TerminalInfoListener;
@@ -13,7 +13,7 @@ public class AutoCommitListener implements TerminalInfoListener{
 
 	private Terminal terminal;
 	
-	private String[] emptyParams = new String[0];
+	//private String[] emptyParams = new String[0];
 	
 	public AutoCommitListener(Terminal terminal) {
 		this.terminal = terminal;
@@ -25,7 +25,7 @@ public class AutoCommitListener implements TerminalInfoListener{
 		boolean value = (Boolean)newValue;
 		
 		try{
-			BasicCache cache = terminal.getCache();
+			Cache cache = terminal.getCache();
 			if(value){
 				if(!(cache instanceof TXCache)){
 					throw new ServerErrorException(ServerErrors.ERROR_1009);

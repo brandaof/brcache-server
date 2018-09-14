@@ -17,8 +17,8 @@
 
 package org.brandao.brcache.server;
 
+import org.brandao.brcache.Cache;
 import org.brandao.brcache.Configuration;
-import org.brandao.brcache.StreamCache;
 
 /**
  *
@@ -30,9 +30,9 @@ class MonitorThread extends Thread{
     
     private Configuration config;
     
-    private StreamCache cache;
+    private Cache cache;
     
-    public MonitorThread(StreamCache cache, Configuration config){
+    public MonitorThread(Cache cache, Configuration config){
         this.cache = cache;
         this.config = config;
     }

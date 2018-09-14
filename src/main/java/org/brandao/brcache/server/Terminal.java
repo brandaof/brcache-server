@@ -21,18 +21,18 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
 
-import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.Cache;
 import org.brandao.brcache.server.command.BeginTransactionCommand;
 import org.brandao.brcache.server.command.CommitTransactionCommand;
 import org.brandao.brcache.server.command.ExitCommand;
 import org.brandao.brcache.server.command.GetCommand;
-import org.brandao.brcache.server.command.SetCommand;
-import org.brandao.brcache.server.command.ShowVarCommand;
 import org.brandao.brcache.server.command.PutCommand;
 import org.brandao.brcache.server.command.RemoveCommand;
 import org.brandao.brcache.server.command.ReplaceCommand;
 import org.brandao.brcache.server.command.RollbackTransactionCommand;
+import org.brandao.brcache.server.command.SetCommand;
 import org.brandao.brcache.server.command.SetVarCommand;
+import org.brandao.brcache.server.command.ShowVarCommand;
 import org.brandao.brcache.server.command.ShowVarsCommand;
 import org.brandao.brcache.server.error.ServerErrorException;
 import org.brandao.brcache.server.error.ServerErrors;
@@ -46,6 +46,7 @@ import org.brandao.brcache.tx.TXCache;
  *
  * @author Brandao
  */
+@SuppressWarnings("unused")
 public class Terminal {
     
 	public static final Command PUT    		= new PutCommand();
@@ -74,7 +75,7 @@ public class Terminal {
 	
 	public static final byte SEPARATOR_CHAR = TerminalConstants.SEPARATOR_CHAR;
 	
-    private BasicCache cache;
+    private Cache cache;
     
     private Socket socket;
     
@@ -88,13 +89,13 @@ public class Terminal {
     
     private int readBufferSize;
     
-    private int writeBufferSize;
+	private int writeBufferSize;
     
     public Terminal(){
         this.run    = false;
     }
 
-    protected void init(Socket socket, BasicCache cache, 
+    protected void init(Socket socket, Cache cache, 
             StreamFactory streamFactory,
             int readBufferSize, int writeBufferSize, TerminalVars terminalVars) throws IOException{
         try{
@@ -330,7 +331,7 @@ public class Terminal {
 		return writer;
 	}
 
-	public BasicCache getCache() {
+	public Cache getCache() {
 		return cache;
 	}
 

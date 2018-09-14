@@ -17,7 +17,6 @@
 
 package org.brandao.brcache.server;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -26,14 +25,18 @@ import java.util.concurrent.Executors;
 
 import org.brandao.brcache.BRCacheConfig;
 import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.BasicCacheHandler;
 import org.brandao.brcache.Cache;
 import org.brandao.brcache.CacheConstants;
+import org.brandao.brcache.CacheHandler;
 import org.brandao.brcache.Configuration;
+import org.brandao.brcache.PropertiesBRCacheConfig;
 import org.brandao.brcache.collections.Collections;
 import org.brandao.brcache.server.io.DefaultStreamFactory;
 import org.brandao.brcache.server.io.StreamFactory;
 import org.brandao.brcache.tx.CacheTransactionManager;
 import org.brandao.brcache.tx.CacheTransactionManagerImp;
+import org.brandao.brcache.tx.TXCache;
 
 /**
  * Representa o servidor do cache.
@@ -54,7 +57,7 @@ public class BrCacheServer {
     
     volatile int countConnections;
     
-    private BasicCache cache;
+    private Cache cache;
     
     private int readBufferSize;
     
@@ -121,32 +124,33 @@ public class BrCacheServer {
      * o servidor.
      */
     public void start() throws IOException{
-        this.terminalFactory = new TerminalFactory(1, this.maxConnections);
-        this.serverSocket = new ServerSocket(this.port);
-        this.serverSocket.setSoTimeout(this.timeout);
-        this.serverSocket.setReuseAddress(this.reuseAddress);
-        this.executorService = Executors.newFixedThreadPool(this.maxConnections);
-        this.streamFactory = this.createStreamFactory();
+        this.terminalFactory = new TerminalFactory(1, maxConnections);
+        this.serverSocket    = new ServerSocket(port);
+        this.executorService = Executors.newFixedThreadPool(maxConnections);
+        this.streamFactory   = createStreamFactory();
+        
+        this.serverSocket.setSoTimeout(timeout);
+        this.serverSocket.setReuseAddress(reuseAddress);
         
         this.run = true;
         while(this.run){
             Socket socket = null;
             try{
-                socket = this.serverSocket.accept();
+                socket = serverSocket.accept();
                 socket.setTcpNoDelay(true);
-                Terminal terminal = this.terminalFactory.getInstance();
+                Terminal terminal = terminalFactory.getInstance();
                 TerminalTask task = 
                     new TerminalTask(
                             terminal, 
-                            this.cache, 
+                            cache, 
                             socket, 
-                            this.streamFactory,
-                            this.readBufferSize,
-                            this.writeBufferSize,
-                            this.terminalFactory,
-                            this.globalVars);
+                            streamFactory,
+                            readBufferSize,
+                            writeBufferSize,
+                            terminalFactory,
+                            globalVars);
                 
-                this.executorService.execute(task);
+                executorService.execute(task);
             }
             catch(Exception e){
                 //e.printStackTrace();
@@ -211,16 +215,17 @@ public class BrCacheServer {
         Collections.setPath(data_path);
     }
     
-    private void initCache(Configuration config){
-        BRCacheConfig brcacheConfig = new BRCacheConfig();
-        brcacheConfig.setConfiguration(config);
+    private void initCache(Configuration c) {
+        BRCacheConfig config      = new PropertiesBRCacheConfig(c);
+        CacheHandler cacheHandler = new BasicCacheHandler("default", config);
         
-        this.cache = new BasicCache(brcacheConfig);
-        
-        if(this.txSupport){
-            txManager.setPath(brcacheConfig.getDataPath() + "/tx");
-            txManager.setTimeout(this.txTimeout);
-        	this.cache = this.cache.getTXCache(txManager);
+        if(txSupport){
+            txManager.setPath(config.getDataPath() + "/tx");
+            txManager.setTimeout(txTimeout);
+        	cache = new TXCache(cacheHandler, txManager);
+        }
+        else{
+        	cache = new BasicCache(cacheHandler);
         }
     }
     
@@ -257,7 +262,6 @@ public class BrCacheServer {
         this.globalVars.put("max_size_key",			brcacheConfig.getMaxSizeKey());
         this.globalVars.put("swapper_thread",		brcacheConfig.getSwapperThread());
         this.globalVars.put("data_path",			brcacheConfig.getDataPath());
-        this.globalVars.put("swapper_type",			brcacheConfig.getSwapper());
         
     }
     

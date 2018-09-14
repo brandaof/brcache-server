@@ -17,7 +17,7 @@
 
 package org.brandao.brcache.server;
 
-import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.Cache;
 import org.brandao.brcache.server.error.ServerErrorException;
 
 /**
@@ -26,7 +26,7 @@ import org.brandao.brcache.server.error.ServerErrorException;
  */
 public interface Command {
     
-    void execute(Terminal terminal, BasicCache cache, TerminalReader reader, 
+    void execute(Terminal terminal, Cache cache, TerminalReader reader, 
     		TerminalWriter writer, byte[][] parameters) 
             throws ServerErrorException;
     

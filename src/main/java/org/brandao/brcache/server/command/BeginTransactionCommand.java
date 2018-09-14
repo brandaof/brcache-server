@@ -1,6 +1,6 @@
 package org.brandao.brcache.server.command;
 
-import org.brandao.brcache.BasicCache;
+import org.brandao.brcache.Cache;
 import org.brandao.brcache.server.ServerConstants;
 import org.brandao.brcache.server.Terminal;
 import org.brandao.brcache.server.TerminalConstants;
@@ -22,7 +22,7 @@ import org.brandao.brcache.tx.TXCache;
 public class BeginTransactionCommand 
 	extends AbstractCommand{
 
-	public void executeCommand(Terminal terminal, BasicCache cache, TerminalReader reader,
+	public void executeCommand(Terminal terminal, Cache cache, TerminalReader reader,
 			TerminalWriter writer, byte[][] parameters)
 			throws Throwable {
 
