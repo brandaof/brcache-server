@@ -18,8 +18,10 @@
 package org.brandao.brcache.server;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -31,7 +33,6 @@ import org.brandao.brcache.CacheConstants;
 import org.brandao.brcache.CacheHandler;
 import org.brandao.brcache.Configuration;
 import org.brandao.brcache.PropertiesBRCacheConfig;
-import org.brandao.brcache.collections.Collections;
 import org.brandao.brcache.server.io.DefaultStreamFactory;
 import org.brandao.brcache.server.io.StreamFactory;
 import org.brandao.brcache.tx.CacheTransactionManager;
@@ -85,12 +86,17 @@ public class BrCacheServer {
     
     private CacheTransactionManager txManager; 
     
+    private InetAddress address;
+    
+    private int backlog;
+    
     /**
      * Cria uma nova instância do cache.
      * 
      * @param config Configuração.
+     * @throws UnknownHostException 
      */
-    public BrCacheServer(Configuration config){
+    public BrCacheServer(Configuration config) throws UnknownHostException{
         this.loadConfiguration(config);
     }
     
@@ -104,10 +110,12 @@ public class BrCacheServer {
      * @param cache Cache.
      */
     public BrCacheServer(
+    		InetAddress address,
             int port, 
             int maxConnections, 
             int timeout, 
             boolean reuseAddress,
+            int backlog,
             Cache cache){
         this.run            = false;
         this.timeout        = timeout;
@@ -125,7 +133,7 @@ public class BrCacheServer {
      */
     public void start() throws IOException{
         this.terminalFactory = new TerminalFactory(1, maxConnections);
-        this.serverSocket    = new ServerSocket(port);
+        this.serverSocket    = new ServerSocket(port, backlog, address);
         this.executorService = Executors.newFixedThreadPool(maxConnections);
         this.streamFactory   = createStreamFactory();
         
@@ -137,7 +145,8 @@ public class BrCacheServer {
             Socket socket = null;
             try{
                 socket = serverSocket.accept();
-                socket.setTcpNoDelay(true);
+                //socket.setTcpNoDelay(true);
+
                 Terminal terminal = terminalFactory.getInstance();
                 TerminalTask task = 
                     new TerminalTask(
@@ -180,14 +189,16 @@ public class BrCacheServer {
         return factory;
     }
     
-    private void loadConfiguration(Configuration config){
+    private void loadConfiguration(Configuration config) throws UnknownHostException{
     	this.initProperties(config);
     	this.initCache(config);
     	this.initMonitorThread();
     	this.initGlobalTerminalInfo();
     }
 
-    private void initProperties(Configuration config){
+    private void initProperties(Configuration config) throws UnknownHostException{
+        int backlog  			= config.getInt(ServerConstants.BACKLOG,					"10");
+        String addressName		= config.getString(ServerConstants.ADDRESS,					null);
         int portNumber			= config.getInt(ServerConstants.PORT,						"1044");
         int max_connections		= config.getInt(ServerConstants.MAX_CONNECTIONS,			"1024");
         int timeout_connection	= config.getInt(ServerConstants.TIMEOUT_CONNECTION,			"1000");
@@ -210,9 +221,11 @@ public class BrCacheServer {
         this.dataPath           = data_path;
         this.txSupport          = txSupport;
         this.txTimeout          = txTimeout;
+        this.address            = addressName == null? null : InetAddress.getByName(addressName);
+        this.backlog            = backlog;
         this.txManager          = (CacheTransactionManager)txManager;
         
-        Collections.setPath(data_path);
+        //Collections.setPath(data_path);
     }
     
     private void initCache(Configuration c) {

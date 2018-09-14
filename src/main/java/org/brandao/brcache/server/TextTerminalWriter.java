@@ -45,8 +45,8 @@ public class TextTerminalWriter implements TerminalWriter{
 
     public void sendMessage(String message) throws WriteDataException {
         try{
-            this.buffer.write(ArraysUtil.toBytes(message));
-            this.buffer.write(TerminalConstants.CRLF_DTA);
+            buffer.write(ArraysUtil.toBytes(message));
+            buffer.write(TerminalConstants.CRLF_DTA);
         }
         catch(IOException e){
             throw new WriteDataException(TerminalConstants.SEND_MESSAGE_FAIL, e);
@@ -55,8 +55,8 @@ public class TextTerminalWriter implements TerminalWriter{
 
     public void sendMessage(byte[] message) throws WriteDataException {
         try{
-            this.buffer.write(message);
-            this.buffer.write(TerminalConstants.CRLF_DTA);
+            buffer.write(message);
+            buffer.write(TerminalConstants.CRLF_DTA);
         }
         catch(IOException e){
             throw new WriteDataException(TerminalConstants.SEND_MESSAGE_FAIL, e);
@@ -65,7 +65,7 @@ public class TextTerminalWriter implements TerminalWriter{
 
     public void directWrite(byte[] b, int off, int len) throws WriteDataException {
         try{
-            this.buffer.directWrite(b, off, len);
+            buffer.directWrite(b, off, len);
         }
         catch(IOException e){
             throw new WriteDataException(TerminalConstants.SEND_MESSAGE_FAIL, e);
@@ -74,7 +74,7 @@ public class TextTerminalWriter implements TerminalWriter{
     
     public void write(byte[] b, int off, int len) throws WriteDataException {
         try{
-            this.buffer.write(b, off, len);
+            buffer.write(b, off, len);
         }
         catch(IOException e){
             throw new WriteDataException(TerminalConstants.SEND_MESSAGE_FAIL, e);
@@ -83,7 +83,7 @@ public class TextTerminalWriter implements TerminalWriter{
 
     public void write(byte[] b) throws WriteDataException {
         try{
-            this.buffer.write(b, 0, b.length);
+            buffer.write(b, 0, b.length);
         }
         catch(IOException e){
             throw new WriteDataException(TerminalConstants.SEND_MESSAGE_FAIL, e);
@@ -92,7 +92,7 @@ public class TextTerminalWriter implements TerminalWriter{
     
     public void sendCRLF() throws WriteDataException {
         try{
-            this.buffer.write(TerminalConstants.CRLF_DTA);
+            buffer.write(TerminalConstants.CRLF_DTA);
         }
         catch(IOException e){
             throw new WriteDataException(TerminalConstants.SEND_MESSAGE_FAIL, e);
@@ -102,7 +102,7 @@ public class TextTerminalWriter implements TerminalWriter{
 
     public void flush() throws WriteDataException {
         try{
-            this.buffer.flush();
+            buffer.flush();
         }
         catch(IOException e){
             throw new WriteDataException(TerminalConstants.SEND_MESSAGE_FAIL, e);
@@ -110,7 +110,7 @@ public class TextTerminalWriter implements TerminalWriter{
     }
     
     public OutputStream getStream() {
-        return this.buffer;//new TextOutputStream(this.buffer);
+        return buffer;//new TextOutputStream(this.buffer);
     }
 
 }

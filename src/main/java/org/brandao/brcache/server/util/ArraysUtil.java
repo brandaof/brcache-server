@@ -78,20 +78,18 @@ public class ArraysUtil {
 	 */
 	public static boolean equals(byte[] a, byte[] b){
 		try{
-			if(a.length >= b.length){
-				for(int i=0;i<a.length;i++){
-					if( a[i] != b[i]){
-						return false;
-					}
+			int alen = a.length;
+			
+			if(alen != b.length){
+				return false;
+			}
+			
+			for(int i=0;i<alen;i++){
+				if( a[i] != b[i]){
+					return false;
 				}
 			}
-			else{
-				for(int i=0;i<b.length;i++){
-					if( a[i] != b[i]){
-						return false;
-					}
-				}
-			}
+			
 			return true;
 		}
 		catch(Throwable e){
@@ -123,7 +121,7 @@ public class ArraysUtil {
 				byte[] item = copy(array, start, end);
 				
 				if(resultIndex >= result.length){
-					result = Arrays.copyOf(result, result.length + 10);
+					result = Arrays.copyOf(result, result.length*2);
 				}
 				result[resultIndex++] = item;
 				
@@ -137,7 +135,7 @@ public class ArraysUtil {
 			byte[] item = copy(array, start, limit + 1);
 			
 			if(resultIndex >= result.length){
-				result = Arrays.copyOf(result, result.length + 10);
+				result = Arrays.copyOf(result, result.length*2);
 			}
 			result[resultIndex++] = item;
 		}
@@ -267,12 +265,6 @@ public class ArraysUtil {
 		while(i<len){
 			bytes[i] = (byte)chars[i++];
 		}
-		
-		/*
-		for(int i=0;i<chars.length;i++){
-			bytes[i] = (byte)chars[i];
-		}
-		*/
 		
 		return bytes;
 	}

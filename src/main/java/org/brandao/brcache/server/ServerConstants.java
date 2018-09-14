@@ -2,6 +2,10 @@ package org.brandao.brcache.server;
 
 public interface ServerConstants {
 
+    public static final String BACKLOG				= "backlog";
+    
+    public static final String ADDRESS				= "address";
+	
     public static final String PORT 				= "port";
     
     public static final String MAX_CONNECTIONS 		= "max_connections";

@@ -113,10 +113,10 @@ public class BufferedOutputStream extends OutputStream{
     }
     
     public void flush() throws IOException{
-    	if(this.offset > 0){
-	        this.out.write(this.buffer, 0, this.offset);
-	        this.out.flush();
-	        this.offset = 0;
+    	if(offset > 0){
+	        out.write(buffer, 0, offset);
+	        out.flush();
+	        offset = 0;
     	}
     }
 

@@ -109,8 +109,9 @@ public class GetCommand extends AbstractCommand{
             }
         }
         finally{
-            if(in != null)
+            if(in != null){
                 in.close();
+            }
         }
 
         writer.write(BOUNDARY_DTA, 0, BOUNDARY_DTA.length);

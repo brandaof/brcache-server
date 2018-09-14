@@ -53,7 +53,7 @@ public class TextTerminalReader implements TerminalReader{
     }
     
     public InputStream getStream() {
-        return new TextInputStreamReader(this.buffer, this.offset);
+        return new TextInputStreamReader(buffer, offset);
     }
 
     public InputStream getStream(int size) {
@@ -67,7 +67,7 @@ public class TextTerminalReader implements TerminalReader{
 
     public int readMessage(byte[] b, int off, int len) throws ReadDataException{
     	try{
-    		return this.buffer.readFullLine(b, off, len);
+    		return buffer.readFullLine(b, off, len);
 		}
 		catch(IOException e){
 			throw new ReadDataException(e);
@@ -76,7 +76,7 @@ public class TextTerminalReader implements TerminalReader{
     
 	public String getMessage() throws ReadDataException {
 		try{
-			return this.buffer.readLine();
+			return buffer.readLine();
 		}
 		catch(IOException e){
 			throw new ReadDataException(e);
@@ -85,7 +85,7 @@ public class TextTerminalReader implements TerminalReader{
 
 	public byte[] getMessageBytes() throws ReadDataException {
 		try{
-			return this.buffer.readLineInBytes();
+			return buffer.readLineInBytes();
 		}
 		catch(IOException e){
 			throw new ReadDataException(e);

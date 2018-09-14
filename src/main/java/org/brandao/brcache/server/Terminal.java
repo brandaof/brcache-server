@@ -170,18 +170,6 @@ public class Terminal {
                 params = ArraysUtil.split(message, 0, readMessage, SEPARATOR_CHAR);
                 
                 switch (params[0][0]) {
-				case 'p':
-	               	if(ArraysUtil.equals(TerminalConstants.PUT_CMD_DTA, params[0])){
-	            		PUT.execute(this, cache, reader, writer, params);
-	               	}
-	                else{
-	                    this.writer.sendMessage(
-	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
-	            		);
-	                    this.writer.flush();
-	                }
-	               	
-					break;
 				case 'g':
 					
 	               	if(ArraysUtil.equals(TerminalConstants.GET_CMD_DTA, params[0])){
@@ -195,6 +183,18 @@ public class Terminal {
 	                }
 	               	
 	               	break;
+				case 'p':
+	               	if(ArraysUtil.equals(TerminalConstants.PUT_CMD_DTA, params[0])){
+	            		PUT.execute(this, cache, reader, writer, params);
+	               	}
+	                else{
+	                    this.writer.sendMessage(
+	                    		ServerErrors.ERROR_1001.getString(params[0] == null? "empty" : ArraysUtil.toString(params[0]))
+	            		);
+	                    this.writer.flush();
+	                }
+	               	
+					break;
 				case 'r':
 					
 	               	if(ArraysUtil.equals(TerminalConstants.REPLACE_CMD_DTA, params[0])){
