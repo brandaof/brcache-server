@@ -76,7 +76,7 @@ public class GetCommand extends AbstractCommand{
         		}
         	}
         	else{
-        		in = (CacheInputStream) cache.getStream(key);
+        		in = (CacheInputStream)cache.getStream(key);
         	}
         	
             if(in != null){

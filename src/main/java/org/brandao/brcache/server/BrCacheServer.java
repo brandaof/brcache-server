@@ -37,7 +37,7 @@ import org.brandao.brcache.server.io.DefaultStreamFactory;
 import org.brandao.brcache.server.io.StreamFactory;
 import org.brandao.brcache.tx.CacheTransactionManager;
 import org.brandao.brcache.tx.CacheTransactionManagerImp;
-import org.brandao.brcache.tx.TXCache;
+import org.brandao.brcache.tx.TXCacheImp;
 
 /**
  * Representa o servidor do cache.
@@ -139,13 +139,17 @@ public class BrCacheServer {
         
         this.serverSocket.setSoTimeout(timeout);
         this.serverSocket.setReuseAddress(reuseAddress);
-        
+
         this.run = true;
         while(this.run){
             Socket socket = null;
             try{
                 socket = serverSocket.accept();
-                //socket.setTcpNoDelay(true);
+                socket.setTcpNoDelay(true);
+                socket.setSendBufferSize(writeBufferSize);
+                socket.setReceiveBufferSize(readBufferSize);
+                socket.setKeepAlive(false);
+                socket.setOOBInline(true);
 
                 Terminal terminal = terminalFactory.getInstance();
                 TerminalTask task = 
@@ -198,7 +202,7 @@ public class BrCacheServer {
 
     private void initProperties(Configuration config) throws UnknownHostException{
         int backlog  			= config.getInt(ServerConstants.BACKLOG,					"10");
-        String addressName		= config.getString(ServerConstants.ADDRESS,					null);
+        String addressName		= config.getString(ServerConstants.ADDRESS,					"0.0.0.0");
         int portNumber			= config.getInt(ServerConstants.PORT,						"1044");
         int max_connections		= config.getInt(ServerConstants.MAX_CONNECTIONS,			"1024");
         int timeout_connection	= config.getInt(ServerConstants.TIMEOUT_CONNECTION,			"1000");
@@ -225,7 +229,6 @@ public class BrCacheServer {
         this.backlog            = backlog;
         this.txManager          = (CacheTransactionManager)txManager;
         
-        //Collections.setPath(data_path);
     }
     
     private void initCache(Configuration c) {
@@ -235,7 +238,7 @@ public class BrCacheServer {
         if(txSupport){
             txManager.setPath(config.getDataPath() + "/tx");
             txManager.setTimeout(txTimeout);
-        	cache = new TXCache(cacheHandler, txManager);
+        	cache = new TXCacheImp(cacheHandler, txManager);
         }
         else{
         	cache = new BasicCache(cacheHandler);
