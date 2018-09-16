@@ -1,15 +1,19 @@
 package org.brandao.brcache.server.util;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
+
+import sun.misc.Unsafe;
 
 /**
  * Provê métodos auxiliares de manipulação de arranjo de bytes.
  * @author Brandao
  *
  */
+@SuppressWarnings("restriction")
 public class ArraysUtil {
 
-	/*
+	
 	private static final Unsafe UNSAFE;
 	
     private static final long BYTE_ARRAY_OFFSET;
@@ -25,7 +29,7 @@ public class ArraysUtil {
             throw new RuntimeException(e);
         }
     }
-    */
+    
 	
 	private static final int NEGATIVE_INT   = 0xffffffff;
 	
