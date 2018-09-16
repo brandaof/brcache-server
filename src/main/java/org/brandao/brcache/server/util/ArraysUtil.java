@@ -48,8 +48,8 @@ public class ArraysUtil {
 	public static void arraycopy(byte[] src, int srcPos,
             byte[] dest, int destPos,
             int length){
-		//UNSAFE.copyMemory(src, BYTE_ARRAY_OFFSET + srcPos, dest, BYTE_ARRAY_OFFSET + destPos, length);
-		System.arraycopy(src, srcPos, dest, destPos, length);
+		UNSAFE.copyMemory(src, BYTE_ARRAY_OFFSET + srcPos, dest, BYTE_ARRAY_OFFSET + destPos, length);
+		//System.arraycopy(src, srcPos, dest, destPos, length);
 	}
 	
 	/**
@@ -59,19 +59,17 @@ public class ArraysUtil {
 	 * @return <code>true</code> se array iniciar com value. Caso contrário <code>false</code>
 	 */
 	public static boolean startsWith(byte[] array, byte[] value){
-		
-		if(array.length < value.length)
-			return false;
-		
-		for(int i=0;i<value.length;i++){
-			
-			if(array[i] != value[i]){
-				return false;
+		try{
+			int len = value.length;
+			int r   = 0;
+			for(int i=0;i<len;i++){
+				r += array[i] - value[i];
 			}
-				
+			return r == 0;
 		}
-		
-		return true;
+		catch(Throwable e){
+			return false;
+		}
 	}
 
 	/**
@@ -88,13 +86,12 @@ public class ArraysUtil {
 				return false;
 			}
 			
+			int r = 0;
 			for(int i=0;i<alen;i++){
-				if( a[i] != b[i]){
-					return false;
-				}
+				r = a[i] - b[i];
 			}
 			
-			return true;
+			return r == 0;
 		}
 		catch(Throwable e){
 			return false;
@@ -338,21 +335,9 @@ public class ArraysUtil {
 	
 	private static byte[] copy(byte[] origin, int start, int end){
 		int len = end-start;
-		byte[] item = new byte[end-start];
+		byte[] item = new byte[len];
 		arraycopy(origin, start, item, 0, len);
 		return item;
 	}
 
-	/*
-	private static long getAddress(Object obj) {
-		Object[] array = new Object[] {obj};
-	    long baseOffset = UNSAFE.arrayBaseOffset(Object[].class);
-	    return normalize(UNSAFE.getInt(array, baseOffset));
-	}
-	
-	private static long normalize(int value) {
-	    if(value >= 0) return value;
-	    return (~0L >>> 32) & value;
-	}	
-	*/
 }
