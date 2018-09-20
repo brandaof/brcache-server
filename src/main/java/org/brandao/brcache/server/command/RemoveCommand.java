@@ -13,7 +13,7 @@ import org.brandao.brcache.server.util.ArraysUtil;
  * Representa o comando <code>remove</code>.
  * Sua sintaxe é:
  * <pre>
- * delete &lt;name&gt; &lt;reserved&gt;\r\n
+ * remove &lt;key&gt; &lt;reserved&gt;\r\n
  * </pre> 
  * @author Brandao
  *

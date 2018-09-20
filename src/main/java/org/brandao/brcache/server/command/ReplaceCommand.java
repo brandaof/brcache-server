@@ -17,7 +17,6 @@ import org.brandao.brcache.server.util.ArraysUtil;
  * <pre>
  * replace &lt;key&gt; &lt;timeToLive&gt; &lt;timeToIdle&gt; &lt;size&gt; &lt;reserved&gt;\r\n
  * &lt;data&gt;\r\n
- * end\r\n 
  * </pre> 
  * @author Brandao
  *

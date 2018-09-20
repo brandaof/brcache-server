@@ -15,12 +15,11 @@ import org.brandao.brcache.server.error.ServerErrors;
 import org.brandao.brcache.server.util.ArraysUtil;
 
 /**
- * Representa o comando <code>replace</code>.
+ * Representa o comando <code>set</code>.
  * Sua sintaxe é:
  * <pre>
  * set &lt;key&gt; &lt;timeToLive&gt; &lt;timeToIdle&gt; &lt;size&gt; &lt;reserved&gt;\r\n
  * &lt;data&gt;\r\n
- * end\r\n 
  * </pre> 
  * @author Brandao
  *
